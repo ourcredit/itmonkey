@@ -1,96 +1,118 @@
 <style lang="less">
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+// 主色调
+@uiColorRed: #e46138;
+@uiColorBlue: #049bff;
+@uiColorGreen: #5cbaa7;
 
-.userinfo-avatar {
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 50%;
-}
+// border
+@uiBorderColor: #efefef;
 
-.userinfo-nickname {
-  color: #aaa;
+// 主题色重设
+@weuiColorPrimary: @uiColorBlue;
+
+// background
+@weuiBgColorDefault: #efeff4;
+.page-user {
+  @userinfoHeight: 100rpx;
+  @userinfoSpace: 8rpx;
+
+  .userinfo {
+    padding: 20rpx 0;
+  }
+
+  .userinfo-avatar {
+    float: left;
+    width: @userinfoHeight;
+    height: @userinfoHeight;
+    border-radius: 50%;
+  } // space + space
+  .userinfo-info {
+    float: left;
+    line-height: 1;
+    padding: @userinfoSpace 0;
+    margin-left: 3 * @userinfoSpace;
+  } // text + space + text
+  .userinfo-nickname {
+    color: @uiColorGreen;
+    font-size: (@userinfoHeight - 4 * @userinfoSpace) * (16 / 30);
+    margin-bottom: 2 * @userinfoSpace;
+  }
+  .userinfo-status {
+    color: #999;
+    font-size: (@userinfoHeight - 4 * @userinfoSpace) * (14 / 30);
+  }
 }
 </style>
 <template>
-  <view class="container">
-    <view class="userinfo" @tap="handleViewTap">
-      <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover"/>
-      <view class="userinfo-nickname">{{ userInfo.nickName }}</view>
+  <view class="page-user">
+    <view class="weui-panel">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell">
+          <view class="weui-cell__bd userinfo clearfix">
+            <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover" />
+            <view class="userinfo-info">
+              <view class="userinfo-nickname">{{ nickName }}</view>
+              <view class="userinfo-status">{{identity.type}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
     </view>
+    <view class="weui-panel">
+      <view class="weui-cells weui-cells_after-title">
+        <navigator url="/pages/user/subscribe" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">工作经验</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">
+            <text>还可借</text>
+            <text class="color-green">1</text>
+            <text>次</text>
+          </view>
+        </navigator>
 
-    <panel>
-      <view class="title" slot="title">测试数据绑定</view>
+        <navigator url="/pages/user/borrow" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">我的工作</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">
+            <text class="color-green">2</text>
+          </view>
+        </navigator>
 
-      <text class="info">{{normalTitle}}</text>
-      <text class="info">{{setTimeoutTitle}}</text>
-      <text class="info">{{mixin}}</text>
-      <text class="info">{{mynum}}</text>
-      <text class="info">{{now}}</text>
-      <text class="info">{{num}}</text>
-      <text class="info">{{asyncNum}}</text>
-      <text class="info">{{sumNum}}</text>
-      <button @tap="plus('a')" size="mini">  +  </button>
-    </panel>
+        <navigator url="/pages/user/collect" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">报名信息</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">
+            <text class="color-green">3</text>
+          </view>
+        </navigator>
 
-    <panel>
-      <view class="title" slot="title">其它测试</view>
-      <button @tap="toast" size="mini">第三方组件</button>
-      <button @tap="communicate" size="mini">组件通信</button>
-      <button @tap="tap" size="mini">混合TAP事件</button>
-      <button @tap="login" size="mini">混合TAP事件</button>
-    </panel>
+        <navigator url="/pages/user/collect" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">留言</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">
+            <text class="color-green">3</text>
+          </view>
+        </navigator>
 
-    <panel>
-      <view class="title" slot="title">测试并发网络请求</view>
-      <view>返回结果: <text>{{netrst}}</text></view>
-      <button @tap="request" size="mini"> 点我发起10个请求 </button>
-    </panel>
+        <navigator url="/pages/user/collect" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">订单信息</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">
+            <text class="color-green">3</text>
+          </view>
+        </navigator>
 
-    <panel>
-      <view class="title" slot="title">测试组件</view>
+        <navigator url="/pages/user/collect" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">提现</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">
+            <text class="color-green">3</text>
+          </view>
+        </navigator>
 
-      <text class="testcounter">计数组件1: </text>
-      <view class="counterview">
-        <counter1 @index-emit.user="counterEmit" />
       </view>
-
-      <text class="testcounter">计数组件2: </text>
-
-      <view class="counterview">
-        <counter2 :num.sync="mynum"></counter2>
-      </view>
-    </panel>
-
-    <panel>
-      <view class="title" slot="title">测试组件Repeat</view>
-      <repeat for="{{groupList}}" index="index" item="item" key="key">
-        <group :grouplist="item" :indexa="index"></group>
-      </repeat>
-    </panel>
-
-    <panel>
-      <view class="title" slot="title">测试列表</view>
-      <list></list>
-    </panel>
-
-    <toast />
+    </view>
   </view>
 </template>
 
 <script>
 import wepy from 'wepy';
 import { connect } from 'wepy-redux';
-import Panel from '@/components/panel'; // alias example
-import Counter from 'counter'; // alias example
-import List from '@/components/list'; // aliasFields example
-import moduleA from 'module-a'; // aliasFields ignore module example
-import Group from '@/components/group';
-import Toast from 'wepy-com-toast';
-import Relogin from '@/mixins/relogin';
+
 @connect({
   num(state) {
     return state.counter.num;
@@ -103,74 +125,24 @@ import Relogin from '@/mixins/relogin';
   }
 })
 export default class Dash extends wepy.page {
-  components = {
-    panel: Panel,
-    counter1: Counter,
-    counter2: Counter,
-    list: List,
-    group: Group,
-    toast: Toast
+  components = {};
+  config = {
+    navigationBarTitleText: '我'
   };
 
-  mixins = [Relogin];
-
   data = {
-    mynum: 20,
     userInfo: {
-      nickName: '加载中...'
-    },
-    normalTitle: '原始标题',
-    setTimeoutTitle: '标题三秒后会被修改',
-    count: 0,
-    netrst: '',
-    groupList: [
-      {
-        id: 1,
-        name: '点击改变',
-        list: [
-          {
-            childid: '1.1',
-            childname: '子项，点我改变'
-          },
-          {
-            childid: '1.2',
-            childname: '子项，点我改变'
-          },
-          {
-            childid: '1.3',
-            childname: '子项，点我改变'
-          }
-        ]
+      avatarUrl: '',
+      nickName: '加载中...',
+      packages: {
+        times: 0,
+        status: '借阅状态'
       },
-      {
-        id: 2,
-        name: '点击改变',
-        list: [
-          {
-            childid: '2.1',
-            childname: '子项，点我改变'
-          },
-          {
-            childid: '2.2',
-            childname: '子项，点我改变'
-          },
-          {
-            childid: '2.3',
-            childname: '子项，点我改变'
-          }
-        ]
-      },
-      {
-        id: 3,
-        name: '点击改变',
-        list: [
-          {
-            childid: '3.1',
-            childname: '子项，点我改变'
-          }
-        ]
+      identity: {
+        type: '订阅状态',
+        collection: 0
       }
-    ]
+    }
   };
 
   computed = {
@@ -193,44 +165,7 @@ export default class Dash extends wepy.page {
         console.log('toast done');
       });
     },
-    tap() {
-      console.log('do noting from ' + this.$name);
-    },
-    communicate() {
-      console.log(this.$name + ' tap');
-      this.$invoke('counter2', 'minus', 45, 6);
-      this.$invoke('counter1', 'plus', 45, 6);
-      this.$broadcast('index-broadcast', 1, 3, 4);
-    },
-    request() {
-      let self = this;
-      let i = 10;
-      let map = [
-        'MA==',
-        'MQo=',
-        'Mg==',
-        'Mw==',
-        'NA==',
-        'NQ==',
-        'Ng==',
-        'Nw==',
-        'OA==',
-        'OQ=='
-      ];
-      while (i--) {
-        wepy.request({
-          url:
-            'https://www.madcoder.cn/tests/sleep.php?time=1&t=css&c=' +
-            map[i] +
-            '&i=' +
-            i,
-          success: function(d) {
-            self.netrst += d.data + '.';
-            self.$apply();
-          }
-        });
-      }
-    },
+
     counterEmit(...args) {
       let $event = args[args.length - 1];
       console.log(
@@ -249,14 +184,10 @@ export default class Dash extends wepy.page {
   };
   // 加载函数
   async onLoad() {
-    console.log(this.mixins);
-    console.log(this);
     const user = await this.$parent.getUserInfo();
-    console.log(user);
     if (user) {
       this.userInfo = user;
     }
-    this.$apply();
   }
 }
 </script>

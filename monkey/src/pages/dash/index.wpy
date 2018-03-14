@@ -134,10 +134,6 @@
             <icon type="success" size="23"></icon>{{item.state}}</view>
         </view>
       </view>
-
-
-
-
     </scroll-view>
 
   </view>

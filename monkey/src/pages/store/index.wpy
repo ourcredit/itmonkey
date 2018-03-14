@@ -1,20 +1,5 @@
-<style type="less">
-.placeholder {
-  margin: 5px;
-  padding: 0 10px;
-  text-align: center;
-  height: 2em;
-  line-height: 2em;
-  color: #00ff00;
-}
-.numb {
-  padding: 0 10px;
-  text-align: center;
-  height: 2em;
-  line-height: 2em;
-}
-</style>
 <template>
+
   <view class="index page">
     <view class="weui-tab">
       <view class="weui-navbar">
@@ -64,7 +49,7 @@
                     <input class="weui-input" placeholder="￥" />
                   </view>
                 </view>
-                 <view class="weui-cell weui-cell_input">
+                <view class="weui-cell weui-cell_input">
                   <button class="weui-btn" type="primary">买入</button>
                 </view>
               </view>
@@ -91,7 +76,7 @@
 
           </view>
           <view wx:if="{{current==1}}">
-             <view class="weui-flex">
+            <view class="weui-flex">
               <view class="weui-flex__item">
                 <view class="weui-cell weui-cell_input">
                   <view class="weui-cell__hd">
@@ -109,7 +94,15 @@
                     <input class="weui-input" placeholder="￥" />
                   </view>
                 </view>
-                 <view class="weui-cell weui-cell_input">
+                <view class="weui-cell weui-cell_input">
+                  <view class="weui-cell__hd">
+                    <view class="weui-label">可卖</view>
+                  </view>
+                  <view class="weui-cell__bd">
+                    <input class="weui-input" disabled value="21000" />
+                  </view>
+                </view>
+                <view class="weui-cell weui-cell_input">
                   <button class="weui-btn" type="primary">卖出</button>
                 </view>
               </view>
@@ -132,13 +125,85 @@
               </view>
             </view>
           </view>
-          <view wx:if="{{current==2}}">撤销</view>
-          <view wx:if="{{current==3}}">成交</view>
+          <view wx:if="{{current==2}}">
+
+            <!-- list -->
+            <scroll-view class="list" style="height:800rpx" scroll-y="true" bindscrolltolower="loadMore">
+              <view wx:for="{{resources}}" wx:key="index" class="panel" @tap="detail({{item}})">
+                <view class="weui-flex">
+                  <view class="weui-flex__item">
+                    <view class="placeholder">
+                      <view class="title">{{item.title}}</view>
+                    </view>
+                  </view>
+                  <view class="weui-flex__item">
+                    <view class="price">
+                      <icon type="success" size="23"></icon>{{item.price}}</view>
+                  </view>
+                </view>
+                <view class="weui-flex">
+                  <view class="weui-flex__item">
+                    <view class="info">{{item.content}}</view>
+                  </view>
+                  <view class="price">
+                    <icon type="success" size="23"></icon>{{item.state}}</view>
+                </view>
+              </view>
+            </scroll-view>
+          </view>
+          <view wx:if="{{current==3}}">
+            <view wx:for="{{resources}}" wx:key="index" class="panel" @tap="detail({{item}})">
+              <view class="weui-flex">
+                <view class="weui-flex__item">
+                  <view class="placeholder">
+                    <view class="title">{{item.title}}</view>
+                  </view>
+                </view>
+                <view class="weui-flex__item">
+                  <view class="price">
+                    <icon type="success" size="23"></icon>{{item.price}}</view>
+                </view>
+              </view>
+              <view class="weui-flex">
+                <view class="weui-flex__item">
+                  <view class="info">{{item.content}}</view>
+                </view>
+                <view class="price">
+                  <icon type="success" size="23"></icon>{{item.state}}</view>
+              </view>
+            </view>
+          </view>
 
           <lineChart :collection.sync="collection" :labels="labels" onXLabelFilter="enable"></lineChart>
         </view>
         <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
-          b
+          <view class="goodsList">
+            <!--列表显示2个，绑定数据记得去掉，这里做调试-->
+            <repeat for="{{list}}" key="index" index="index" item="item">
+              <view class="list_box">
+
+                <swipeDelete :swipeData="item" @delItem.user="handleDelItem">
+                   <view class="goods-info">
+                  <view class="img-box">
+                    <image src="{{item.thumLogo}}" class="img" />
+                  </view>
+                  <view class="text-box">
+                    <view class="goods-title">{{item.name}}</view>
+                    <view class="goods-label">{{item.content}}</view>
+                    <view class="goods-price">¥ {{item.price}}</view>
+                    <view class="buy-num">
+                      <view class="jian-btn {{item.num==1? 'disabled' : ''}}" catchtap="jianBtnTap" data-index="{{index}}" data-id="{{item.id}}">-</view>
+                      <input type="number" value="{{item.num}}" disabled/>
+                      <view class="jia-btn " catchtap="jiaBtnTap" data-index="{{index}}" data-id="{{item.id}}">+</view>
+                    </view>
+                  </view>
+                </view>
+                </swipeDelete>
+
+
+              </view>
+            </repeat>
+          </view>
         </view>
       </view>
     </view>
@@ -148,10 +213,16 @@
 <script>
 import wepy from 'wepy';
 import Charts from '@/components/line-chart'; // alias example
+import swipeDelete from '@/components/wepy-swipe-delete';
 const sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
 export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '确认订单'
+  };
+
   components = {
-    lineChart: Charts
+    lineChart: Charts,
+    swipeDelete
   };
   data = {
     tabs: ['猿人币交易', '商品清单'],
@@ -268,6 +339,54 @@ export default class Index extends wepy.page {
         count: 8,
         price: 1.44
       }
+    ],
+    resources: [
+      {
+        id: 1,
+        title: '(设)任务名称',
+        price: 1890,
+        content: '任务描述',
+        state: '报'
+      },
+      {
+        id: 2,
+        title: '(研)任务名称',
+        price: 1890,
+        content: '任务描述',
+        state: '执'
+      },
+      {
+        id: 3,
+        title: '(其)任务名称',
+        price: 1890,
+        content: '任务描述',
+        state: '完'
+      },
+      {
+        id: 4,
+        title: '(U)任务名称',
+        price: 1890,
+        content: '任务描述',
+        state: '报'
+      }
+    ],
+    list: [
+      {
+        id: 1,
+        name: '猿人币A',
+        content: 'AAAa',
+        num: 1,
+        thumLogo: '../../images/icon_intro.png',
+        price: 1.2
+      },
+      {
+        id: 1,
+        name: '猿人币B',
+        content: 'awdawda',
+        num: 12,
+        thumLogo: '../../images/icon_intro.png',
+        price: 2.3
+      }
     ]
   };
 
@@ -279,10 +398,16 @@ export default class Index extends wepy.page {
     show(index) {
       console.log(index);
       this.current = index;
+    },
+    handleDelItem(itemData) {
+      this.deleteGoods(itemData);
     }
   };
   onReady() {
     this.$invoke('lineChart', 'draw');
+  }
+  async deleteGoods(itemData) {
+    console.log(itemData);
   }
   async onLoad() {
     let res = await wepy.getSystemInfo();
@@ -291,3 +416,119 @@ export default class Index extends wepy.page {
   }
 }
 </script>
+<style type="less">
+.placeholder {
+  margin: 5px;
+  padding: 0 10px;
+  text-align: center;
+  height: 2em;
+  line-height: 2em;
+  color: #00ff00;
+}
+.numb {
+  padding: 0 10px;
+  text-align: center;
+  height: 2em;
+  line-height: 2em;
+}
+.weui-label {
+  width: 40px;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+.goodsList {
+  padding-top: 15rpx;
+}
+.goods-info {
+  border-bottom: 1px solid #eee;
+  display: flex;
+  padding: 20rpx;
+  box-sizing: border-box;
+  position: relative;
+  background: #fff;
+}
+.goods-info .img-box {
+  width: 160rpx;
+  height: 160rpx;
+  overflow: hidden;
+  margin-right: 28rpx;
+  background-color: #d8d8d8;
+}
+.goods-info .text-box {
+  width: 480rpx;
+}
+.goods-info .text-box .goods-title {
+  font-size: 32rpx;
+  color: #414141;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 10rpx 20rpx 5rpx 0;
+}
+.goods-info .text-box .goods-label {
+  font-size: 26rpx;
+  color: #999;
+  height: 38rpx;
+  line-height: 38rpx;
+  margin: 8rpx 0 25rpx 0;
+}
+.goods-info .text-box .goods-price {
+  font-size: 34rpx;
+  color: #e64340;
+}
+.goods-info .text-box .buy-num {
+  width: 164rpx;
+  height: 48rpx;
+  line-height: 48rpx;
+  position: absolute;
+  right: 30rpx;
+  bottom: 30rpx;
+  display: flex;
+  font-size: 24rpx;
+  text-align: center;
+}
+.goods-info .text-box .buy-num .jian-btn {
+  width: 48rpx;
+  height: 100%;
+  border-left: 1rpx solid #ccc;
+  border-bottom: 1rpx solid #ccc;
+  border-top: 1rpx solid #ccc;
+  border-bottom-left-radius: 6rpx;
+  border-top-left-radius: 6rpx;
+}
+.goods-info .text-box .buy-num .jian-btn.disabled {
+  background-color: #f5f5f9;
+  border-left: 1rpx solid #eee;
+  border-bottom: 1rpx solid #eee;
+  border-top: 1rpx solid #eee;
+  color: #ccc;
+}
+.goods-info .text-box .buy-num .jia-btn {
+  width: 48rpx;
+  height: 100%;
+  border-right: 1rpx solid #ccc;
+  border-bottom: 1rpx solid #ccc;
+  border-top: 1rpx solid #ccc;
+  border-bottom-right-radius: 6rpx;
+  border-top-right-radius: 6rpx;
+}
+.goods-info .text-box .buy-num .jia-btn.disabled {
+  background-color: #f5f5f9;
+  border-right: 1rpx solid #eee;
+  border-bottom: 1rpx solid #eee;
+  border-top: 1rpx solid #eee;
+  color: #ccc;
+}
+.goods-info .text-box .buy-num input {
+  width: 68rpx;
+  height: 48rpx;
+  min-height: 48rpx;
+  text-align: center;
+  font-size: 24rpx;
+  border: 1rpx solid #ccc;
+}
+.goods-info .img-box .img {
+  width: 160rpx;
+  height: 160rpx;
+}
+</style>
