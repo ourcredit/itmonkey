@@ -1,0 +1,94 @@
+<style lang="less">
+.searchbar-result {
+  margin-top: 0;
+  font-size: 14px;
+}
+
+.searchbar-result:before {
+  display: none;
+}
+
+.weui-cell {
+  padding: 12px 15px 12px 35px;
+}
+.placeholder {
+  margin: 5px;
+  padding: 0 10px;
+  text-align: center;
+  height: 2em;
+  line-height: 2em;
+  color: #00ff00;
+}
+</style>
+<template>
+  <view class="container">
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class Dash extends wepy.page {
+  data = {
+    inputShowed: false,
+    inputVal: '',
+    list: [
+      {
+        link: '/pages/index/index',
+        url:
+          'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg'
+      },
+      {
+        link: '/pages/logs/logs',
+        url:
+          'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg'
+      },
+      {
+        link: '/pages/test/test',
+        url:
+          'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
+      }
+    ]
+  };
+
+  computed = {
+    now() {
+      return +new Date();
+    }
+  };
+  // 方法
+  methods = {
+    showInput() {
+      this.inputShowed = true;
+    },
+    hideInput() {
+      this.inputVal = '';
+      this.inputShowed = false;
+    },
+    clearInput() {
+      this.inputVal = '';
+    },
+    inputTyping(e) {
+      this.inputVal = e.detail.value;
+    }
+  };
+
+  events = {
+    'index-emit': (...args) => {
+      let $event = args[args.length - 1];
+      console.log(
+        `${this.$name} receive ${$event.name} from ${$event.source.$name}`
+      );
+    }
+  };
+  // 加载函数
+  async onLoad() {
+    let _self = this;
+    const user = await _self.$parent.getUserInfo();
+    console.log(user);
+    if (user) {
+      _self.userInfo = user;
+    }
+  }
+}
+</script>

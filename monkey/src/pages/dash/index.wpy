@@ -1,0 +1,290 @@
+<style lang="less">
+.searchbar-result {
+  margin-top: 0;
+  font-size: 14px;
+}
+
+.searchbar-result:before {
+  display: none;
+}
+
+.weui-cell {
+  padding: 12px 15px 12px 35px;
+}
+
+.placeholder {
+  margin: 5px;
+  padding: 0 10px;
+  height: 2em;
+  line-height: 2em;
+  color: #00ff00;
+}
+
+.panel {
+  width: 100%;
+  margin-top: 10rpx;
+  text-align: left;
+  font-size: 12px;
+  padding-top: 10rpx;
+  padding-left: 50rpx;
+  padding-bottom: 20rpx;
+  border: 1px solid #ccc;
+  .title {
+    padding-bottom: 20rpx;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .info {
+    padding: 15rpx;
+  }
+  .price {
+    margin: 5rpx;
+    margin-right: 70rpx;
+    padding: 0 10px;
+    height: 2em;
+    line-height: 2em;
+    color: #00ff00;
+    text-align: right;
+  }
+}
+</style>
+<template>
+  <view class="container">
+    <!-- 搜索框 -->
+    <view class="weui-search-bar">
+      <view class="weui-search-bar__form">
+        <view class="weui-search-bar__box">
+          <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+          <input type="text" class="weui-search-bar__input" placeholder="搜索"
+           value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping"
+          />
+          <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" @tap="clearInput">
+            <icon type="clear" size="14"></icon>
+          </view>
+        </view>
+        <label class="weui-search-bar__label" hidden="{{inputShowed}}" @tap="showInput">
+          <icon class="weui-icon-search" type="search" size="14"></icon>
+          <view class="weui-search-bar__text">搜索</view>
+        </label>
+      </view>
+
+      <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" @tap="hideInput">取消</view>
+      <view class="weui-search-bar__cancel-btn"  @tap="create">
+         <icon  type="info_circle" size="20"></icon></view>
+
+    </view>
+    <view class="weui-cells searchbar-result" wx:if="{{inputVal.length > 0}}">
+      <navigator url="" class="weui-cell" hover-class="weui-cell_active">
+        <view class="weui-cell__bd">
+          <view>实时搜索文本</view>
+        </view>
+      </navigator>
+      <navigator url="" class="weui-cell" hover-class="weui-cell_active">
+        <view class="weui-cell__bd">
+          <view>实时搜索文本</view>
+        </view>
+      </navigator>
+      <navigator url="" class="weui-cell" hover-class="weui-cell_active">
+        <view class="weui-cell__bd">
+          <view>实时搜索文本</view>
+        </view>
+      </navigator>
+      <navigator url="" class="weui-cell" hover-class="weui-cell_active">
+        <view class="weui-cell__bd">
+          <view>实时搜索文本</view>
+        </view>
+      </navigator>
+    </view>
+    <!-- 轮播图 -->
+    <view>
+      <swiper :list="list"></swiper>
+    </view>
+    <!--  按钮 -->
+    <view class="weui-flex">
+      <view class="weui-flex__item">
+        <view @tap="change('time')" class="placeholder">发布时间</view>
+      </view>
+      <view class="weui-flex__item">
+        <view @tap="change('price')" class="placeholder">任务金额</view>
+      </view>
+      <view class="weui-flex__item">
+        <view @tap="change('cate')" class="placeholder">任务分类</view>
+      </view>
+    </view>
+
+    <!-- list -->
+    <scroll-view class="list" style="height:1208rpx" scroll-y="true" bindscrolltolower="loadMore">
+      <view wx:for="{{resources}}" wx:key="index" class="panel" @tap="detail({{item}})">
+        <view class="weui-flex">
+          <view class="weui-flex__item">
+            <view class="placeholder">
+              <view class="title">{{item.title}}</view>
+            </view>
+          </view>
+          <view class="weui-flex__item">
+            <view class="price">
+              <icon type="success" size="23"></icon>{{item.price}}</view>
+          </view>
+        </view>
+        <view class="weui-flex">
+          <view class="weui-flex__item">
+            <view class="info">{{item.content}}</view>
+          </view>
+          <view class="price">
+            <icon type="success" size="23"></icon>{{item.state}}</view>
+        </view>
+      </view>
+
+
+
+
+    </scroll-view>
+
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import Panel from '@/components/panel'; // alias example
+import Swiper from '@/components/swiper';
+
+export default class Dash extends wepy.page {
+  components = {
+    panel: Panel,
+    swiper: Swiper
+  };
+  data = {
+    inputShowed: false,
+    inputVal: '',
+    list: [
+      {
+        link: '/pages/index/index',
+        url:
+          'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg'
+      },
+      {
+        link: '/pages/logs/logs',
+        url:
+          'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg'
+      },
+      {
+        link: '/pages/test/test',
+        url:
+          'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
+      }
+    ],
+    resources: [
+      {
+        id: 1,
+        title: '(设)任务名称',
+        price: 1890,
+        content: '任务描述',
+        state: '报'
+      },
+      {
+        id: 2,
+        title: '(研)任务名称',
+        price: 1890,
+        content: '任务描述',
+        state: '执'
+      },
+      {
+        id: 3,
+        title: '(其)任务名称',
+        price: 1890,
+        content: '任务描述',
+        state: '完'
+      },
+      {
+        id: 4,
+        title: '(U)任务名称',
+        price: 1890,
+        content: '任务描述',
+        state: '报'
+      }
+    ]
+  };
+
+  computed = {
+    now() {
+      return +new Date();
+    }
+  };
+  // 方法
+  methods = {
+    change(type) {
+      console.log(type);
+    },
+    create() {
+      wx.navigateTo({
+        url: 'create'
+      });
+    },
+    detail(item) {
+      console.log(item);
+      wx.navigateTo({
+        url: 'task?id=' + item.id
+      });
+    },
+    refresh() {
+      console.log(1);
+      this.resources = [
+        {
+          title: '(设)任务名称',
+          price: 1890,
+          content: '任务描述',
+          state: '报'
+        },
+        {
+          title: '(研)任务名称',
+          price: 1890,
+          content: '任务描述',
+          state: '执'
+        },
+        {
+          title: '(其)任务名称',
+          price: 1890,
+          content: '任务描述',
+          state: '完'
+        },
+        {
+          title: '(U)任务名称',
+          price: 1890,
+          content: '任务描述',
+          state: '报'
+        }
+      ];
+    },
+    loadMore() {
+      let arr = [];
+      for (let i = 0; i < 4; i++) {
+        arr.push({
+          title: 't' + i,
+          content: 'c' + i,
+          price: 1000 + i,
+          state: i
+        });
+      }
+      this.resources.push(...arr);
+    },
+    showInput() {
+      this.inputShowed = true;
+    },
+    hideInput() {
+      this.inputVal = '';
+      this.inputShowed = false;
+    },
+    clearInput() {
+      this.inputVal = '';
+    },
+    inputTyping(e) {
+      this.inputVal = e.detail.value;
+    }
+  };
+  onLoad() {}
+  onReachBottom() {}
+  onPullDownRefresh() {
+    this.methods.refresh();
+  }
+}
+</script>

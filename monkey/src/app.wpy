@@ -1,0 +1,195 @@
+<style lang="less">
+@import './style/weui.less';
+page {
+  background-color: #f8f8f8;
+  font-size: 16px;
+  font-family: -apple-system-font, Helvetica Neue, Helvetica, sans-serif;
+}
+.page__hd {
+  padding: 40px;
+}
+.page__bd {
+  padding-bottom: 40px;
+}
+.page__bd_spacing {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.page__ft {
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.page__title {
+  text-align: left;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.page__desc {
+  margin-top: 5px;
+  color: #888888;
+  text-align: left;
+  font-size: 14px;
+}
+</style>
+
+<script>
+import wepy from 'wepy';
+import 'wepy-async-function';
+
+import { setStore } from 'wepy-redux';
+import configStore from './store';
+
+const store = configStore();
+setStore(store);
+
+export default class extends wepy.app {
+  config = {
+    pages: [
+      'pages/dash/index',
+      'pages/dash/task',
+      'pages/dash/create',
+
+      'pages/store/index',
+      'pages/work/index',
+      'pages/my/index',
+      'pages/testm/index',
+
+      'example/button',
+      'example/list',
+      'example/input',
+      'example/slider',
+      'example/uploader',
+
+      'example/article',
+      'example/badge',
+      'example/flex',
+      'example/footer',
+      'example/gallery',
+      'example/grid',
+      'example/icons',
+      'example/loadmore',
+      'example/panel',
+      'example/preview',
+      'example/progress',
+
+      'example/actionsheet',
+      'example/dialog',
+      'example/msg',
+      'example/msg_fail',
+      'example/msg_success',
+      'example/picker',
+      'example/toast',
+
+      'example/navbar',
+      'example/tabbar',
+
+      'example/searchbar'
+    ],
+    window: {
+      // 导航栏标题文字内容
+      navigationBarTitleText: '猿人超市',
+      // 导航栏标题颜色，仅支持 black/white
+      navigationBarTextStyle: 'white',
+      // 导航栏背景颜色，如"#000000"
+      navigationBarBackgroundColor: '#049BFF',
+      // 窗口的背景色
+      backgroundColor: '#eaeaea',
+      //下拉背景字体、loading 图的样式，仅支持 dark/light
+      backgroundTextStyle: 'light',
+      // 是否开启下拉刷新，详见页面相关事件处理函数
+      enablePullDownRefresh: true
+      // 页面上拉触底事件触发时距页面底部距离，单位为px
+      // onReachBottomDistance: 50
+    },
+    //     当设置 position 为 top 时，将不会显示 icon
+    //    tabBar 中的 list 是一个数组，只能配置最少2个、最多5个 tab，tab 按数组的顺序排序。
+    tabBar: {
+      // tab 上的文字默认颜色
+      color: '#000000',
+      // tab 上的文字选中时的颜色
+      selectedColor: '#049BFF',
+      // tab 的背景色
+      backgroundColor: '#fff',
+      // tabbar上边框的颜色， 仅支持 black/white
+      borderStyle: 'white',
+      // 可选值 bottom、top
+      // position:"",
+      // tab 的列表，详见 list 属性说明，最少2个、最多5个 tab,
+      list: [
+        {
+          pagePath: 'pages/dash/index',
+          selectedIconPath: './images/tabbars/icon-mark-active@2x.png',
+          iconPath: './images/tabbars/icon-mark@2x.png',
+          text: '悬赏大厅'
+        },
+        {
+          pagePath: 'pages/store/index',
+          selectedIconPath: './images/tabbars/icon-shelf-active@2x.png',
+          iconPath: './images/tabbars/icon-shelf@2x.png',
+          text: '猿人商城'
+        },
+        {
+          pagePath: 'pages/work/index',
+          selectedIconPath: './images/tabbars/icon-shelf-active@2x.png',
+          iconPath: './images/tabbars/icon-shelf@2x.png',
+          text: '我的家族'
+        },
+        {
+          pagePath: 'pages/my/index',
+          selectedIconPath: './images/tabbars/icon-smile-active@2x.png',
+          iconPath: './images/tabbars/icon-smile@2x.png',
+          text: '个人信息'
+        },
+        {
+          pagePath: 'pages/testm/index',
+          selectedIconPath: './images/tabbars/icon-smile-active@2x.png',
+          iconPath: './images/tabbars/icon-smile@2x.png',
+          text: 'ui测试'
+        }
+      ]
+    },
+    // 可以设置各种网络请求的超时时间。
+    networkTimeout: {
+      // wx.request的超时时间，单位毫秒，默认为：60000
+      request: 60000,
+      // wx.connectSocket的超时时间，单位毫秒，默认为：60000
+      connectSocket: 60000,
+      // wx.uploadFile的超时时间，单位毫秒，默认为：60000
+      uploadFile: 60000,
+      // wx.downloadFile的超时时间，单位毫秒，默认为：60000
+      downloadFile: 60000
+    },
+    //可以在开发者工具中开启 debug 模式，在开发者工具的控制台面板，
+    //调试信息以 info 的形式给出，其信息有Page的注册，页面路由，数据更新，事件触发 。 可以帮助开发者快速定位一些常见的问题。
+    debug: true
+  };
+
+  globalData = {
+    userInfo: null
+  };
+
+  constructor() {
+    super();
+    this.use('requestfix');
+    this.use('promisify');
+  }
+
+  onLaunch() {
+    this.getUserInfo();
+  }
+  async getUserInfo() {
+    const that = this;
+    if (this.globalData.userInfo) {
+      return this.globalData.userInfo;
+    }
+    const r = await wepy.getUserInfo();
+    if (r) {
+      this.globalData.userInfo = r.userInfo;
+    }
+    return this.globalData.userInfo;
+  }
+}
+</script>

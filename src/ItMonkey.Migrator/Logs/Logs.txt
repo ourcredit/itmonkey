@@ -1,0 +1,75 @@
+﻿DEBUG 2018-03-14 09:30:41,931 [1    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2018-03-14 09:30:42,041 [1    ] Abp.Modules.AbpModuleManager             - Found 9 ABP modules in total.
+DEBUG 2018-03-14 09:30:42,345 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.Migrator.ItMonkeyMigratorModule, ItMonkey.Migrator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:30:42,349 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.EntityFrameworkCore.ItMonkeyEntityFrameworkModule, ItMonkey.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:30:42,350 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.ItMonkeyCoreModule, ItMonkey.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:30:42,350 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:30:42,351 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:30:42,351 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:30:42,352 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:30:42,353 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:30:42,353 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:30:42,358 [1    ] Abp.Modules.AbpModuleManager             - 9 modules loaded.
+DEBUG 2018-03-14 09:30:42,913 [1    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: ItMonkey.EntityFrameworkCore.ItMonkeyDbContext, ItMonkey.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:30:43,730 [1    ] Abp.Localization.LocalizationManager     - Initializing 3 localization sources.
+DEBUG 2018-03-14 09:30:43,748 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2018-03-14 09:30:43,756 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2018-03-14 09:30:43,760 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: ItMonkey
+INFO  2018-03-14 09:30:44,018 [1    ] ItMonkey.Migrator.Log                    - Host database: server=localhost;database=ItMonkeyDb;trusted_connection=True
+INFO  2018-03-14 09:30:44,018 [1    ] ItMonkey.Migrator.Log                    - Continue to migration for this host database and all tenants..? (Y/N): 
+INFO  2018-03-14 09:30:51,193 [1    ] ItMonkey.Migrator.Log                    - HOST database migration started...
+INFO  2018-03-14 09:31:05,958 [1    ] ItMonkey.Migrator.Log                    - HOST database migration completed.
+INFO  2018-03-14 09:31:05,958 [1    ] ItMonkey.Migrator.Log                    - --------------------------------------------------------
+INFO  2018-03-14 09:31:06,023 [1    ] ItMonkey.Migrator.Log                    - All databases have been migrated.
+DEBUG 2018-03-14 09:31:12,319 [1    ] Abp.Modules.AbpModuleManager             - Shutting down has been started
+DEBUG 2018-03-14 09:31:12,319 [1    ] Abp.Modules.AbpModuleManager             - Shutting down completed.
+DEBUG 2018-03-14 09:46:53,144 [1    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2018-03-14 09:46:53,219 [1    ] Abp.Modules.AbpModuleManager             - Found 9 ABP modules in total.
+DEBUG 2018-03-14 09:46:53,419 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.Migrator.ItMonkeyMigratorModule, ItMonkey.Migrator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:46:53,422 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.EntityFrameworkCore.ItMonkeyEntityFrameworkModule, ItMonkey.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:46:53,423 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.ItMonkeyCoreModule, ItMonkey.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:46:53,423 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:46:53,423 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:46:53,423 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:46:53,424 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:46:53,424 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:46:53,425 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:46:53,428 [1    ] Abp.Modules.AbpModuleManager             - 9 modules loaded.
+DEBUG 2018-03-14 09:46:53,832 [1    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: ItMonkey.EntityFrameworkCore.ItMonkeyDbContext, ItMonkey.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 09:46:54,540 [1    ] Abp.Localization.LocalizationManager     - Initializing 3 localization sources.
+DEBUG 2018-03-14 09:46:54,553 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2018-03-14 09:46:54,558 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2018-03-14 09:46:54,560 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: ItMonkey
+INFO  2018-03-14 09:46:54,776 [1    ] ItMonkey.Migrator.Log                    - Host database: server=127.0.0.1;database=ItMonkey;user id=*****;password=*****
+INFO  2018-03-14 09:46:54,776 [1    ] ItMonkey.Migrator.Log                    - Continue to migration for this host database and all tenants..? (Y/N): 
+INFO  2018-03-14 09:46:59,580 [1    ] ItMonkey.Migrator.Log                    - HOST database migration started...
+INFO  2018-03-14 09:47:12,269 [1    ] ItMonkey.Migrator.Log                    - HOST database migration completed.
+INFO  2018-03-14 09:47:12,269 [1    ] ItMonkey.Migrator.Log                    - --------------------------------------------------------
+INFO  2018-03-14 09:47:12,322 [1    ] ItMonkey.Migrator.Log                    - All databases have been migrated.
+DEBUG 2018-03-14 09:47:13,858 [1    ] Abp.Modules.AbpModuleManager             - Shutting down has been started
+DEBUG 2018-03-14 09:47:13,859 [1    ] Abp.Modules.AbpModuleManager             - Shutting down completed.
+DEBUG 2018-03-14 10:53:29,308 [1    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2018-03-14 10:53:29,457 [1    ] Abp.Modules.AbpModuleManager             - Found 9 ABP modules in total.
+DEBUG 2018-03-14 10:53:29,787 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.Migrator.ItMonkeyMigratorModule, ItMonkey.Migrator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 10:53:29,792 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.EntityFrameworkCore.ItMonkeyEntityFrameworkModule, ItMonkey.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 10:53:29,793 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.ItMonkeyCoreModule, ItMonkey.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 10:53:29,793 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 10:53:29,794 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 10:53:29,795 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 10:53:29,795 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 10:53:29,796 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 10:53:29,797 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 10:53:29,802 [1    ] Abp.Modules.AbpModuleManager             - 9 modules loaded.
+DEBUG 2018-03-14 10:53:30,367 [1    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: ItMonkey.EntityFrameworkCore.ItMonkeyDbContext, ItMonkey.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-03-14 10:53:31,255 [1    ] Abp.Localization.LocalizationManager     - Initializing 3 localization sources.
+DEBUG 2018-03-14 10:53:31,271 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2018-03-14 10:53:31,280 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2018-03-14 10:53:31,283 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: ItMonkey
+INFO  2018-03-14 10:53:31,550 [1    ] ItMonkey.Migrator.Log                    - Host database: data source=103.45.102.47;port=3306;initial catalog=itmonkey;uid=*****;password=*****;charset=utf8
+INFO  2018-03-14 10:53:31,550 [1    ] ItMonkey.Migrator.Log                    - Continue to migration for this host database and all tenants..? (Y/N): 
+INFO  2018-03-14 10:53:41,700 [1    ] ItMonkey.Migrator.Log                    - HOST database migration started...
+INFO  2018-03-14 10:53:55,447 [1    ] ItMonkey.Migrator.Log                    - HOST database migration completed.
+INFO  2018-03-14 10:53:55,447 [1    ] ItMonkey.Migrator.Log                    - --------------------------------------------------------
+INFO  2018-03-14 10:53:55,633 [1    ] ItMonkey.Migrator.Log                    - All databases have been migrated.
+DEBUG 2018-03-14 10:53:57,411 [1    ] Abp.Modules.AbpModuleManager             - Shutting down has been started
+DEBUG 2018-03-14 10:53:57,412 [1    ] Abp.Modules.AbpModuleManager             - Shutting down completed.
