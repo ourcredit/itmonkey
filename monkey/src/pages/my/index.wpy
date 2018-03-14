@@ -13,15 +13,15 @@
 // background
 @weuiBgColorDefault: #efeff4;
 .page-user {
-  @userinfoHeight: 100rpx;
+  @userinfoHeight: 150rpx;
   @userinfoSpace: 8rpx;
-
   .userinfo {
     padding: 20rpx 0;
   }
 
   .userinfo-avatar {
     float: left;
+    margin-left: 120rpx;
     width: @userinfoHeight;
     height: @userinfoHeight;
     border-radius: 50%;
@@ -51,8 +51,10 @@
           <view class="weui-cell__bd userinfo clearfix">
             <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover" />
             <view class="userinfo-info">
-              <view class="userinfo-nickname">{{ nickName }}</view>
-              <view class="userinfo-status">{{identity.type}}</view>
+              <view class="userinfo-nickname">{{ userInfo.nickName }}</view>
+              <view class="userinfo-status">￥1890</view>
+              <view class="userinfo-status">族长</view>
+
             </view>
           </view>
         </view>
