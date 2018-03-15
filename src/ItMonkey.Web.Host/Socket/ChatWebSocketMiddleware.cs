@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Abp.Extensions;
+using Abp.Logging;
+
 namespace ItMonkey.Web.Host.Socket
 {
     public class ChatWebSocketMiddleware
@@ -39,7 +41,6 @@ namespace ItMonkey.Web.Host.Socket
             }
             var buffer = new byte[1024 * 4];
 
-
             while (true)
             {
                 if (ct.IsCancellationRequested)
@@ -49,6 +50,8 @@ namespace ItMonkey.Web.Host.Socket
                 WebSocketReceiveResult result = await currentSocket.ReceiveAsync(new ArraySegment<byte>(buffer),
                     CancellationToken.None);
                 string response = Encoding.UTF8.GetString(buffer);
+                LogHelper.Logger.Error("----------------"+ response);
+
                 if (string.IsNullOrEmpty(response))
                 {
                     if (currentSocket.State != WebSocketState.Open) break;
