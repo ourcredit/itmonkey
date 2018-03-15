@@ -15,7 +15,7 @@ using Abp.Extensions;
 using ItMonkey.Authentication.JwtBearer;
 using ItMonkey.Configuration;
 using ItMonkey.Identity;
-
+using ItMonkey.Web.Host.Socket;
 #if FEATURE_SIGNALR
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin.Cors;
@@ -137,6 +137,9 @@ namespace ItMonkey.Web.Host.Startup
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseWebSockets();
+            app.UseMiddleware<ChatWebSocketMiddleware>();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint
             app.UseSwagger();
