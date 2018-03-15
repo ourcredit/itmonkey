@@ -56,29 +56,15 @@ export default class Dash extends wepy.page {
   // 方法
   methods = {
     senM() {
-      wx.onSocketOpen(
+      var _self = this;
+      wx.sendSocketMessage(
+        JSON.stringify(_self.body),
         function(r) {
           console.log(r);
-          wx.sendSocketMessage(
-            JSON.stringify(this.body),
-            function(r) {
-              resolve(r);
-            },
-            function(e) {
-              reject(e);
-            }
-          );
-          wx.onSocketMessage(
-            function(r) {
-              console.log(r);
-              _self.contents.push(r.data);
-            },
-            function(e) {
-              console.log(e);
-            }
-          );
         },
-        function(e) {}
+        function(e) {
+          console.log(e);
+        }
       );
     }
   };
@@ -117,6 +103,30 @@ export default class Dash extends wepy.page {
         console.log(e);
       }
     );
+    wx.onSocketOpen(
+      function(r) {
+        wx.sendSocketMessage(
+          JSON.stringify(
+            "{ senderId: 1, receiverId: 2, type: 'text', content: 'aaaaaaa' }"
+          ),
+          function(r) {
+            console.log(r);
+          },
+          function(e) {
+            console.log(e);
+          }
+        );
+      },
+      function(e) {}
+    );
+    wx.onSocketMessage(function(r) {
+      console.log(r);
+      console.log(_self.contents);
+      _self.contents.push(r.data);
+    });
+    wx.onSocketClose(function(res) {
+      console.log('WebSocket 已关闭！');
+    });
   }
 }
 </script>
