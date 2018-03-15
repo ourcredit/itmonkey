@@ -29,14 +29,6 @@ namespace ItMonkey.Web.Host.Socket
             while (this.socket.State == WebSocketState.Open)
             {
                 var incoming = await this.socket.ReceiveAsync(seg, CancellationToken.None);
-                await this.socket.SendAsync(PackageHandShakeData(buffer, incoming.Count),
-                    WebSocketMessageType.Text, true, CancellationToken.None);
-                string msg = Encoding.UTF8.GetString(buffer, 0, incoming.Count);
-                if (msg.Contains("Sec-WebSocket-Key"))
-                {
-                   
-
-                }
                 var outgoing = new ArraySegment<byte>(buffer, 0, incoming.Count);
                 await this.socket.SendAsync(outgoing, WebSocketMessageType.Text, true, CancellationToken.None);
             }

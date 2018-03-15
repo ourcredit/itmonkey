@@ -9,20 +9,11 @@
        header: {
          'content-type': 'application/json'
        },
-       protocols: ['protocol1'],
+       //  protocols: ['protocol1'],
        method: "GET"
      }
      Object.assign(this.props, props);
    }
-   test() {
-     var _self = this;
-     wx.connectSocket(_self.props, function (r) {
-       console.log(r)
-     }, function (e) {
-       console.log(e)
-     });
-   }
-
    connect() {
      var _self = this;
      return new Promise(function (resolve, reject) {

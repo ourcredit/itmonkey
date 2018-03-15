@@ -84,17 +84,24 @@ export default class Dash extends wepy.page {
   };
   // 加载函数
   async onLoad() {
-    this.chat = new Chat(1);
-    this.chat.test();
-    this.chat.connect().then(r => {
-      console.log(r);
-    });
-    let _self = this;
+    var _self = this;
     const user = await _self.$parent.getUserInfo();
     console.log(user);
     if (user) {
       _self.userInfo = user;
     }
+
+    _self.chat = new Chat(1);
+    _self.chat.connect().then(r => {
+      console.log(r);
+    });
+    _self.chat.open().then(r => {
+      console.log(r);
+      _self.chat.send('wwwww');
+    });
+    _self.chat.receive().then(r => {
+      console.log(r);
+    });
   }
 }
 </script>
