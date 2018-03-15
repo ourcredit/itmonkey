@@ -13,62 +13,96 @@ using Newtonsoft.Json;
 
 namespace ItMonkey.Web.Host.Socket
 {
-    public static class MidWare
+    public class ChatWebSocketMiddleware
     {
-        public static IApplicationBuilder UseWebSocket(this IApplicationBuilder builder)
+        private static readonly ConcurrentDictionary<string, WebSocket> Sockets =
+            new ConcurrentDictionary<string, WebSocket>();
+        private readonly RequestDelegate _next;
+        public ChatWebSocketMiddleware(RequestDelegate next)
         {
-            return builder.UseMiddleware<SocketHelper.WebSocketMidWare>();
+            _next = next;
         }
-    }
-    public class SocketHelper
-    {
-        public static async Task<string> RecvAsync(WebSocket webSocket, CancellationToken cancellationToken)
+        public async Task Invoke(HttpContext context)
         {
-            var ms = new MemoryStream();
-            var buffer = new ArraySegment<byte>(new byte[1024 * 8]);
-
-            WebSocketReceiveResult result;
-            do
+            if (!context.WebSockets.IsWebSocketRequest)
             {
-                result = await webSocket.ReceiveAsync(buffer, cancellationToken);
-                ms.Write(buffer.Array, buffer.Offset, result.Count - buffer.Offset);
-            } while (!result.EndOfMessage);
-            ms.Seek(0, SeekOrigin.Begin);
-            var reader = new StreamReader(ms);
-            var s = reader.ReadToEnd();
-            reader.Dispose();
-            ms.Dispose();
-            return s;
-        }
-
-
-        public static async Task SendAsync(WebSocket webSocket, string msg)
-        {
-            CancellationToken cancellation = default(CancellationToken);
-            var buf = Encoding.UTF8.GetBytes(msg);
-            var segment = new ArraySegment<byte>(buf);
-            await webSocket.SendAsync(segment, WebSocketMessageType.Text, true, cancellation);
-        }
-        public class WebSocketMidWare
-        {
-            private readonly RequestDelegate _next;
-            public WebSocketMidWare(RequestDelegate next)
-            {
-                _next = next;
+                await _next.Invoke(context);
+                return;
             }
-
-            public async Task Invoke(HttpContext context)
+            CancellationToken ct = context.RequestAborted;
+            var currentSocket = await context.WebSockets.AcceptWebSocketAsync();
+            //string socketId = Guid.NewGuid().ToString();
+            string socketId = context.Request.Query["guid"].ToString();
+            if (!Sockets.ContainsKey(socketId))
             {
-                if (context.Request.Path == "/ws" && context.WebSockets.IsWebSocketRequest)
+                Sockets.TryAdd(socketId, currentSocket);
+            }
+            while (true)
+            {
+                if (ct.IsCancellationRequested)
                 {
-                    var socket = await context.WebSockets.AcceptWebSocketAsync();
+                    break;
                 }
-                else
+                string response = await ReceiveStringAsync(currentSocket, ct);
+                Message msg = JsonConvert.DeserializeObject<Message>(response);
+                if (string.IsNullOrEmpty(response))
                 {
-                    await _next(context);
+                    if (currentSocket.State != WebSocketState.Open)
+                    {
+                        break;
+                    }
+                    continue;
+                }
+                foreach (var socket in Sockets)
+                {
+                    if (socket.Value.State != WebSocketState.Open)
+                    {
+                        continue;
+                    }
+                    if (socket.Key == msg.ReceiverId || socket.Key == socketId)
+                    {
+                        await SendStringAsync(socket.Value, JsonConvert.SerializeObject(msg), ct);
+                    }
                 }
             }
+            //_sockets.TryRemove(socketId, out dummy);
+            await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", ct);
+            currentSocket.Dispose();
         }
 
+        private static Task SendStringAsync(WebSocket socket, string data, CancellationToken ct = default(CancellationToken))
+        {
+            var buffer = Encoding.UTF8.GetBytes(data);
+            var segment = new ArraySegment<byte>(buffer);
+            return socket.SendAsync(segment, WebSocketMessageType.Text, true, ct);
+        }
+
+        private static async Task<string> ReceiveStringAsync(WebSocket socket, CancellationToken ct = default(CancellationToken))
+        {
+            var buffer = new ArraySegment<byte>(new byte[8192]);
+            using (var ms = new MemoryStream())
+            {
+                WebSocketReceiveResult result;
+                do
+                {
+                    ct.ThrowIfCancellationRequested();
+
+                    result = await socket.ReceiveAsync(buffer, ct);
+                    ms.Write(buffer.Array, buffer.Offset, result.Count);
+                }
+                while (!result.EndOfMessage);
+
+                ms.Seek(0, SeekOrigin.Begin);
+                if (result.MessageType != WebSocketMessageType.Text)
+                {
+                    return null;
+                }
+
+                using (var reader = new StreamReader(ms, Encoding.UTF8))
+                {
+                    return await reader.ReadToEndAsync();
+                }
+            }
+        }
     }
 }

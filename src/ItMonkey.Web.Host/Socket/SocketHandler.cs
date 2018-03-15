@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Net.WebSockets;
 using System.Security.Cryptography;
 using System.Text;
@@ -14,23 +15,27 @@ namespace ItMonkey.Web.Host.Socket
 {
     public class SocketHandler
     {
-      
+        private static readonly ConcurrentDictionary<string, WebSocket> Sockets =
+            new ConcurrentDictionary<string, WebSocket>();
+
         public const int BufferSize = 4096;
-        WebSocket socket;
+        readonly WebSocket _socket;
         SocketHandler(WebSocket socket)
         {
-            this.socket = socket;
+            this._socket = socket;
             
         }
         async Task EchoLoop()
         {
             var buffer = new byte[BufferSize];
             var seg = new ArraySegment<byte>(buffer);
-            while (this.socket.State == WebSocketState.Open)
+            while (this._socket.State == WebSocketState.Open)
             {
-                var incoming = await this.socket.ReceiveAsync(seg, CancellationToken.None);
+                var incoming = await this._socket.ReceiveAsync(seg, CancellationToken.None);
+                string handShakeText = Encoding.UTF8.GetString(buffer, 0, incoming.Count);
+
                 var outgoing = new ArraySegment<byte>(buffer, 0, incoming.Count);
-                await this.socket.SendAsync(outgoing, WebSocketMessageType.Text, true, CancellationToken.None);
+                await this._socket.SendAsync(outgoing, WebSocketMessageType.Text, true, CancellationToken.None);
             }
         }
         static async Task Acceptor(HttpContext hc, Func<Task> n)

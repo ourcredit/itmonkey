@@ -22,6 +22,19 @@
 </style>
 <template>
   <view class="container">
+      <view wx:for="{{contents}}" wx:key="index">
+        {{item}}
+      </view>
+
+       <view class="weui-cell weui-cell_input">
+            <view class="weui-cell__hd">
+              <view class="weui-label">内容</view>
+            </view>
+            <view class="weui-cell__bd">
+              <input class="weui-input" value="{{cont}}" placeholder="请输入内容" />
+            </view>
+          </view>
+      <button class="weui-btn mini-btn" size="mini" type="default" @tap="senM">发送</button>
   </view>
 </template>
 
@@ -30,26 +43,9 @@ import wepy from 'wepy';
 import Chat from '../../mixins/socket';
 export default class Dash extends wepy.page {
   data = {
-    inputShowed: false,
-    inputVal: '',
     chat: null,
-    list: [
-      {
-        link: '/pages/index/index',
-        url:
-          'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg'
-      },
-      {
-        link: '/pages/logs/logs',
-        url:
-          'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg'
-      },
-      {
-        link: '/pages/test/test',
-        url:
-          'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
-      }
-    ]
+    cont: '',
+    contents: []
   };
 
   computed = {
@@ -59,18 +55,16 @@ export default class Dash extends wepy.page {
   };
   // 方法
   methods = {
-    showInput() {
-      this.inputShowed = true;
-    },
-    hideInput() {
-      this.inputVal = '';
-      this.inputShowed = false;
-    },
-    clearInput() {
-      this.inputVal = '';
-    },
-    inputTyping(e) {
-      this.inputVal = e.detail.value;
+    senM() {
+      wx.sendSocketMessage(
+        this.cont,
+        function(r) {
+          resolve(r);
+        },
+        function(e) {
+          reject(e);
+        }
+      );
     }
   };
 
@@ -90,18 +84,39 @@ export default class Dash extends wepy.page {
     if (user) {
       _self.userInfo = user;
     }
+    var props = {
+      //  url: "wss://monkey.leftins.com?guid=" + guid,
+      url: 'wss://monkey.leftins.com/ws',
+      header: {
+        'content-type': 'application/json'
+      },
+      //  protocols: ['protocol1'],
+      method: 'GET'
+    };
+    wx.connectSocket(props, function(r) {}, function(e) {});
+    wx.onSocketOpen(
+      function(r) {
+        wx.sendSocketMessage(
+          'hello',
+          function(r) {
+            resolve(r);
+          },
+          function(e) {
+            reject(e);
+          }
+        );
 
-    _self.chat = new Chat(1);
-    _self.chat.connect().then(r => {
-      console.log(r);
-    });
-    _self.chat.open().then(r => {
-      console.log(r);
-      _self.chat.send('wwwww');
-    });
-    _self.chat.receive().then(r => {
-      console.log(r);
-    });
+        wx.onSocketMessage(
+          function(r) {
+            _self.contents.push(r.data);
+          },
+          function(e) {
+            console.log(e);
+          }
+        );
+      },
+      function(e) {}
+    );
   }
 }
 </script>
