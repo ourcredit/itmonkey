@@ -47,16 +47,13 @@ namespace ItMonkey.Web.Host.Socket
                 {
                     break;
                 }
+                if (currentSocket.State != WebSocketState.Open) break;
                 WebSocketReceiveResult result = await currentSocket.ReceiveAsync(new ArraySegment<byte>(buffer),
                     CancellationToken.None);
                 string response = Encoding.UTF8.GetString(buffer);
                 LogHelper.Logger.Error("----------------"+ response);
 
-                if (string.IsNullOrEmpty(response))
-                {
-                    if (currentSocket.State != WebSocketState.Open) break;
-                    continue;
-                }
+                if (string.IsNullOrEmpty(response)) continue;
                 Message msg;
                 try
                 {
