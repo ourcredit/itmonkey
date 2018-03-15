@@ -47,18 +47,12 @@ namespace ItMonkey.Web.Host.Socket
                 Message msg = JsonConvert.DeserializeObject<Message>(response);
                 if (string.IsNullOrEmpty(response))
                 {
-                    if (currentSocket.State != WebSocketState.Open)
-                    {
-                        break;
-                    }
+                    if (currentSocket.State != WebSocketState.Open)  break;
                     continue;
                 }
                 foreach (var socket in Sockets)
                 {
-                    if (socket.Value.State != WebSocketState.Open)
-                    {
-                        continue;
-                    }
+                    if (socket.Value.State != WebSocketState.Open)  continue;
                     if (socket.Key == msg.ReceiverId || socket.Key == socketId)
                     {
                         await SendStringAsync(socket.Value, JsonConvert.SerializeObject(msg), ct);
@@ -91,13 +85,8 @@ namespace ItMonkey.Web.Host.Socket
                     ms.Write(buffer.Array, buffer.Offset, result.Count);
                 }
                 while (!result.EndOfMessage);
-
                 ms.Seek(0, SeekOrigin.Begin);
-                if (result.MessageType != WebSocketMessageType.Text)
-                {
-                    return null;
-                }
-
+                if (result.MessageType != WebSocketMessageType.Text) return null;
                 using (var reader = new StreamReader(ms, Encoding.UTF8))
                 {
                     return await reader.ReadToEndAsync();

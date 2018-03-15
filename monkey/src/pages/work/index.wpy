@@ -31,7 +31,7 @@
               <view class="weui-label">内容</view>
             </view>
             <view class="weui-cell__bd">
-              <input class="weui-input" value="{{cont}}" placeholder="请输入内容" />
+              <input class="weui-input" value="{{body.content}}" placeholder="请输入内容" />
             </view>
           </view>
       <button class="weui-btn mini-btn" size="mini" type="default" @tap="senM">发送</button>
@@ -44,8 +44,8 @@ import Chat from '../../mixins/socket';
 export default class Dash extends wepy.page {
   data = {
     chat: null,
-    cont: '',
-    contents: []
+    contents: [],
+    body: { senderId: 1, receiverId: 1, type: 'text', content: '' }
   };
 
   computed = {
@@ -56,14 +56,29 @@ export default class Dash extends wepy.page {
   // 方法
   methods = {
     senM() {
-      wx.sendSocketMessage(
-        this.cont,
+      wx.onSocketOpen(
         function(r) {
-          resolve(r);
+          console.log(r);
+          wx.sendSocketMessage(
+            JSON.stringify(this.body),
+            function(r) {
+              resolve(r);
+            },
+            function(e) {
+              reject(e);
+            }
+          );
+          wx.onSocketMessage(
+            function(r) {
+              console.log(r);
+              _self.contents.push(r.data);
+            },
+            function(e) {
+              console.log(e);
+            }
+          );
         },
-        function(e) {
-          reject(e);
-        }
+        function(e) {}
       );
     }
   };
@@ -85,37 +100,22 @@ export default class Dash extends wepy.page {
       _self.userInfo = user;
     }
     var props = {
-      //  url: "wss://monkey.leftins.com?guid=" + guid,
-      url: 'wss://monkey.leftins.com/ws',
+      url: 'wss://monkey.leftins.com/ws?guid=' + 1,
+      // url: 'wss://monkey.leftins.com/ws',
       header: {
         'content-type': 'application/json'
       },
       //  protocols: ['protocol1'],
       method: 'GET'
     };
-    wx.connectSocket(props, function(r) {}, function(e) {});
-    wx.onSocketOpen(
+    wx.connectSocket(
+      props,
       function(r) {
-        wx.sendSocketMessage(
-          'hello',
-          function(r) {
-            resolve(r);
-          },
-          function(e) {
-            reject(e);
-          }
-        );
-
-        wx.onSocketMessage(
-          function(r) {
-            _self.contents.push(r.data);
-          },
-          function(e) {
-            console.log(e);
-          }
-        );
+        console.log(r);
       },
-      function(e) {}
+      function(e) {
+        console.log(e);
+      }
     );
   }
 }
