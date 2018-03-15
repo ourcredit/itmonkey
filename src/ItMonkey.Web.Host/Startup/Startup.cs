@@ -114,12 +114,8 @@ namespace ItMonkey.Web.Host.Startup
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            var webSocketOptions = new WebSocketOptions()
-            {
-                KeepAliveInterval = TimeSpan.FromSeconds(120),
-                ReceiveBufferSize = 8 * 1024
-            };
-            app.UseWebSockets(webSocketOptions);
+         
+            app.UseWebSockets();
             app.UseMiddleware<ChatWebSocketMiddleware>();
            // app.Map("/ws", SocketHandler.Map);
             // Enable middleware to serve generated Swagger as a JSON endpoint

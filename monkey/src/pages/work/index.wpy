@@ -106,9 +106,14 @@ export default class Dash extends wepy.page {
     wx.onSocketOpen(
       function(r) {
         wx.sendSocketMessage(
-          JSON.stringify(
-            "{ senderId: 1, receiverId: 2, type: 'text', content: 'aaaaaaa' }"
-          ),
+          {
+            data: {
+              senderId: 1,
+              receiverId: 2,
+              type: 'text',
+              content: 'aaaaaaa'
+            }
+          },
           function(r) {
             console.log(r);
           },

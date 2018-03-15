@@ -44,12 +44,12 @@ namespace ItMonkey.Web.Host.Socket
                     break;
                 }
                 string response = await ReceiveStringAsync(currentSocket, ct);
-                Message msg = JsonConvert.DeserializeObject<Message>(response);
                 if (string.IsNullOrEmpty(response))
                 {
                     if (currentSocket.State != WebSocketState.Open)  break;
                     continue;
                 }
+                Message msg = JsonConvert.DeserializeObject<Message>(response);
                 foreach (var socket in Sockets)
                 {
                     if (socket.Value.State != WebSocketState.Open)  continue;
