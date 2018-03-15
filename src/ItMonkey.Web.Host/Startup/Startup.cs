@@ -138,9 +138,9 @@ namespace ItMonkey.Web.Host.Startup
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //app.UseWebSockets();
-            //app.UseMiddleware<ChatWebSocketMiddleware>();
-            app.Map("/chat", SocketHandler.Map);
+            app.UseWebSockets();
+            app.UseMiddleware<ChatWebSocketMiddleware>();
+            //  app.Map("/chat", SocketHandler.Map);
             // Enable middleware to serve generated Swagger as a JSON endpoint
             app.UseSwagger();
             // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
