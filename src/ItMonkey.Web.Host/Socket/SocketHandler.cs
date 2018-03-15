@@ -5,6 +5,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Abp.Logging;
+using Castle.Core.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
@@ -12,11 +14,13 @@ namespace ItMonkey.Web.Host.Socket
 {
     public class SocketHandler
     {
+      
         public const int BufferSize = 4096;
         WebSocket socket;
         SocketHandler(WebSocket socket)
         {
             this.socket = socket;
+            
         }
         async Task EchoLoop()
         {
@@ -25,11 +29,12 @@ namespace ItMonkey.Web.Host.Socket
             while (this.socket.State == WebSocketState.Open)
             {
                 var incoming = await this.socket.ReceiveAsync(seg, CancellationToken.None);
+                await this.socket.SendAsync(PackageHandShakeData(buffer, incoming.Count),
+                    WebSocketMessageType.Text, true, CancellationToken.None);
                 string msg = Encoding.UTF8.GetString(buffer, 0, incoming.Count);
                 if (msg.Contains("Sec-WebSocket-Key"))
                 {
-                    await this.socket.SendAsync(PackageHandShakeData(buffer, incoming.Count),
-                        WebSocketMessageType.Text, true, CancellationToken.None);
+                   
 
                 }
                 var outgoing = new ArraySegment<byte>(buffer, 0, incoming.Count);
@@ -42,6 +47,7 @@ namespace ItMonkey.Web.Host.Socket
                 return;
             var socket = await hc.WebSockets.AcceptWebSocketAsync();
             var h = new SocketHandler(socket);
+           
             await h.EchoLoop();
         }
         /// <summary>
@@ -62,6 +68,7 @@ namespace ItMonkey.Web.Host.Socket
         /// <returns></returns>
         private byte[] PackageHandShakeData(byte[] handShakeBytes, int length)
         {
+            
             string handShakeText = Encoding.UTF8.GetString(handShakeBytes, 0, length);
             string key = string.Empty;
             Regex reg = new Regex(@"Sec\-WebSocket\-Key:(.*?)\r\n");
