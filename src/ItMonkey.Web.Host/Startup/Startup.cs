@@ -87,12 +87,11 @@ namespace ItMonkey.Web.Host.Startup
         {
             app.UseAbp(options => { options.UseAbpRequestLocalization = false; }); // Initializes ABP framework.
 
-            app.UseCors(DefaultCorsPolicyName); // Enable CORS!
             app.UseCors(builder =>
             {
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
-                builder.AllowAnyOrigin();
+                builder.WithOrigins("http://127.0.0.1:59076", DefaultCorsPolicyName);
             });
             app.Use(async (context, next) =>
             {
