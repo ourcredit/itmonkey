@@ -50,7 +50,7 @@ namespace ItMonkey.Web.Host.Socket
                 if (currentSocket.State != WebSocketState.Open) break;
                 WebSocketReceiveResult result = await currentSocket.ReceiveAsync(new ArraySegment<byte>(buffer),
                     CancellationToken.None);
-                string response = Encoding.UTF8.GetString(buffer);
+                string response = Encoding.UTF8.GetString(buffer,0,result.Count);
                 LogHelper.Logger.Error("----------------"+ response);
 
                 if (string.IsNullOrEmpty(response)) continue;
@@ -72,7 +72,7 @@ namespace ItMonkey.Web.Host.Socket
                 foreach (var socket in Sockets)
                 {
                     if (socket.Value.State != WebSocketState.Open) continue;
-                    await SendStringAsync(socket.Value, JsonConvert.SerializeObject(msg), ct);
+                    await SendStringAsync(socket.Value, "aaaaaaaaaaaa", ct);
                     if (socket.Key == msg.ReceiverId || socket.Key == socketId)
                     {
                         await SendStringAsync(socket.Value, JsonConvert.SerializeObject(msg), ct);
