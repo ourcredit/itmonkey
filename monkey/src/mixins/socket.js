@@ -5,7 +5,7 @@
      this.msgArr = [];
      this.props = {
        //  url: "wss://monkey.leftins.com?guid=" + guid,
-       url: "wss://monkey.leftins.com/chat",
+       url: "wss://monkey.leftins.com",
        header: {
          'content-type': 'application/json'
        },

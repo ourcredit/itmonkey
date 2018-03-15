@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,10 +34,10 @@ namespace ItMonkey.Web.Host.Socket
             var h = new SocketHandler(socket);
             await h.EchoLoop();
         }
-        /// <summary>  
-        /// 路由绑定处理  
-        /// </summary>  
-        /// <param name="app"></param>  
+        /// <summary>
+        /// branches the request pipeline for this SocketHandler usage
+        /// </summary>
+        /// <param name="app"></param>
         public static void Map(IApplicationBuilder app)
         {
             app.UseWebSockets();
