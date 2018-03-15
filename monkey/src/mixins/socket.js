@@ -4,7 +4,8 @@
    constructor(guid, props = {}) {
      this.msgArr = [];
      this.props = {
-       url: "wss://monkey.leftins.com?guid=" + guid,
+       //  url: "wss://monkey.leftins.com?guid=" + guid,
+       url: "wss://monkey.leftins.com/chat",
        header: {
          'content-type': 'application/json'
        },
