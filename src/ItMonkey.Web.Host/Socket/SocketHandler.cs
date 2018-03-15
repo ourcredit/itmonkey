@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Net.WebSockets;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -22,6 +25,13 @@ namespace ItMonkey.Web.Host.Socket
             while (this.socket.State == WebSocketState.Open)
             {
                 var incoming = await this.socket.ReceiveAsync(seg, CancellationToken.None);
+                string msg = Encoding.UTF8.GetString(buffer, 0, incoming.Count);
+                if (msg.Contains("Sec-WebSocket-Key"))
+                {
+                    await this.socket.SendAsync(PackageHandShakeData(buffer, incoming.Count),
+                        WebSocketMessageType.Text, true, CancellationToken.None);
+
+                }
                 var outgoing = new ArraySegment<byte>(buffer, 0, incoming.Count);
                 await this.socket.SendAsync(outgoing, WebSocketMessageType.Text, true, CancellationToken.None);
             }
@@ -42,6 +52,32 @@ namespace ItMonkey.Web.Host.Socket
         {
             app.UseWebSockets();
             app.Use(SocketHandler.Acceptor);
+        }
+      
+        /// <summary>
+        /// 打包请求连接数据
+        /// </summary>
+        /// <param name="handShakeBytes"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        private byte[] PackageHandShakeData(byte[] handShakeBytes, int length)
+        {
+            string handShakeText = Encoding.UTF8.GetString(handShakeBytes, 0, length);
+            string key = string.Empty;
+            Regex reg = new Regex(@"Sec\-WebSocket\-Key:(.*?)\r\n");
+            Match m = reg.Match(handShakeText);
+            if (m.Value != "")
+            {
+                key = Regex.Replace(m.Value, @"Sec\-WebSocket\-Key:(.*?)\r\n", "$1").Trim();
+            }
+            byte[] secKeyBytes = SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(key + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"));
+            string secKey = Convert.ToBase64String(secKeyBytes);
+            var responseBuilder = new StringBuilder();
+            responseBuilder.Append("HTTP/1.1 101 Switching Protocols" + "\r\n");
+            responseBuilder.Append("Upgrade: websocket" + "\r\n");
+            responseBuilder.Append("Connection: Upgrade" + "\r\n");
+            responseBuilder.Append("Sec-WebSocket-Accept: " + secKey + "\r\n\r\n");
+            return Encoding.UTF8.GetBytes(responseBuilder.ToString());
         }
     }
 }

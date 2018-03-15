@@ -5,10 +5,12 @@
      this.msgArr = [];
      this.props = {
        //  url: "wss://monkey.leftins.com?guid=" + guid,
-       url: "wss://monkey.leftins.com",
+       url: "wss://monkey.leftins.com/ws",
        header: {
          'content-type': 'application/json'
        },
+       protocols: ['protocol1'],
+       method: "GET"
      }
      Object.assign(this.props, props);
    }
