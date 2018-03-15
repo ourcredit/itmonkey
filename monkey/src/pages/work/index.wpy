@@ -116,7 +116,6 @@ export default class Dash extends wepy.page {
 
     wx.onSocketOpen(
       function(r) {
-        debugger;
         _self.socketOpened = true;
         console.log(1);
         for (var i = 0; i < _self.socketMsgQueue.length; i++) {
@@ -131,8 +130,7 @@ export default class Dash extends wepy.page {
     //   _self.contents.push(r.data);
     // });
     wx.onSocketMessage(function(res) {
-      debugger;
-      console.log('收到服务器内容：' + res.data);
+      this.contents.push(res.data);
     });
     wx.onSocketClose(function(res) {
       console.log(res);

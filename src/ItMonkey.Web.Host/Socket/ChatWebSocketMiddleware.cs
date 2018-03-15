@@ -72,7 +72,7 @@ namespace ItMonkey.Web.Host.Socket
                 foreach (var socket in Sockets)
                 {
                     if (socket.Value.State != WebSocketState.Open) continue;
-                    await SendStringAsync(socket.Value, "aaaaaaaaaaaa", ct);
+                  //  await SendStringAsync(socket.Value, "aaaaaaaaaaaa", ct);
                     if (socket.Key == msg.ReceiverId || socket.Key == socketId)
                     {
                         await SendStringAsync(socket.Value, JsonConvert.SerializeObject(msg), ct);
