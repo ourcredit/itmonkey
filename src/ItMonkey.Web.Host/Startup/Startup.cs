@@ -73,7 +73,7 @@ namespace ItMonkey.Web.Host.Startup
                 // Assign scope requirements to operations based on AuthorizeAttribute
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
-
+            services.AddCors();
             // Configure Abp and Dependency Injection
             return services.AddAbp<ItMonkeyWebHostModule>(
                 // Configure Log4Net logging
@@ -88,7 +88,12 @@ namespace ItMonkey.Web.Host.Startup
             app.UseAbp(options => { options.UseAbpRequestLocalization = false; }); // Initializes ABP framework.
 
             app.UseCors(DefaultCorsPolicyName); // Enable CORS!
-
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+                builder.AllowAnyOrigin();
+            });
             app.Use(async (context, next) =>
             {
                 await next();
