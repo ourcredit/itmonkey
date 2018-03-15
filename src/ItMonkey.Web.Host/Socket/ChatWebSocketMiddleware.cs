@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-
+using Abp.Extensions;
 namespace ItMonkey.Web.Host.Socket
 {
     public class ChatWebSocketMiddleware
@@ -37,25 +37,42 @@ namespace ItMonkey.Web.Host.Socket
             {
                 Sockets.TryAdd(socketId, currentSocket);
             }
+            var buffer = new byte[1024 * 4];
+
+
             while (true)
             {
                 if (ct.IsCancellationRequested)
                 {
                     break;
                 }
-                string response = await ReceiveStringAsync(currentSocket, ct);
+                WebSocketReceiveResult result = await currentSocket.ReceiveAsync(new ArraySegment<byte>(buffer),
+                    CancellationToken.None);
+                string response = Encoding.UTF8.GetString(buffer);
                 if (string.IsNullOrEmpty(response))
                 {
-                    if (currentSocket.State != WebSocketState.Open)  break;
+                    if (currentSocket.State != WebSocketState.Open) break;
                     continue;
                 }
-                Message msg = JsonConvert.DeserializeObject<Message>(response);
+                Message msg;
+                try
+                {
+                    msg = JsonConvert.DeserializeObject<Message>(response);
+                }
+                catch (Exception)
+                {
+                    msg = new Message()
+                    {
+                        SenderId = "1",
+                        ReceiverId = "1",
+                        Type = "text",
+                        Content = "hello world"
+                    };
+                }
                 foreach (var socket in Sockets)
                 {
-                    if (socket.Value.State != WebSocketState.Open)  continue;
-
+                    if (socket.Value.State != WebSocketState.Open) continue;
                     await SendStringAsync(socket.Value, JsonConvert.SerializeObject(msg), ct);
-
                     if (socket.Key == msg.ReceiverId || socket.Key == socketId)
                     {
                         await SendStringAsync(socket.Value, JsonConvert.SerializeObject(msg), ct);
