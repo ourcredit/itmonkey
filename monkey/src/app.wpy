@@ -37,8 +37,8 @@ page {
 
 <script>
 import wepy from 'wepy';
-import api from 'api/api';
 import 'wepy-async-function';
+import api from 'api/api';
 
 import { setStore } from 'wepy-redux';
 import configStore from './store';
@@ -146,15 +146,28 @@ export default class extends wepy.app {
     this.getUserInfo();
   }
   async getUserInfo() {
-    debugger;
     const that = this;
     if (this.globalData.userInfo) {
       return this.globalData.userInfo;
     }
     const t = await wepy.login();
     const r = await wepy.getUserInfo();
+    debugger;
     if (r) {
-      this.globalData.userInfo = r.userInfo;
+      const params = {
+        code: t.code,
+        encryptedData: r.encryptedData,
+        iv: r.iv,
+        rawData: r.rawData,
+        signature: r.signature
+      };
+      var res = await api.GetAuthInfo(params);
+      if (res) {
+        this.globalData.userInfo = res;
+      } else {
+        this.globalData.userInfo = r.userInfo;
+        this.globalData.userInfo.hasRegister = false;
+      }
     }
     return this.globalData.userInfo;
   }

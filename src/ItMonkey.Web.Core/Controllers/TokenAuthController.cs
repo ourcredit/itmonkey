@@ -20,6 +20,7 @@ using ItMonkey.Customers;
 using ItMonkey.Models;
 using ItMonkey.Models.TokenAuth;
 using ItMonkey.MultiTenancy;
+using Newtonsoft.Json;
 
 namespace ItMonkey.Controllers
 {
@@ -65,12 +66,17 @@ namespace ItMonkey.Controllers
             _customerAppService = customerAppService;
         }
         [HttpPost]
-        public async Task WeChatAuthenticate([FromBody] WechatLoginInfo model)
+        public async Task<WechatUserInfo> WeChatAuthenticate([FromBody] WechatLoginInfo model)
         {
             var c=new WeChatAppDecrypt("wxd91baf88184a42bb", "795eb3f4d6b227217cedf7e61070842c");
-            var result = c.Decrypt(model);
-            var customer =await _customerAppService.GetCustomerByKeyAsync(new EntityDto<string>(result.openId));
-            result.hasRegister = customer != null;
+            var r = c.Decrypt(model);
+
+            // var result = c.GetOpenIdAndSessionKeyString(model.code);
+            //  var obj = JsonConvert.DeserializeObject<OpenIdAndSessionKey>(result);
+
+            var customer =await _customerAppService.GetCustomerByKeyAsync(new EntityDto<string>(r.openId));
+            r.hasRegister = customer != null;
+            return r;
         }
      
 

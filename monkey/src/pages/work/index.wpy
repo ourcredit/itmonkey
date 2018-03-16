@@ -119,11 +119,6 @@ export default class Dash extends wepy.page {
   // 加载函数
   async onLoad() {
     var _self = this;
-    const user = await _self.$parent.getUserInfo();
-    console.log(user);
-    if (user) {
-      _self.userInfo = user;
-    }
     this.connect();
     wx.onSocketOpen(
       function(r) {

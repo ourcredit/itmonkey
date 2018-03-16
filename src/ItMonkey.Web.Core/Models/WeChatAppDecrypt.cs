@@ -32,7 +32,7 @@ namespace ItMonkey.Models
         /// </summary>  
         /// <param name="code">客户端发来的code</param>  
         /// <returns>Json数据包</returns>  
-        private string GetOpenIdAndSessionKeyString(string code)
+        public string GetOpenIdAndSessionKeyString(string code)
         {
             string temp = "https://api.weixin.qq.com/sns/jscode2session?" +
                 "appid=" + AppId
@@ -195,7 +195,7 @@ namespace ItMonkey.Models
         public string iv { get; set; }
         public string rawData { get; set; }
         public string signature { get; set; }
-    }
+    } 
     /// <summary>  
     /// 微信小程序用户信息结构  
     /// </summary>  
