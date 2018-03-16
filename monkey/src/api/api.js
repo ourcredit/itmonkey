@@ -17,7 +17,7 @@ const getShufflings = () => wxRequestAsync({}, baseUrl + "Shuffling/GetPagedShuf
  * @return {[type]}        [description]
  */
 const getTasks = params => wxRequestAsync(params, baseUrl + "task/list")
-const getOpenId = params => wxRequestAsync(params, "https://api.weixin.qq.com/sns/jscode2session")
+const GetAuthInfo = params => wxRequestAsync(params, "https://api.weixin.qq.com/sns/jscode2session")
 
 module.exports = {
   getShufflings,

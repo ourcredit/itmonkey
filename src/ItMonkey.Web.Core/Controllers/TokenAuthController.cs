@@ -64,7 +64,7 @@ namespace ItMonkey.Controllers
             _userRegistrationManager = userRegistrationManager;
             _customerAppService = customerAppService;
         }
-
+        [HttpPost]
         public async Task WeChatAuthenticate([FromBody] WechatLoginInfo model)
         {
             var c=new WeChatAppDecrypt("wxd91baf88184a42bb", "795eb3f4d6b227217cedf7e61070842c");
