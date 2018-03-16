@@ -60,7 +60,8 @@ export default class Dash extends wepy.page {
   methods = {
     senM() {
       var _self = this;
-      _self.sendSocketMessage(_self.body);
+      // _self.sendSocketMessage(_self.body);
+      _self.sendSocketMessage('aaaaaaaaaaaaaaaa');
     },
     connect() {
       var props = {
@@ -84,14 +85,13 @@ export default class Dash extends wepy.page {
     }
   };
   sendSocketMessage(msg) {
-    debugger;
     if (typeof msg === 'object') {
       // 只能发送string
       msg = JSON.stringify(msg);
     }
     if (this.socketOpened) {
       // socketOpened变量在wx.onSocketOpen时设置为true
-      wx.sendSocketMessage({ data: msg });
+      wx.sendSocketMessage(msg);
     } else {
       // 发送的时候，链接还没建立
       this.socketMsgQueue.push(msg);
@@ -130,7 +130,7 @@ export default class Dash extends wepy.page {
     //   _self.contents.push(r.data);
     // });
     wx.onSocketMessage(function(res) {
-      this.contents.push(res.data);
+      _self.contents.push(res.data);
     });
     wx.onSocketClose(function(res) {
       console.log(res);

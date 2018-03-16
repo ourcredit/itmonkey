@@ -69,6 +69,7 @@ namespace ItMonkey.Web.Host.Socket
                     }
                     //转字符串，然后序列化，然后赋值，然后再序列化
                     var chatDataStr = await ArraySegmentToStringAsync(new ArraySegment<byte>(buffer, 0, incoming.Count));
+                    LogHelper.Logger.Error(chatDataStr);
                     if (chatDataStr == "@heart")//如果是心跳检查，则直接跳过
                         continue;
                   //  msg = JsonConvert.DeserializeObject<Message>(chatDataStr);
@@ -94,7 +95,8 @@ namespace ItMonkey.Web.Host.Socket
         public static async Task SendToWebSocketsAsync(List<WebSocket> sockets, string data)
         {
             SaveHistoricalMessg(data);//保存历史消息
-          //  var chatData = JsonConvert.SerializeObject(data);
+                                      //  var chatData = JsonConvert.SerializeObject(data);
+            LogHelper.Logger.Error(data);
             var buffer = Encoding.UTF8.GetBytes(data);
             ArraySegment<byte> arraySegment = new ArraySegment<byte>(buffer);
             //循环发送消息
