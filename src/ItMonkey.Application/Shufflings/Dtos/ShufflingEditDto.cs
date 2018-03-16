@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ItMonkey.Shufflings.Dtos.LTMAutoMapper;
 using ItMonkey.Models;
 
 namespace ItMonkey.Shufflings.Dtos

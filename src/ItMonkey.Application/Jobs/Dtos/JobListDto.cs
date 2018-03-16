@@ -1,5 +1,4 @@
-﻿
-namespace ItMonkey.Jobs.Dtos
+﻿namespace ItMonkey.Jobs.Dtos
 {
     public class JobListDto
     {
