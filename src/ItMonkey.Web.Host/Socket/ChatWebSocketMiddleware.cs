@@ -79,6 +79,7 @@ namespace ItMonkey.Web.Host.Socket
                     }
                 }
             }
+            LogHelper.Logger.Error("----------------close");
             //_sockets.TryRemove(socketId, out dummy);
             await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", ct);
             currentSocket.Dispose();
