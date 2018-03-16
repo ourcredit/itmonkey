@@ -14,6 +14,7 @@ namespace ItMonkey.EntityFrameworkCore
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Job> Jobs { get; set; }
         public virtual DbSet<CustomerJob> CustomerJobs { get; set; }
+        public virtual DbSet<Shuffling> Shufflings { get; set; }
         public ItMonkeyDbContext(DbContextOptions<ItMonkeyDbContext> options)
             : base(options)
         {

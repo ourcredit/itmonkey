@@ -127,7 +127,6 @@ export default class Dash extends wepy.page {
     this.connect();
     wx.onSocketOpen(
       function(r) {
-        debugger;
         _self.socketOpened = true;
         console.log('socket 开启成功');
         for (var i = 0; i < _self.socketMsgQueue.length; i++) {

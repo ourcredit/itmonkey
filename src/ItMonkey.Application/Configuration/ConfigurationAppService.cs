@@ -12,5 +12,7 @@ namespace ItMonkey.Configuration
         {
             await SettingManager.ChangeSettingForUserAsync(AbpSession.ToUserIdentifier(), AppSettingNames.UiTheme, input.Theme);
         }
+
+
     }
 }

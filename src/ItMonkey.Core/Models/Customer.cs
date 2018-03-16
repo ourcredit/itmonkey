@@ -14,13 +14,26 @@ namespace ItMonkey.Models
     [Table("m_customer")]
    public class Customer:CreationAuditedEntity<long>,IPassivable,ISoftDelete
     {
+        /// <summary>
+        /// 名称
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// 唯一标识
+        /// </summary>
         [Required]
         public string Key { get; set; }
-
+        /// <summary>
+        /// 启用禁用
+        /// </summary>
         public bool IsActive { get; set; }
+        /// <summary>
+        /// 软删除
+        /// </summary>
         public bool IsDeleted { get; set; }
-
+        /// <summary>
+        /// 参与的工作
+        /// </summary>
         [ForeignKey("CustomerId")]
         public  virtual  ICollection<CustomerJob> CustomerJobs { get; set; }
     }

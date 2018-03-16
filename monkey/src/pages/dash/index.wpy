@@ -141,6 +141,7 @@
 
 <script>
 import wepy from 'wepy';
+import api from 'api/api';
 import Panel from '@/components/panel'; // alias example
 import Swiper from '@/components/swiper';
 
