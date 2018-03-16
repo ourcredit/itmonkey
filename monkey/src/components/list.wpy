@@ -2,55 +2,102 @@
 .mylist:odd {
   color: red;
 }
+
 .mylist:even {
   color: green;
 }
 </style>
 <template>
-  <view class="list">
-  <view>
-    <button @tap="add" size="mini">添加列表</button>
-  </view>
-    <block wx:for-items="{{list}}" wx:for-index="index" wx:for-item="item" wx:key="id">
-      <view @tap="tap" class="mylist">
-        <text>{{item.id}}</text>: {{item.title}}
+  <!--  按钮 -->
+    <view wx:if="{{hasAction}}" class="weui-flex">
+      <view class="weui-flex__item">
+        <view @tap="change('time')" class="placeholder">发布时间</view>
       </view>
-    </block>
-  </view>
+      <view class="weui-flex__item">
+        <view @tap="change('price')" class="placeholder">任务金额</view>
+      </view>
+      <view class="weui-flex__item">
+        <view @tap="change('cate')" class="placeholder">任务分类</view>
+      </view>
+    </view>
+  <!-- list -->
+    <scroll-view class="list" style="height:1208rpx" scroll-y="true" bindscrolltolower="loadMore">
+      <view wx:for="{{jobs}}" wx:key="index" class="panel" @tap="detail({{item}})">
+        <view class="weui-flex">
+          <view class="weui-flex__item">
+            <view class="placeholder">
+              <view class="title">{{item.category}} :{{item.name}}</view>
+            </view>
+          </view>
+          <view class="weui-flex__item">
+            <view class="price">
+              <icon type="success" size="23"></icon>{{item.price}}</view>
+          </view>
+        </view>
+        <view class="weui-flex">
+          <view class="weui-flex__item">
+            <view class="info">{{item.content}}</view>
+          </view>
+          <view class="price">
+            <icon type="success" size="23"></icon>{{item.state}}</view>
+        </view>
+      </view>
+    </scroll-view>
 </template>
 <script>
 import wepy from 'wepy';
 
-export default class List extends wepy.component {
-  data = {
-    list: [
-      {
-        id: '0',
-        title: 'loading'
-      }
-    ]
-  };
-
-  events = {
-    'index-broadcast': (...args) => {
-      let $event = args[args.length - 1];
-      console.log(
-        `${this.$name} receive ${$event.name} from ${$event.source.name}`
-      );
-    }
-  };
-
-  methods = {
-    tap() {
-      // this.num = this.num + 1
-      console.log(this.$name + ' tap');
+export default class SearchBar extends wepy.component {
+  props = {
+    searchApi: {
+      type: Function,
+      required: true
     },
-    add() {
-      let len = this.list.length;
-      this.list.push({ id: len + 1, title: 'title_' + len });
+    hasAction: {
+      type: Boolean,
+      default: false
+    },
+    params: {
+      type: Object,
+      required: false,
+      default: {}
     }
   };
+  data = {
+    list: [],
+    total: 0,
+    sort: ''
+  };
+  props = {
+    searchApi: {
+      type: Function,
+      required: true
+    },
+    params: {
+      type: Object,
+      required: false,
+      default: {}
+    }
+  };
+  methods = {
+    async search() {
+      var params = Object.assign(this.params, {
+        filter: this.inputVal,
+        sort: this.sort
+      });
+      var result = await this.searchApi(params);
+      this.list = result.items;
+      this.total = result.totalCount;
+      this.$apply();
+    },
+    change(type) {
+      this.sort = type;
+    },
+    loadMore() {}
+  };
 
-  onLoad() {}
+  async onLoad() {
+    await this.search();
+  }
 }
 </script>
