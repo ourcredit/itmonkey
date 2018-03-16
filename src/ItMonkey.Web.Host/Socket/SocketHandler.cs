@@ -21,7 +21,7 @@ namespace ItMonkey.Web.Host.Socket
             new ConcurrentDictionary<string, WebSocket>();
         public const int BufferSize = 4096;
         public static object ObjLock = new object();
-        public static List<string> HistoricalMessg = new List<string>();//存放历史消息
+        public static List<Message> HistoricalMessg = new List<Message>();//存放历史消息
 
         /// <summary>
         /// 接收请求
@@ -69,11 +69,12 @@ namespace ItMonkey.Web.Host.Socket
                     }
                     //转字符串，然后序列化，然后赋值，然后再序列化
                     var chatDataStr = await ArraySegmentToStringAsync(new ArraySegment<byte>(buffer, 0, incoming.Count));
-                    LogHelper.Logger.Error(chatDataStr);
                     if (chatDataStr == "@heart")//如果是心跳检查，则直接跳过
                         continue;
-                  //  msg = JsonConvert.DeserializeObject<Message>(chatDataStr);
-                    await SendToWebSocketsAsync(Sockets.Where(t => t.Key == socketId).Select(c=>c.Value).ToList(), chatDataStr);
+                    msg = JsonConvert.DeserializeObject<Message>(chatDataStr);
+                    var soc = Sockets.Where(t => t.Key == socketId && msg.ReceiverId == t.Key).Select(c => c.Value)
+                        .ToList();
+                    await SendToWebSocketsAsync(soc, msg);
                 }
                 catch (Exception ex) //因为 nginx 没有数据传输 会自动断开 然后就会异常。
                 {
@@ -92,12 +93,11 @@ namespace ItMonkey.Web.Host.Socket
         /// <param name="sockets"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static async Task SendToWebSocketsAsync(List<WebSocket> sockets, string data)
+        public static async Task SendToWebSocketsAsync(List<WebSocket> sockets, Message data)
         {
             SaveHistoricalMessg(data);//保存历史消息
-                                      //  var chatData = JsonConvert.SerializeObject(data);
-            LogHelper.Logger.Error(data);
-            var buffer = Encoding.UTF8.GetBytes(data);
+            var chatData = JsonConvert.SerializeObject(data);
+            var buffer = Encoding.UTF8.GetBytes(chatData);
             ArraySegment<byte> arraySegment = new ArraySegment<byte>(buffer);
             //循环发送消息
             foreach (var tempsocket in sockets)
@@ -115,7 +115,7 @@ namespace ItMonkey.Web.Host.Socket
         /// 保存历史消息
         /// </summary>
         /// <param name="data"></param>
-        public static void SaveHistoricalMessg(string data)
+        public static void SaveHistoricalMessg(Message data)
         {
             var size = 40;
             lock (LockSaveMsg)
