@@ -97,7 +97,7 @@
     </view>
     <!-- 轮播图 -->
     <view>
-      <swiper :list="list"></swiper>
+      <swiper :list.sync="list"></swiper>
     </view>
     <!--  按钮 -->
     <view class="weui-flex">
@@ -153,23 +153,7 @@ export default class Dash extends wepy.page {
   data = {
     inputShowed: false,
     inputVal: '',
-    list: [
-      {
-        link: '/pages/index/index',
-        url:
-          'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg'
-      },
-      {
-        link: '/pages/logs/logs',
-        url:
-          'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg'
-      },
-      {
-        link: '/pages/test/test',
-        url:
-          'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
-      }
-    ],
+    list: null,
     resources: [
       {
         id: 1,
@@ -280,6 +264,10 @@ export default class Dash extends wepy.page {
   };
   async onLoad() {
     var result = await api.getShufflings();
+    if (result && result.items) {
+      this.list = result.items;
+      this.$apply();
+    }
   }
   onReachBottom() {}
   onPullDownRefresh() {

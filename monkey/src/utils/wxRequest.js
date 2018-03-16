@@ -21,8 +21,28 @@ const wxRequest = async (params = {}, url) => {
     },
   });
   tip.loaded();
-  return res;
+  return res.data;
+};
+const wxRequestAsync = async (params = {}, url) => {
+  tip.loading();
+  let data = params.query || {};
+  data.sign = SIGN;
+  data.time = TIMESTAMP;
+  let res = await wepy.request({
+    url: url,
+    method: params.method || 'GET',
+    data: data,
+    header: {
+      'Content-Type': 'application/json'
+    },
+  });
+  tip.loaded();
+  if (!res.data.success) {
+    tip.alert(res.data.error);
+  }
+  return res.data.result;
 };
 module.exports = {
-  wxRequest
+  wxRequest,
+  wxRequestAsync
 }

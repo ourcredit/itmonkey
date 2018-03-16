@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Abp.Application.Services.Dto;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Abp.Authorization;
@@ -15,6 +16,8 @@ using ItMonkey.Authentication.External;
 using ItMonkey.Authentication.JwtBearer;
 using ItMonkey.Authorization;
 using ItMonkey.Authorization.Users;
+using ItMonkey.Customers;
+using ItMonkey.Models;
 using ItMonkey.Models.TokenAuth;
 using ItMonkey.MultiTenancy;
 
@@ -24,13 +27,24 @@ namespace ItMonkey.Controllers
     public class TokenAuthController : ItMonkeyControllerBase
     {
         private readonly LogInManager _logInManager;
+        private readonly ICustomerAppService _customerAppService;
         private readonly ITenantCache _tenantCache;
         private readonly AbpLoginResultTypeHelper _abpLoginResultTypeHelper;
         private readonly TokenAuthConfiguration _configuration;
         private readonly IExternalAuthConfiguration _externalAuthConfiguration;
         private readonly IExternalAuthManager _externalAuthManager;
         private readonly UserRegistrationManager _userRegistrationManager;
-
+        /// <summary>
+        /// ctor
+        /// </summary>
+        /// <param name="logInManager"></param>
+        /// <param name="tenantCache"></param>
+        /// <param name="abpLoginResultTypeHelper"></param>
+        /// <param name="configuration"></param>
+        /// <param name="externalAuthConfiguration"></param>
+        /// <param name="externalAuthManager"></param>
+        /// <param name="userRegistrationManager"></param>
+        /// <param name="customerAppService"></param>
         public TokenAuthController(
             LogInManager logInManager,
             ITenantCache tenantCache,
@@ -38,7 +52,8 @@ namespace ItMonkey.Controllers
             TokenAuthConfiguration configuration,
             IExternalAuthConfiguration externalAuthConfiguration,
             IExternalAuthManager externalAuthManager,
-            UserRegistrationManager userRegistrationManager)
+            UserRegistrationManager userRegistrationManager,
+            ICustomerAppService customerAppService)
         {
             _logInManager = logInManager;
             _tenantCache = tenantCache;
@@ -47,8 +62,23 @@ namespace ItMonkey.Controllers
             _externalAuthConfiguration = externalAuthConfiguration;
             _externalAuthManager = externalAuthManager;
             _userRegistrationManager = userRegistrationManager;
+            _customerAppService = customerAppService;
         }
 
+        public async Task WeChatAuthenticate([FromBody] WechatLoginInfo model)
+        {
+            var c=new WeChatAppDecrypt("wxd91baf88184a42bb", "795eb3f4d6b227217cedf7e61070842c");
+            var result = c.Decrypt(model);
+            var customer =await _customerAppService.GetCustomerByKeyAsync(new EntityDto<string>(result.openId));
+            result.hasRegister = customer != null;
+        }
+     
+
+        /// <summary>
+        /// 用户认证
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<AuthenticateResultModel> Authenticate([FromBody] AuthenticateModel model)
         {
@@ -68,13 +98,20 @@ namespace ItMonkey.Controllers
                 UserId = loginResult.User.Id
             };
         }
-
+        /// <summary>
+        /// 获取第三方登陆
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public List<ExternalLoginProviderInfoModel> GetExternalAuthenticationProviders()
         {
             return ObjectMapper.Map<List<ExternalLoginProviderInfoModel>>(_externalAuthConfiguration.Providers);
         }
-
+        /// <summary>
+        /// 第三放认证
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ExternalAuthenticateResultModel> ExternalAuthenticate([FromBody] ExternalAuthenticateModel model)
         {
@@ -132,7 +169,7 @@ namespace ItMonkey.Controllers
                     }
             }
         }
-
+        #region 私有方法
         private async Task<User> RegisterExternalUserAsync(ExternalAuthUserInfo externalUser)
         {
             var user = await _userRegistrationManager.RegisterAsync(
@@ -193,6 +230,8 @@ namespace ItMonkey.Controllers
             }
         }
 
+
+
         private string CreateAccessToken(IEnumerable<Claim> claims, TimeSpan? expiration = null)
         {
             var now = DateTime.UtcNow;
@@ -229,5 +268,7 @@ namespace ItMonkey.Controllers
         {
             return SimpleStringCipher.Instance.Encrypt(accessToken, AppConsts.DefaultPassPhrase);
         }
+        #endregion
+
     }
 }

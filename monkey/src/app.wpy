@@ -37,6 +37,7 @@ page {
 
 <script>
 import wepy from 'wepy';
+import api from 'api/api';
 import 'wepy-async-function';
 
 import { setStore } from 'wepy-redux';
@@ -44,7 +45,8 @@ import configStore from './store';
 
 const store = configStore();
 setStore(store);
-
+const APP_ID = 'wxd91baf88184a42bb'; //输入小程序appid
+const APP_SECRET = '795eb3f4d6b227217cedf7e61070842c'; //输入小程序app_secret
 export default class extends wepy.app {
   config = {
     pages: [
@@ -132,7 +134,8 @@ export default class extends wepy.app {
   };
 
   globalData = {
-    userInfo: null
+    userInfo: null,
+    openId: ''
   };
 
   constructor() {
@@ -145,10 +148,12 @@ export default class extends wepy.app {
     this.getUserInfo();
   }
   async getUserInfo() {
+    debugger;
     const that = this;
     if (this.globalData.userInfo) {
       return this.globalData.userInfo;
     }
+    const t = await wepy.login();
     const r = await wepy.getUserInfo();
     if (r) {
       this.globalData.userInfo = r.userInfo;

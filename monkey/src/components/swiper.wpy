@@ -6,10 +6,10 @@
 <template>
  <swiper indicator-dots="{{indicatorDots}}"
         autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-      <block wx:key="{{item.url}}" wx:if="{{list.length>0}}" wx:for="{{list}}">
+      <block wx:key="{{item.imageUrl}}" wx:if="{{list.length>0}}" wx:for="{{list}}">
         <swiper-item>
-           <navigator url="{{item.link}}" hover-class="navigator-hover">
-            <image src="{{item.url}}" class="slide-image" width="355" height="150"/>
+           <navigator url="{{item.path}}" hover-class="navigator-hover">
+            <image src="{{item.imageUrl}}" class="slide-image" width="355" height="150"/>
            </navigator>
         </swiper-item>
       </block>
@@ -41,5 +41,8 @@ export default class Swiper extends wepy.component {
       default: 1000
     }
   };
+  onLoad() {
+    console.log(this.list);
+  }
 }
 </script>

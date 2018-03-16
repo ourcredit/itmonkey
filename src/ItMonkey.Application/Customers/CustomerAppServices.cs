@@ -71,8 +71,15 @@ namespace ItMonkey.Customers
 
             return entity.MapTo<CustomerListDto>();
         }
+        /// <summary>
+        /// 通过指定id获取CustomerListDto信息
+        /// </summary>
+        public async Task<CustomerListDto> GetCustomerByKeyAsync(EntityDto<string> input)
+        {
+            var entity = await _customerRepository.FirstOrDefaultAsync(c=>c.Key.Equals(input.Id));
+            return entity.MapTo<CustomerListDto>();
+        }
 
-   
         /// <summary>
         /// MPA版本才会用到的方法
         /// </summary>
