@@ -23,7 +23,7 @@
 <template>
   <view class="container">
       <view wx:for="{{contents}}" wx:key="index">
-        {{item}}
+        {{item.SenderId}} => {{item.ReceiverId}} : {{item.Content}}
       </view>
 
        <view class="weui-cell weui-cell_input">
@@ -130,8 +130,8 @@ export default class Dash extends wepy.page {
     //   _self.contents.push(r.data);
     // });
     wx.onSocketMessage(function(res) {
-      debugger;
-      _self.contents.push(res.data);
+      var json = JSON.parse(res.data);
+      _self.contents.push(json);
       _self.$apply();
     });
     wx.onSocketClose(function(res) {
