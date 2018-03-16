@@ -72,7 +72,7 @@ namespace ItMonkey.Web.Host.Socket
                     if (chatDataStr == "@heart")//如果是心跳检查，则直接跳过
                         continue;
                     msg = JsonConvert.DeserializeObject<Message>(chatDataStr);
-                    var soc = Sockets.Where(t => t.Key == socketId && msg.ReceiverId == t.Key).Select(c => c.Value)
+                    var soc = Sockets.Where(t => t.Key == socketId || msg.ReceiverId == t.Key).Select(c => c.Value)
                         .ToList();
                     await SendToWebSocketsAsync(soc, msg);
                 }
