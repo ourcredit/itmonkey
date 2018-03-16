@@ -9,7 +9,7 @@ const baseUrl = 'https://monkey.leftins.com/api/services/app/'
  * @param  {[type]} params [description]
  * @return {[type]}        [description]
  */
-const getShufflings = () => wxRequest({}, baseUrl + "shuffling/list")
+const getShufflings = () => wxRequest({}, baseUrl + "Shuffling/GetPagedShufflings")
 /**
  * 获取任务列表
  * @param  {[type]} params [description]

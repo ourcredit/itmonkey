@@ -15,9 +15,8 @@ namespace ItMonkey.Shufflings
         /// <summary>
         /// 获取Shuffling的分页列表信息
         /// </summary>
-        /// <param name="input"></param>
         /// <returns></returns>
-        Task<ListResultDto<ShufflingListDto>> GetPagedShufflings(GetShufflingsInput input);
+        Task<ListResultDto<ShufflingListDto>> GetPagedShufflings();
 
         /// <summary>
         /// 通过指定id获取ShufflingListDto信息

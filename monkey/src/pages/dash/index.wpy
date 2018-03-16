@@ -278,7 +278,9 @@ export default class Dash extends wepy.page {
       this.inputVal = e.detail.value;
     }
   };
-  onLoad() {}
+  async onLoad() {
+    var result = await api.getShufflings();
+  }
   onReachBottom() {}
   onPullDownRefresh() {
     this.methods.refresh();

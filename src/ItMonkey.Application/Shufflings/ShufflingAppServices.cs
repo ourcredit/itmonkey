@@ -40,22 +40,18 @@ namespace ItMonkey.Shufflings
         /// <summary>
         /// 获取Shuffling的分页列表信息
         /// </summary>
-        /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<ListResultDto<ShufflingListDto>> GetPagedShufflings(GetShufflingsInput input)
+        public async Task<ListResultDto<ShufflingListDto>> GetPagedShufflings()
         {
-
             var query = _shufflingRepository.GetAll();
             query = query.Where(c => c.IsActive);
             var shufflings = await query
-                .OrderBy("Sort")
+                .OrderBy("Sort").Take(4)
                 .ToListAsync();
             var shufflingListDtos = shufflings.MapTo<List<ShufflingListDto>>();
-
             return new ListResultDto<ShufflingListDto>(
                 shufflingListDtos
                 );
-
         }
 
         /// <summary>
