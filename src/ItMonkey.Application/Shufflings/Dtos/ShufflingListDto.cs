@@ -1,6 +1,5 @@
 ﻿using System;
 using Abp.Application.Services.Dto;
-using ItMonkey.Shufflings.Dtos.LTMAutoMapper;
 using ItMonkey.Models;
 
 namespace ItMonkey.Shufflings.Dtos

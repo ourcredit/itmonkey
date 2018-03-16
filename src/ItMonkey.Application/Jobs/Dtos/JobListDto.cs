@@ -1,8 +1,4 @@
-﻿using System;
-using Abp.Application.Services.Dto;
-using ItMonkey.Jobs.Dtos.LTMAutoMapper;
-using ItMonkey.Models;
-
+﻿
 namespace ItMonkey.Jobs.Dtos
 {
     public class JobListDto

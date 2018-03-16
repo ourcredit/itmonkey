@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ItMonkey.Jobs.Dtos.LTMAutoMapper;
 using ItMonkey.Models;
 
 namespace ItMonkey.Jobs.Dtos
