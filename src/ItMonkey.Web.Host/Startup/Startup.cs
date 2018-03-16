@@ -91,7 +91,7 @@ namespace ItMonkey.Web.Host.Startup
             {
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
-                builder.WithOrigins("http://127.0.0.1:59076", DefaultCorsPolicyName);
+                builder.AllowAnyOrigin();
             });
             app.Use(async (context, next) =>
             {
@@ -120,8 +120,8 @@ namespace ItMonkey.Web.Host.Startup
             });
          
             app.UseWebSockets();
-            app.UseMiddleware<ChatWebSocketMiddleware>();
-           // app.Map("/ws", SocketHandler.Map);
+          //  app.UseMiddleware<ChatWebSocketMiddleware>();
+            app.Map("/ws", SocketHandler.Map);
             // Enable middleware to serve generated Swagger as a JSON endpoint
             app.UseSwagger();
             // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
