@@ -1,0 +1,185 @@
+
+<style lang="less">
+@import '../../style/base/fn.less';
+
+.page-user {
+  @userinfoHeight: 150rpx;
+  @userinfoSpace: 8rpx;
+  .userinfo {
+    padding: 20rpx 0;
+  }
+
+  .userinfo-avatar {
+    float: left;
+    margin-left: 120rpx;
+    width: @userinfoHeight;
+    height: @userinfoHeight;
+    border-radius: 50%;
+  } // space + space
+  .userinfo-info {
+    float: left;
+    line-height: 1;
+    padding: @userinfoSpace 0;
+    margin-left: 3 * @userinfoSpace;
+  } // text + space + text
+  .userinfo-nickname {
+    color: @uiColorGreen;
+    font-size: (@userinfoHeight - 4 * @userinfoSpace) * (16 / 30);
+    margin-bottom: 2 * @userinfoSpace;
+  }
+  .userinfo-status {
+    color: #999;
+    font-size: (@userinfoHeight - 4 * @userinfoSpace) * (14 / 30);
+  }
+}
+</style>
+<template>
+  <view class="page-user">
+    <view class="weui-panel">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell">
+          <view class="weui-cell__bd userinfo clearfix">
+            <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover" />
+            <view class="userinfo-info">
+              <view class="userinfo-nickname">{{ userInfo.nickName }}</view>
+              <view class="userinfo-status">￥1890</view>
+              <view class="userinfo-status">族长</view>
+
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-panel">
+      <view class="weui-cells weui-cells_after-title">
+        <navigator url="/pages/user/subscribe" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">工作经验</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">
+            <text>还可借</text>
+            <text class="color-green">1</text>
+            <text>次</text>
+          </view>
+        </navigator>
+
+        <navigator url="/pages/user/borrow" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">我的工作</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">
+            <text class="color-green">2</text>
+          </view>
+        </navigator>
+
+        <navigator url="/pages/user/collect" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">报名信息</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">
+            <text class="color-green">3</text>
+          </view>
+        </navigator>
+
+        <navigator url="/pages/user/collect" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">留言</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">
+            <text class="color-green">3</text>
+          </view>
+        </navigator>
+
+        <navigator url="/pages/user/collect" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">订单信息</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">
+            <text class="color-green">3</text>
+          </view>
+        </navigator>
+
+        <navigator url="/pages/user/collect" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">提现</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access">
+            <text class="color-green">3</text>
+          </view>
+        </navigator>
+
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import { connect } from 'wepy-redux';
+
+@connect({
+  num(state) {
+    return state.counter.num;
+  },
+  asyncNum(state) {
+    return state.counter.asyncNum;
+  },
+  sumNum(state) {
+    return state.counter.num + state.counter.asyncNum;
+  }
+})
+export default class Dash extends wepy.page {
+  components = {};
+  config = {
+    navigationBarTitleText: '我'
+  };
+
+  data = {
+    userInfo: {
+      avatarUrl: '',
+      nickName: '加载中...',
+      packages: {
+        times: 0,
+        status: '借阅状态'
+      },
+      identity: {
+        type: '订阅状态',
+        collection: 0
+      }
+    }
+  };
+
+  computed = {
+    now() {
+      return +new Date();
+    }
+  };
+  // 方法
+  methods = {
+    plus() {
+      this.mynum++;
+    },
+    toast() {
+      let promise = this.$invoke('toast', 'show', {
+        title: '自定义标题',
+        img:
+          'https://raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
+      });
+      promise.then(d => {
+        console.log('toast done');
+      });
+    },
+
+    counterEmit(...args) {
+      let $event = args[args.length - 1];
+      console.log(
+        `${this.$name} receive ${$event.name} from ${$event.source.$name}`
+      );
+    }
+  };
+
+  events = {
+    'index-emit': (...args) => {
+      let $event = args[args.length - 1];
+      console.log(
+        `${this.$name} receive ${$event.name} from ${$event.source.$name}`
+      );
+    }
+  };
+  // 加载函数
+  async onLoad() {
+    const user = await this.$parent.getUserInfo();
+    if (user) {
+      this.userInfo = user;
+    }
+  }
+}
+</script>

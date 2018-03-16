@@ -16,6 +16,5 @@ namespace ItMonkey.Jobs.Dtos
         public string Content { get; set; }
         public string Category { get; set; }
         public int Price { get; set; }
-        public bool IsDeleted { get; set; }
     }
 }

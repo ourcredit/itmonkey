@@ -18,11 +18,11 @@ const getShufflings = () => GetAsync({}, baseUrl + "services/app/Shuffling/GetPa
  * @param  {[type]} params [description]
  * @return {[type]}        [description]
  */
-const getTasks = params => PostAsync(params, baseUrl + "task/list")
+const getJobs = params => GetAsync(params, baseUrl + "services/app/Job/GetPagedJobs")
 const GetAuthInfo = params => PostAsync(params, baseUrl + "TokenAuth/WeChatAuthenticate")
 
 module.exports = {
   getShufflings,
-  getTasks,
+  getJobs,
   GetAuthInfo
 }

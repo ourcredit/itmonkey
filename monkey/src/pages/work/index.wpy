@@ -130,11 +130,6 @@ export default class Dash extends wepy.page {
       },
       function(e) {}
     );
-    // wx.onSocketMessage(function(r) {
-    //   console.log(r);
-    //   console.log(_self.contents);
-    //   _self.contents.push(r.data);
-    // });
     wx.onSocketMessage(function(res) {
       var json = JSON.parse(res.data);
       _self.contents.push(json);

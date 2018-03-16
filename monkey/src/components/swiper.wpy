@@ -41,8 +41,6 @@ export default class Swiper extends wepy.component {
       default: 1000
     }
   };
-  onLoad() {
-    console.log(this.list);
-  }
+  onLoad() {}
 }
 </script>

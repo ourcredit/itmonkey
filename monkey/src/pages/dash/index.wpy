@@ -50,54 +50,15 @@
 </style>
 <template>
   <view class="container">
-    <!-- 搜索框 -->
-    <view class="weui-search-bar">
-      <view class="weui-search-bar__form">
-        <view class="weui-search-bar__box">
-          <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-          <input type="text" class="weui-search-bar__input" placeholder="搜索"
-           value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping"
-          />
-          <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" @tap="clearInput">
-            <icon type="clear" size="14"></icon>
-          </view>
-        </view>
-        <label class="weui-search-bar__label" hidden="{{inputShowed}}" @tap="showInput">
-          <icon class="weui-icon-search" type="search" size="14"></icon>
-          <view class="weui-search-bar__text">搜索</view>
-        </label>
+       <!-- 搜索插件 -->
+    <search :searchApi="searchApi" :params="jobparams">
+      <view slot="action" class="weui-search-bar__cancel-btn" @tap="create">
+        <icon type="info_circle" size="20"></icon>
       </view>
-
-      <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" @tap="hideInput">取消</view>
-      <view class="weui-search-bar__cancel-btn"  @tap="create">
-         <icon  type="info_circle" size="20"></icon></view>
-
-    </view>
-    <view class="weui-cells searchbar-result" wx:if="{{inputVal.length > 0}}">
-      <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-        <view class="weui-cell__bd">
-          <view>实时搜索文本</view>
-        </view>
-      </navigator>
-      <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-        <view class="weui-cell__bd">
-          <view>实时搜索文本</view>
-        </view>
-      </navigator>
-      <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-        <view class="weui-cell__bd">
-          <view>实时搜索文本</view>
-        </view>
-      </navigator>
-      <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-        <view class="weui-cell__bd">
-          <view>实时搜索文本</view>
-        </view>
-      </navigator>
-    </view>
+    </search>
     <!-- 轮播图 -->
     <view>
-      <swiper :list.sync="list"></swiper>
+      <swiper :list.sync="shufflings"></swiper>
     </view>
     <!--  按钮 -->
     <view class="weui-flex">
@@ -114,11 +75,11 @@
 
     <!-- list -->
     <scroll-view class="list" style="height:1208rpx" scroll-y="true" bindscrolltolower="loadMore">
-      <view wx:for="{{resources}}" wx:key="index" class="panel" @tap="detail({{item}})">
+      <view wx:for="{{jobs}}" wx:key="index" class="panel" @tap="detail({{item}})">
         <view class="weui-flex">
           <view class="weui-flex__item">
             <view class="placeholder">
-              <view class="title">{{item.title}}</view>
+              <view class="title">{{item.category}} :{{item.name}}</view>
             </view>
           </view>
           <view class="weui-flex__item">
@@ -143,47 +104,28 @@
 import wepy from 'wepy';
 import api from 'api/api';
 import Panel from '@/components/panel'; // alias example
+import SearchBar from '@/components/searchbar'; // alias example
 import Swiper from '@/components/swiper';
 
 export default class Dash extends wepy.page {
   components = {
     panel: Panel,
-    swiper: Swiper
+    swiper: Swiper,
+    search: SearchBar
   };
   data = {
     inputShowed: false,
     inputVal: '',
-    list: null,
-    resources: [
-      {
-        id: 1,
-        title: '(设)任务名称',
-        price: 1890,
-        content: '任务描述',
-        state: '报'
-      },
-      {
-        id: 2,
-        title: '(研)任务名称',
-        price: 1890,
-        content: '任务描述',
-        state: '执'
-      },
-      {
-        id: 3,
-        title: '(其)任务名称',
-        price: 1890,
-        content: '任务描述',
-        state: '完'
-      },
-      {
-        id: 4,
-        title: '(U)任务名称',
-        price: 1890,
-        content: '任务描述',
-        state: '报'
-      }
-    ]
+    shufflings: null,
+    searchApi: api.getJobs,
+    jobparams: {
+      skipCount: 0,
+      maxResultCount: 10,
+      total: 0,
+      filter: '',
+      index: 1
+    },
+    jobs: []
   };
 
   computed = {
@@ -197,9 +139,16 @@ export default class Dash extends wepy.page {
       console.log(type);
     },
     create() {
-      wx.navigateTo({
-        url: 'create'
-      });
+      var per = this.$parent.globalData.userInfo.hasRegister;
+      if (!per) {
+        wx.navigateTo({
+          url: '/pages/my/register'
+        });
+      } else {
+        wx.navigateTo({
+          url: 'create'
+        });
+      }
     },
     detail(item) {
       console.log(item);
@@ -207,67 +156,27 @@ export default class Dash extends wepy.page {
         url: 'task?id=' + item.id
       });
     },
-    refresh() {
-      console.log(1);
-      this.resources = [
-        {
-          title: '(设)任务名称',
-          price: 1890,
-          content: '任务描述',
-          state: '报'
-        },
-        {
-          title: '(研)任务名称',
-          price: 1890,
-          content: '任务描述',
-          state: '执'
-        },
-        {
-          title: '(其)任务名称',
-          price: 1890,
-          content: '任务描述',
-          state: '完'
-        },
-        {
-          title: '(U)任务名称',
-          price: 1890,
-          content: '任务描述',
-          state: '报'
-        }
-      ];
-    },
-    loadMore() {
-      let arr = [];
-      for (let i = 0; i < 4; i++) {
-        arr.push({
-          title: 't' + i,
-          content: 'c' + i,
-          price: 1000 + i,
-          state: i
-        });
-      }
-      this.resources.push(...arr);
-    },
-    showInput() {
-      this.inputShowed = true;
-    },
-    hideInput() {
-      this.inputVal = '';
-      this.inputShowed = false;
-    },
-    clearInput() {
-      this.inputVal = '';
-    },
-    inputTyping(e) {
-      this.inputVal = e.detail.value;
-    }
+    refresh() {},
+    loadMore() {}
   };
-  async onLoad() {
+  async initJob() {
+    var jobs = await api.getJobs(this.jobparams);
+    if (jobs && jobs.items) {
+      this.jobparams.total = jobs.totalCount;
+      this.jobs = jobs.items;
+    }
+    this.$apply();
+  }
+  async initShuffling() {
     var result = await api.getShufflings();
     if (result && result.items) {
-      this.list = result.items;
-      this.$apply();
+      this.shufflings = result.items;
     }
+    this.$apply();
+  }
+  async onLoad() {
+    await this.initShuffling();
+    await this.initJob();
   }
   onReachBottom() {}
   onPullDownRefresh() {

@@ -56,7 +56,8 @@ export default class extends wepy.app {
 
       'pages/work/index',
 
-      'pages/my/index'
+      'pages/my/index',
+      'pages/my/register'
     ],
     window: {
       // 导航栏标题文字内容
@@ -132,8 +133,7 @@ export default class extends wepy.app {
   };
 
   globalData = {
-    userInfo: null,
-    openId: ''
+    userInfo: null
   };
 
   constructor() {
@@ -152,7 +152,6 @@ export default class extends wepy.app {
     }
     const t = await wepy.login();
     const r = await wepy.getUserInfo();
-    debugger;
     if (r) {
       const params = {
         code: t.code,
