@@ -17,18 +17,14 @@ using Newtonsoft.Json;
 
 namespace ItMonkey.Web.Host.Socket
 {
-    public class SocketHandler
+    public class GroupHandler
     {
-        private static readonly ConcurrentDictionary<string, WebSocket> Sockets =
-            new ConcurrentDictionary<string, WebSocket>();
-
-
         private static readonly ConcurrentDictionary<string, List<WebSocket>> Groups =
             new ConcurrentDictionary<string, List<WebSocket>>();
+
         public const int BufferSize = 4096;
         public static object ObjLock = new object();
         public static List<Message> HistoricalMessg = new List<Message>();//存放历史消息
-
         /// <summary>
         /// 接收请求
         /// </summary>
@@ -37,37 +33,36 @@ namespace ItMonkey.Web.Host.Socket
         /// <returns></returns>
         static async Task Acceptor(HttpContext httpContext, Func<Task> n)
         {
+            List<WebSocket> Group = null;
             if (!httpContext.WebSockets.IsWebSocketRequest)
                 return;
-
             //建立一个WebSocket连接请求
             var socket = await httpContext.WebSockets.AcceptWebSocketAsync();
             string socketId = httpContext.Request.Query["guid"].ToString();
-            string type = httpContext.Request.Query["type"].ToString();
+
             //点对点私聊
-            if (type.Equals("1"))
+           
+            if (!Groups.ContainsKey(socketId))
             {
+                lock (ObjLock)
+                {
+                    Group = new List<WebSocket> {socket};
+                    Groups.TryAdd(socketId, Group);
+                }
+            }
+            else
+            {
+                Groups.TryGetValue(socketId, out Group);
                 //判断最大连接数
-                if (Sockets.Count >= 100)
+                if (Group.Count >= 100)
                 {
                     await socket.CloseAsync(WebSocketCloseStatus.PolicyViolation, "超过上限", CancellationToken.None);
                     return;
                 }
-                if (!Sockets.ContainsKey(socketId))
-                {
-                    lock (ObjLock)
-                    {
-                        Sockets.TryAdd(socketId, socket);
-                    }
-                }
-            }
-            //群组聊天
-            else
-            {
-                
+                Group.Add(socket);
             }
 
-          
+
             var buffer = new byte[BufferSize];
             Message msg;
             while (true)
@@ -81,7 +76,7 @@ namespace ItMonkey.Web.Host.Socket
                     {
                         lock (ObjLock)
                         {
-                            Sockets.TryRemove(socketId, out socket);//移除   
+                            Group.Remove(socket);//移除   
                         }
                         break; //【注意】：：这里一定要记得 跳出循环 （坑了好久）
                     }
@@ -90,14 +85,12 @@ namespace ItMonkey.Web.Host.Socket
                     if (chatDataStr == "@heart")//如果是心跳检查，则直接跳过
                         continue;
                     msg = JsonConvert.DeserializeObject<Message>(chatDataStr);
-                    var soc = Sockets.Where(t => t.Key == socketId || msg.ReceiverId == t.Key).Select(c => c.Value)
-                        .ToList();
-                    await SendToWebSocketsAsync(soc, msg);
+                    await SendToWebSocketsAsync(Group, msg);
                 }
                 catch (Exception ex) //因为 nginx 没有数据传输 会自动断开 然后就会异常。
                 {
                     LogHelper.Logger.Error(ex.Message);
-                    Sockets.TryRemove(socketId, out socket);//移除  
+                    Group.Remove(socket);//移除  
                     //【注意】：：这里很重要 （如果不发送关闭会一直循环，且不能直接break。）
                     await socket.CloseAsync(WebSocketCloseStatus.PolicyViolation, "未知异常 ...", CancellationToken.None);
                     // 后面 就不走了？ CloseAsync也不能 try 包起来？
@@ -111,7 +104,7 @@ namespace ItMonkey.Web.Host.Socket
         /// <param name="sockets"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static  async Task SendToWebSocketsAsync(List<WebSocket> sockets, Message data)
+        public static async Task SendToWebSocketsAsync(List<WebSocket> sockets, Message data)
         {
             SaveHistoricalMessg(data);//保存历史消息
             var chatData = JsonConvert.SerializeObject(data);
@@ -129,9 +122,6 @@ namespace ItMonkey.Web.Host.Socket
         }
 
         static readonly object LockSaveMsg = new object();
-
-     
-
         /// <summary>
         /// 保存历史消息
         /// </summary>
@@ -147,26 +137,14 @@ namespace ItMonkey.Web.Host.Socket
             {
                 lock (LockSaveMsg)
                 {
-                    var temps = JsonConvert.SerializeObject(HistoricalMessg);
-                    var arra = JsonConvert.DeserializeObject<List<MessageStore>>(temps);
-                    SaveToDb(arra);
-                    HistoricalMessg.RemoveAll(c=>c!=null);
+                    HistoricalMessg.RemoveRange(0, 30);
                 }
             }
         }
 
-        public static  void SaveToDb(List<MessageStore> list)
+        private void  SaveToDb(List<Message> list)
         {
-            var sql = @"INSERT INTO `itmonkey`.`s_message_store`
-(`Content`, `CreationTime`,`ReceiverId`, `SenderId`, `State`, `Type` )
-VALUES
-	";
-            list.ForEach(c =>
-            {
-                var time = DateTime.Now.ToString("yyyy/MM/DD HH:mm:ss");
-                sql += $"('{c.Content}', '{time}', {c.ReceiverId}, {c.SenderId}, b'{c.State}',{c.Type} );";
-            });
-            MySqlHelper.ExecuteSql(sql);
+            
         }
         #region
         /// <summary>

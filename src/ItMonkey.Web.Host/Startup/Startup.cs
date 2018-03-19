@@ -122,6 +122,7 @@ namespace ItMonkey.Web.Host.Startup
             app.UseWebSockets();
           //  app.UseMiddleware<ChatWebSocketMiddleware>();
             app.Map("/ws", SocketHandler.Map);
+            app.Map("/group", GroupHandler.Map);
             // Enable middleware to serve generated Swagger as a JSON endpoint
             app.UseSwagger();
             // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)

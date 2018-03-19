@@ -4,6 +4,7 @@ using Abp.BackgroundJobs;
 using Abp.Events.Bus.Entities;
 using Abp.Notifications;
 using ItMonkey.EntityFrameworkCore;
+using ItMonkey.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -1056,6 +1057,30 @@ namespace ItMonkey.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("m_job");
+                });
+
+            modelBuilder.Entity("ItMonkey.Models.MessageStore", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Content");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<int>("ReceiverId");
+
+                    b.Property<int>("SenderId");
+
+                    b.Property<bool>("State");
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("s_message_store");
                 });
 
             modelBuilder.Entity("ItMonkey.Models.Shuffling", b =>

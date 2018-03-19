@@ -9,7 +9,6 @@ using Abp.Linq.Extensions;
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
 using ItMonkey.Jobs.Dtos;
-using ItMonkey.Jobs.DomainServices;
 using ItMonkey.Models;
 
 namespace ItMonkey.Jobs
@@ -22,17 +21,14 @@ namespace ItMonkey.Jobs
         ////BCC/ BEGIN CUSTOM CODE SECTION
         ////ECC/ END CUSTOM CODE SECTION
         private readonly IRepository<Job, int> _jobRepository;
-        private readonly IJobManager _jobManager;
 
         /// <summary>
         /// 构造函数
         /// </summary>
         public JobAppService(IRepository<Job, int> jobRepository
-      , IJobManager jobManager
         )
         {
             _jobRepository = jobRepository;
-            _jobManager = jobManager;
         }
 
         /// <summary>
@@ -133,7 +129,6 @@ namespace ItMonkey.Jobs
         /// </summary>
         protected virtual async Task<JobEditDto> CreateJobAsync(JobEditDto input)
         {
-            //TODO:新增前的逻辑判断，是否允许新增
             var entity = ObjectMapper.Map<Job>(input);
 
             entity = await _jobRepository.InsertAsync(entity);
@@ -145,7 +140,6 @@ namespace ItMonkey.Jobs
         /// </summary>
         protected virtual async Task UpdateJobAsync(JobEditDto input)
         {
-            //TODO:更新前的逻辑判断，是否允许更新
             var entity = await _jobRepository.GetAsync(input.Id.Value);
             input.MapTo(entity);
 
@@ -161,7 +155,6 @@ namespace ItMonkey.Jobs
         public async Task DeleteJob(EntityDto<int> input)
         {
 
-            //TODO:删除前的逻辑判断，是否允许删除
             await _jobRepository.DeleteAsync(input.Id);
         }
 
@@ -170,7 +163,6 @@ namespace ItMonkey.Jobs
         /// </summary>
         public async Task BatchDeleteJobsAsync(List<int> input)
         {
-            //TODO:批量删除前的逻辑判断，是否允许删除
             await _jobRepository.DeleteAsync(s => input.Contains(s.Id));
         }
 
