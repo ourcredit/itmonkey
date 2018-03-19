@@ -1,0 +1,78 @@
+<style lang="less">
+
+</style>
+<template>
+  <view class="weui-cells__title">工作经验名称</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__bd">
+        <input class="weui-input" bindinput="inputTitle" value="{{model.title}}" placeholder="工作经验名称" />
+      </view>
+    </view>
+  </view>
+  <view class="weui-cells__title">工作经验详情</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell">
+      <view class="weui-cell__bd">
+        <textarea class="weui-textarea" auto-height maxlength="500"
+         bindinput="inputContent" value="{{model.content}}" placeholder="工作经验详情" style="height: 5em"
+        />
+        <view class="weui-textarea-counter">{{length}}/500</view>
+      </view>
+    </view>
+  </view>
+  <view>添加
+    <icon @tap="create" type="info_circle" size="20"></icon>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import api from 'api/api';
+export default class WorkDetail extends wepy.page {
+  components = {};
+  config = {
+    navigationBarTitleText: '我的工作经验'
+  };
+  data = {
+    model: null,
+    length: 0
+  };
+  computed = {
+    now() {
+      return +new Date();
+    }
+  };
+  // 方法
+  methods = {
+    create() {
+      wx.navigateTo({
+        url: 'workdetail'
+      });
+    },
+    inputTitle(e) {
+      this.model.title = e.detail.value;
+    },
+    inputContent(e) {
+      this.model.content = e.detail.value;
+      this.length = this.model.content.length;
+    },
+    modify() {
+      if (this.model.id) {
+      } else {
+      }
+      this.$redirect('./works');
+    }
+  };
+
+  events = {};
+  // 加载函数
+  async onLoad(params, data) {
+    if (!data.preload.model) {
+      this.model = {};
+    } else {
+      this.model = data.preload.model;
+    }
+  }
+}
+</script>

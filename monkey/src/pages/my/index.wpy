@@ -52,7 +52,7 @@
     </view>
     <view class="weui-panel">
       <view class="weui-cells weui-cells_after-title">
-        <navigator url="/pages/user/subscribe" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <navigator url="/pages/my/works" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <view class="weui-cell__bd">工作经验</view>
           <view class="weui-cell__ft weui-cell__ft_in-access">
             <text>还可借</text>
@@ -121,59 +121,16 @@ export default class Dash extends wepy.page {
   config = {
     navigationBarTitleText: '我'
   };
-
-  data = {
-    userInfo: {
-      avatarUrl: '',
-      nickName: '加载中...',
-      packages: {
-        times: 0,
-        status: '借阅状态'
-      },
-      identity: {
-        type: '订阅状态',
-        collection: 0
-      }
-    }
-  };
-
+  data = {};
   computed = {
     now() {
       return +new Date();
     }
   };
   // 方法
-  methods = {
-    plus() {
-      this.mynum++;
-    },
-    toast() {
-      let promise = this.$invoke('toast', 'show', {
-        title: '自定义标题',
-        img:
-          'https://raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
-      });
-      promise.then(d => {
-        console.log('toast done');
-      });
-    },
+  methods = {};
 
-    counterEmit(...args) {
-      let $event = args[args.length - 1];
-      console.log(
-        `${this.$name} receive ${$event.name} from ${$event.source.$name}`
-      );
-    }
-  };
-
-  events = {
-    'index-emit': (...args) => {
-      let $event = args[args.length - 1];
-      console.log(
-        `${this.$name} receive ${$event.name} from ${$event.source.$name}`
-      );
-    }
-  };
+  events = {};
   // 加载函数
   async onLoad() {
     const user = await this.$parent.getUserInfo();

@@ -1,0 +1,93 @@
+<style lang="less">
+@import '../../style/base/fn.less';
+
+.page-user {
+  @userinfoHeight: 150rpx;
+  @userinfoSpace: 8rpx;
+  .userinfo {
+    padding: 20rpx 0;
+  }
+
+  .userinfo-avatar {
+    float: left;
+    margin-left: 120rpx;
+    width: @userinfoHeight;
+    height: @userinfoHeight;
+    border-radius: 50%;
+  } // space + space
+  .userinfo-info {
+    float: left;
+    line-height: 1;
+    padding: @userinfoSpace 0;
+    margin-left: 3 * @userinfoSpace;
+  } // text + space + text
+  .userinfo-nickname {
+    color: @uiColorGreen;
+    font-size: (@userinfoHeight - 4 * @userinfoSpace) * (16 / 30);
+    margin-bottom: 2 * @userinfoSpace;
+  }
+  .userinfo-status {
+    color: #999;
+    font-size: (@userinfoHeight - 4 * @userinfoSpace) * (14 / 30);
+  }
+}
+</style>
+<template>
+  <view class="page-user">
+    <view>工作经验
+      <icon @tap="create" type="info_circle" size="20"></icon>
+    </view>
+    <view class="weui-panel">
+      <view class="weui-cells weui-cells_after-title">
+        <view @tap="OnClick({{item}})" wx:for="{{lists}}" wx:key="index" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">{{item.title}}</view>
+          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+          </view>
+
+        </view>
+      </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class Works extends wepy.page {
+  components = {};
+  config = {
+    navigationBarTitleText: '我的工作经验'
+  };
+  data = {
+    lists: [
+      {
+        id: 1,
+        title: 'a',
+        content: 'b'
+      },
+      {
+        id: 2,
+        title: 'c',
+        content: 'd'
+      }
+    ]
+  };
+  computed = {
+    now() {
+      return +new Date();
+    }
+  };
+  // 方法
+  methods = {
+    OnClick(item) {
+      this.$preload('model', item);
+      this.$navigate('workdetail');
+    },
+    create() {
+      this.$navigate('workdetail');
+    }
+  };
+
+  events = {};
+  // 加载函数
+  async onLoad() {}
+}
+</script>

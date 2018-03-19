@@ -57,7 +57,11 @@ export default class extends wepy.app {
       'pages/work/index',
 
       'pages/my/index',
-      'pages/my/register'
+      'pages/my/register',
+      'pages/my/rules',
+      'pages/my/works',
+      'pages/my/workdetail',
+      'pages/my/myjobs'
     ],
     window: {
       // 导航栏标题文字内容
@@ -133,7 +137,7 @@ export default class extends wepy.app {
   };
 
   globalData = {
-    userInfo: null
+    userInfo: { hasRegister: false }
   };
 
   constructor() {

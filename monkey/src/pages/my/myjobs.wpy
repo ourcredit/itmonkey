@@ -1,0 +1,154 @@
+<style lang="less">
+.searchbar-result {
+  margin-top: 0;
+  font-size: 14px;
+}
+
+.searchbar-result:before {
+  display: none;
+}
+
+.weui-cell {
+  padding: 12px 15px 12px 35px;
+}
+
+.placeholder {
+  margin: 5px;
+  padding: 0 10px;
+  height: 2em;
+  line-height: 2em;
+  color: #00ff00;
+}
+
+.panel {
+  width: 100%;
+  margin-top: 10rpx;
+  text-align: left;
+  font-size: 12px;
+  padding-top: 10rpx;
+  padding-left: 50rpx;
+  padding-bottom: 20rpx;
+  border: 1px solid #ccc;
+  .title {
+    padding-bottom: 20rpx;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .info {
+    padding: 15rpx;
+  }
+  .price {
+    margin: 5rpx;
+    margin-right: 70rpx;
+    padding: 0 10px;
+    height: 2em;
+    line-height: 2em;
+    color: #00ff00;
+    text-align: right;
+  }
+}
+</style>
+<template>
+  <view class="container">
+    <!-- 搜索插件 -->
+    <search :searchApi="searchApi" :params="jobparams">
+      <view slot="action" class="weui-search-bar__cancel-btn" @tap="create">
+        <icon type="info_circle" size="20"></icon>
+      </view>
+    </search>
+    <!-- 轮播图 -->
+    <view>
+      <swiper :list.sync="shufflings"></swiper>
+    </view>
+
+    <list :searchApi="searchApi" :params="jobparams" :hasAction="hasAction"></list>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import api from 'api/api';
+import Panel from '@/components/panel'; // alias example
+import SearchBar from '@/components/searchbar'; // alias example
+import Swiper from '@/components/swiper';
+import JobList from '@/components/job-list';
+
+export default class Dash extends wepy.page {
+  components = {
+    panel: Panel,
+    swiper: Swiper,
+    search: SearchBar,
+    list: JobList
+  };
+  data = {
+    inputShowed: false,
+    inputVal: '',
+    shufflings: null,
+    searchApi: api.getJobs,
+    hasAction: true,
+    jobparams: {
+      skipCount: 0,
+      maxResultCount: 10,
+      total: 0,
+      filter: '',
+      index: 1
+    },
+    jobs: []
+  };
+
+  computed = {
+    now() {
+      return +new Date();
+    }
+  };
+  // 方法
+  methods = {
+    change(type) {
+      console.log(type);
+    },
+    create() {
+      var per = this.$parent.globalData.userInfo.hasRegister;
+      if (!per) {
+        wx.navigateTo({
+          url: '/pages/my/register'
+        });
+      } else {
+        wx.navigateTo({
+          url: 'create'
+        });
+      }
+    },
+    detail(item) {
+      console.log(item);
+      wx.navigateTo({
+        url: 'task?id=' + item.id
+      });
+    },
+    refresh() {},
+    loadMore() {}
+  };
+  async initJob() {
+    var jobs = await api.getJobs(this.jobparams);
+    if (jobs && jobs.items) {
+      this.jobparams.total = jobs.totalCount;
+      this.jobs = jobs.items;
+    }
+    this.$apply();
+  }
+  async initShuffling() {
+    var result = await api.getShufflings();
+    if (result && result.items) {
+      this.shufflings = result.items;
+    }
+    this.$apply();
+  }
+  async onLoad() {
+    await this.initShuffling();
+    await this.initJob();
+  }
+  onReachBottom() {}
+  onPullDownRefresh() {
+    this.methods.refresh();
+  }
+}
+</script>
