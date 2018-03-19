@@ -16,8 +16,8 @@ using System;
 namespace ItMonkey.Migrations
 {
     [DbContext(typeof(ItMonkeyDbContext))]
-    [Migration("20180316061527_shuffling")]
-    partial class shuffling
+    [Migration("20180319022051_wwww")]
+    partial class wwww
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

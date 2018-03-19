@@ -60,8 +60,12 @@
     <view>
       <swiper :list.sync="shufflings"></swiper>
     </view>
+
+<list :searchApi="searchApi" :params="jobparams" :hasAction="hasAction" ></list>
+
+
     <!--  按钮 -->
-    <view class="weui-flex">
+    <!-- <view class="weui-flex">
       <view class="weui-flex__item">
         <view @tap="change('time')" class="placeholder">发布时间</view>
       </view>
@@ -73,7 +77,6 @@
       </view>
     </view>
 
-    <!-- list -->
     <scroll-view class="list" style="height:1208rpx" scroll-y="true" bindscrolltolower="loadMore">
       <view wx:for="{{jobs}}" wx:key="index" class="panel" @tap="detail({{item}})">
         <view class="weui-flex">
@@ -95,7 +98,7 @@
             <icon type="success" size="23"></icon>{{item.state}}</view>
         </view>
       </view>
-    </scroll-view>
+    </scroll-view> -->
 
   </view>
 </template>
@@ -106,18 +109,21 @@ import api from 'api/api';
 import Panel from '@/components/panel'; // alias example
 import SearchBar from '@/components/searchbar'; // alias example
 import Swiper from '@/components/swiper';
+import JobList from '@/components/job-list';
 
 export default class Dash extends wepy.page {
   components = {
     panel: Panel,
     swiper: Swiper,
-    search: SearchBar
+    search: SearchBar,
+    list: JobList
   };
   data = {
     inputShowed: false,
     inputVal: '',
     shufflings: null,
     searchApi: api.getJobs,
+    hasAction: true,
     jobparams: {
       skipCount: 0,
       maxResultCount: 10,

@@ -21,8 +21,8 @@
       </view>
     </view>
   <!-- list -->
-    <scroll-view class="list" style="height:1208rpx" scroll-y="true" bindscrolltolower="loadMore">
-      <view wx:for="{{jobs}}" wx:key="index" class="panel" @tap="detail({{item}})">
+    <scroll-view class="list" style="height:{{height}}rpx" scroll-y="true" bindscrolltolower="loadMore">
+      <view wx:for="{{list}}" wx:key="index" class="panel" @tap="detail({{item}})">
         <view class="weui-flex">
           <view class="weui-flex__item">
             <view class="placeholder">
@@ -47,7 +47,7 @@
 <script>
 import wepy from 'wepy';
 
-export default class SearchBar extends wepy.component {
+export default class List extends wepy.component {
   props = {
     searchApi: {
       type: Function,
@@ -55,7 +55,7 @@ export default class SearchBar extends wepy.component {
     },
     hasAction: {
       type: Boolean,
-      default: false
+      default: true
     },
     params: {
       type: Object,
@@ -66,38 +66,46 @@ export default class SearchBar extends wepy.component {
   data = {
     list: [],
     total: 0,
-    sort: ''
-  };
-  props = {
-    searchApi: {
-      type: Function,
-      required: true
-    },
-    params: {
-      type: Object,
-      required: false,
-      default: {}
-    }
+    index: 1,
+    height: 1208,
+    sort: 'creationTime'
   };
   methods = {
-    async search() {
-      var params = Object.assign(this.params, {
-        filter: this.inputVal,
-        sort: this.sort
-      });
-      var result = await this.searchApi(params);
-      this.list = result.items;
-      this.total = result.totalCount;
-      this.$apply();
-    },
-    change(type) {
+    async change(type) {
       this.sort = type;
+      this.params.skipCount = 0;
+      this.params.maxResultCount = 10;
+      var result = await this.search();
+      this.gender(result, true);
     },
-    loadMore() {}
+    async loadMore() {
+      this.index++;
+      this.params.skipCount = (this.index - 1) * this.params.maxResultCount;
+      if (this.total == 0 || this.total > this.params.skipCount) {
+        var result = await this.search();
+        this.gender(result);
+      }
+    }
   };
-
+  async search() {
+    var params = Object.assign(this.params, {
+      sort: this.sort
+    });
+    var result = await this.searchApi(params);
+    return result;
+  }
+  gender(result, init = false) {
+    if (init) {
+      this.list = result.items;
+    } else {
+      this.list.push(...result.items);
+    }
+    this.total = result.totalCount;
+    this.$apply();
+  }
   async onLoad() {
-    await this.search();
+    var result = await this.search();
+    this.gender(result, true);
   }
 }
 </script>

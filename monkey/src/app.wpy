@@ -157,7 +157,7 @@ export default class extends wepy.app {
         code: t.code,
         encryptedData: r.encryptedData,
         iv: r.iv,
-        rawData: r.rawData,
+        rawData: JSON.stringify(JSON.parse(r.rawData)),
         signature: r.signature
       };
       var res = await api.GetAuthInfo(params);
