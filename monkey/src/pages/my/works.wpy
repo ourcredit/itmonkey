@@ -51,24 +51,14 @@
 
 <script>
 import wepy from 'wepy';
+import { GetPagedExperience } from 'api/api';
 export default class Works extends wepy.page {
   components = {};
   config = {
     navigationBarTitleText: '我的工作经验'
   };
   data = {
-    lists: [
-      {
-        id: 1,
-        title: 'a',
-        content: 'b'
-      },
-      {
-        id: 2,
-        title: 'c',
-        content: 'd'
-      }
-    ]
+    lists: []
   };
   computed = {
     now() {
@@ -88,6 +78,12 @@ export default class Works extends wepy.page {
 
   events = {};
   // 加载函数
-  async onLoad() {}
+  async onLoad() {
+    const params = { SkipCount: 0, MaxResultCount: 99 };
+    var r = await GetPagedExperience(params);
+    if (r.success) {
+      this.lists = r.result.items;
+    }
+  }
 }
 </script>

@@ -1,35 +1,254 @@
-<style type="less">
+<style lang="less">
 
 </style>
 <template>
-  <view class="group">
-    <text class="id">{{grouplist.id}}. </text>
-    <text class="name" @tap="tap">{{grouplist.name}}</text>
-    <view>
-      <repeat for="{{grouplist.list}}" item="item">
-        <groupitem :gitem="item"></groupitem>
-      </repeat>
+  <view class="container">
+
+    <!-- <view wx:for="{{group}}" wx:key="index" class="weui-flex">
+
+      <view class="placeholder"> {{item.name}}</view>
+      <view wx:if="{{item.children}}" wx:for="{{item.children}}" wx:for-item="a" wx:key="index" class="weui-flex__item">
+        <view class="placeholder"> {{a.name}}</view>
+
+        <view wx:if="{{a.children}}" wx:for="{{a.children}}" wx:for-item="b" wx:key="index" class="weui-flex__item">
+          <view class="placeholder"> {{b.name}}</view>
+
+          <view wx:if="{{b.children}}" wx:for="{{b.children}}" wx:for-item="c" wx:key="index" class="weui-flex__item">
+            <view class="placeholder"> {{c.name}}</view>
+
+
+          </view>
+        </view>
+
+      </view>
+
+    </view> -->
+
+    <view class="placeholder" wx:for="{{list}}" wx:key="index">{{item.name}}
+      <view  wx:if="{{item.children}}" wx:for="{{item.children}}" wx:for-item="a" wx:key="index">
+        {{a.name}}
+        <view wx:if="{{a.children}}" wx:for="{{a.children}}" wx:for-item="b" wx:key="index">
+          {{b.name}}
+          <view wx:if="{{b.children}}" wx:for="{{b.children}}" wx:for-item="c" wx:key="index">
+            {{c.name}}
+          </view>
+        </view>
+      </view>
+
+
     </view>
   </view>
 </template>
+
 <script>
 import wepy from 'wepy';
-import GroupItem from './groupitem';
-
-export default class Group extends wepy.component {
+export default class Family extends wepy.component {
+  data = {};
   props = {
-    grouplist: {},
-    index: {}
-  };
-
-  components = {
-    groupitem: GroupItem
-  };
-  methods = {
-    tap() {
-      this.grouplist.name = `Parent Random(${Math.random()})`;
-      console.log(`Clicked Group ${this.$index}, ID is ${this.grouplist.id}`);
+    list: {
+      type: Array,
+      required: true
     }
   };
+  computed = {
+    now() {
+      return +new Date();
+    }
+  };
+  // 方法
+  methods = {};
+
+  events = {};
+  // 加载函数
+  async onLoad() {
+    this.list = [
+      {
+        id: 1,
+        name: '族长',
+        children: [
+          {
+            id: 2,
+            name: 'A',
+            children: [
+              {
+                id: 5,
+                name: 'A.A',
+                children: [
+                  {
+                    id: 14,
+                    name: 'A.A.A'
+                  },
+                  {
+                    id: 23,
+                    name: 'A.A.B'
+                  },
+                  {
+                    id: 32,
+                    name: 'A.A.C'
+                  }
+                ]
+              },
+              {
+                id: 8,
+                name: 'A.B',
+                children: [
+                  {
+                    id: 17,
+                    name: 'A.B.A'
+                  },
+                  {
+                    id: 26,
+                    name: 'A.B.B'
+                  },
+                  {
+                    id: 35,
+                    name: 'A.B.C'
+                  }
+                ]
+              },
+              {
+                id: 11,
+                name: 'A.C',
+                children: [
+                  {
+                    id: 20,
+                    name: 'A.C.A'
+                  },
+                  {
+                    id: 29,
+                    name: 'A.C.B'
+                  },
+                  {
+                    id: 38,
+                    name: 'A.C.C'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            id: 3,
+            name: 'B',
+            children: [
+              {
+                id: 6,
+                name: 'B.A',
+                children: [
+                  {
+                    id: 15,
+                    name: 'B.A.A'
+                  },
+                  {
+                    id: 24,
+                    name: 'B.A.B'
+                  },
+                  {
+                    id: 33,
+                    name: 'B.A.C'
+                  }
+                ]
+              },
+              {
+                id: 9,
+                name: 'B.B',
+                children: [
+                  {
+                    id: 18,
+                    name: 'B.B.A'
+                  },
+                  {
+                    id: 27,
+                    name: 'B.B.B'
+                  },
+                  {
+                    id: 36,
+                    name: 'B.B.C'
+                  }
+                ]
+              },
+              {
+                id: 12,
+                name: 'B.C',
+                children: [
+                  {
+                    id: 21,
+                    name: 'B.C.A'
+                  },
+                  {
+                    id: 30,
+                    name: 'B.C.B'
+                  },
+                  {
+                    id: 39,
+                    name: 'B.C.C'
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            id: 4,
+            name: 'C',
+            children: [
+              {
+                id: 7,
+                name: 'C.A',
+                children: [
+                  {
+                    id: 16,
+                    name: 'C.A.A'
+                  },
+                  {
+                    id: 25,
+                    name: 'C.A.B'
+                  },
+                  {
+                    id: 34,
+                    name: 'C.A.C'
+                  }
+                ]
+              },
+              {
+                id: 10,
+                name: 'C.B',
+                children: [
+                  {
+                    id: 19,
+                    name: 'C.B.A'
+                  },
+                  {
+                    id: 28,
+                    name: 'C.B.B'
+                  },
+                  {
+                    id: 37,
+                    name: 'C.B.C'
+                  }
+                ]
+              },
+              {
+                id: 13,
+                name: 'C.C',
+                children: [
+                  {
+                    id: 22,
+                    name: 'C.C.A'
+                  },
+                  {
+                    id: 31,
+                    name: 'C.C.B'
+                  },
+                  {
+                    id: 40,
+                    name: 'C.C.C'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ];
+  }
 }
 </script>

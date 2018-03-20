@@ -30,7 +30,7 @@ namespace ItMonkey.Models
         /// <summary>
         /// 家族级别
         /// </summary>
-        [Range(0,27)]
+        [Range(1,40)]
         public int? FamilyCode { get; set; }
         /// <summary>
         /// 职称

@@ -26,10 +26,15 @@ const CreateCustomer = params => PostAsync(params, baseUrl + "services/app/Custo
 
 const CreateJob = params => PostAsync(params, baseUrl + "services/app/Job/CreateOrUpdateJob")
 
+const GetPagedExperience = params => PostAsync(params, baseUrl + "app/CustomerExperience/GetPagedCustomerExperiences")
+const ModifyExperience = params => PostAsync(params, baseUrl + "app/CustomerExperience/CreateOrUpdateCustomerExperience")
+
 module.exports = {
   getShufflings,
   getJobs,
   GetAuthInfo,
   CreateCustomer,
-  CreateJob
+  CreateJob,
+  GetPagedExperience,
+  ModifyExperience
 }
