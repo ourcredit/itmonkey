@@ -24,6 +24,15 @@ namespace ItMonkey.Models
         [Required]
         public string Key { get; set; }
         /// <summary>
+        /// 家族标识
+        /// </summary>
+        public string Family { get; set; }
+        /// <summary>
+        /// 家族级别
+        /// </summary>
+        [Range(0,27)]
+        public int? FamilyCode { get; set; }
+        /// <summary>
         /// 启用禁用
         /// </summary>
         public bool IsActive { get; set; }

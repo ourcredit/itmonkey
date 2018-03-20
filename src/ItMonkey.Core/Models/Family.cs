@@ -14,7 +14,6 @@ namespace ItMonkey.Models
     {
         public string Name { get; set; }
         public string Key { get; set; }
-        public int Level { get; set; }
     }
     /// <summary>
     /// 消息记录存储

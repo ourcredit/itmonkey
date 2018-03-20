@@ -17,8 +17,8 @@ using System;
 namespace ItMonkey.Migrations
 {
     [DbContext(typeof(ItMonkeyDbContext))]
-    [Migration("20180319090544_wwwwww")]
-    partial class wwwwww
+    [Migration("20180320021052_wwwww")]
+    partial class wwwww
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -994,6 +994,10 @@ namespace ItMonkey.Migrations
 
                     b.Property<long?>("CreatorUserId");
 
+                    b.Property<string>("Family");
+
+                    b.Property<int?>("FamilyCode");
+
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDeleted");
@@ -1032,6 +1036,24 @@ namespace ItMonkey.Migrations
                     b.HasIndex("JobId");
 
                     b.ToTable("m_customer_job");
+                });
+
+            modelBuilder.Entity("ItMonkey.Models.Family", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<string>("Key");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("m_family");
                 });
 
             modelBuilder.Entity("ItMonkey.Models.Job", b =>
