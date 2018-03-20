@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
+using ItMonkey.CustomerExperiences.Dtos;
 using ItMonkey.Customers.Dtos;
 using ItMonkey.Jobs.Dtos;
 using ItMonkey.Models;
@@ -21,6 +22,9 @@ namespace ItMonkey
 
             configuration.CreateMap<Job, JobListDto>();
             configuration.CreateMap<JobEditDto, Job>();
+
+            configuration.CreateMap<CustomerExperience, CustomerExperienceListDto>();
+            configuration.CreateMap<CustomerExperienceEditDto, CustomerExperience>();
         }
     }
 }

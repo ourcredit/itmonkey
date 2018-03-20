@@ -23,9 +23,13 @@ const GetAuthInfo = params => PostAsync(params, baseUrl + "TokenAuth/WeChatAuthe
 
 const CreateCustomer = params => PostAsync(params, baseUrl + "services/app/Customer/CreateOrUpdateCustomer")
 
+
+const CreateJob = params => PostAsync(params, baseUrl + "services/app/Job/CreateOrUpdateJob")
+
 module.exports = {
   getShufflings,
   getJobs,
   GetAuthInfo,
-  CreateCustomer
+  CreateCustomer,
+  CreateJob
 }

@@ -92,7 +92,7 @@ export default class List extends wepy.component {
       sort: this.sort
     });
     var result = await this.searchApi(params);
-    return result;
+    return result.result;
   }
   gender(result, init = false) {
     if (init) {

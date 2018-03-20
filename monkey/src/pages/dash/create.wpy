@@ -56,7 +56,7 @@
               <view class="weui-label">支付酬劳</view>
             </view>
             <view class="weui-cell__bd">
-              <input class="weui-input" value="{{model.payfor}}" data-index="payfor"  bindinput="bindInput" type="number" placeholder="￥" />
+              <input class="weui-input" value="{{model.price}}" data-index="price"  bindinput="bindInput" type="number" placeholder="￥" />
             </view>
           </view>
           <view class="weui-cell weui-cell_input">
@@ -120,6 +120,8 @@
 
 <script>
 import wepy from 'wepy';
+import { CreateJob } from 'api/api';
+import tip from 'tools/tip';
 export default class CreateTask extends wepy.page {
   data = {
     id: null,
@@ -134,8 +136,10 @@ export default class CreateTask extends wepy.page {
     model: {
       name: '',
       content: '',
+      isSecert: false,
+      creatorId: 1,
       category: '设计',
-      payfor: null,
+      price: null,
       firstGrade: null,
       secondGrade: null,
       thirdGrade: null
@@ -169,8 +173,19 @@ export default class CreateTask extends wepy.page {
     },
     goBack() {},
     secertCreate() {},
-    publicCreate() {
-      console.log(this.model);
+    async publicCreate() {
+      if (!this.isAgree) {
+        tip.alert('请阅读相关协议并同意');
+        return;
+      }
+      if (!this.model.name || !this.model.content || !this.model.price) {
+        tip.alert('请完善表单信息');
+        return;
+      }
+      var r = await CreateJob({ job: this.model });
+      if (r.success) {
+        this.$switch('../dash/index');
+      }
     }
   };
   onLoad(option) {}

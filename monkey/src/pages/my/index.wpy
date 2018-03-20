@@ -54,10 +54,8 @@
       <view class="weui-cells weui-cells_after-title">
         <navigator url="/pages/my/works" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <view class="weui-cell__bd">工作经验</view>
-          <view class="weui-cell__ft weui-cell__ft_in-access">
-            <text>还可借</text>
-            <text class="color-green">1</text>
-            <text>次</text>
+            <view class="weui-cell__ft weui-cell__ft_in-access">
+            <text class="color-green">2</text>
           </view>
         </navigator>
 

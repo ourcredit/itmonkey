@@ -69,7 +69,7 @@ export default class SearchBar extends wepy.component {
     async search() {
       var params = Object.assign(this.params, { filter: this.inputVal });
       var result = await this.searchApi(params);
-      this.result = result.items;
+      this.result = result.result.items;
       this.$apply();
     },
     inputTyping(e) {
