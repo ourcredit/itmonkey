@@ -36,6 +36,14 @@ namespace ItMonkey.Models
         /// </summary>
         public int Price { get; set; }
         /// <summary>
+        /// 创建人
+        /// </summary>
+        public long CreatorId { get; set; }
+        /// <summary>
+        /// 创建者
+        /// </summary>
+        public  virtual Customer Creator { get; set; }
+        /// <summary>
         /// 一级奖励
         /// </summary>
         public int  FirstGrade { get; set; }
