@@ -14,6 +14,10 @@ namespace ItMonkey.Models
     {
         public string Name { get; set; }
         public string Key { get; set; }
+        /// <summary>
+        /// 是否私密家族
+        /// </summary>
+        public bool IsSecret { get; set; }
     }
     /// <summary>
     /// 消息记录存储

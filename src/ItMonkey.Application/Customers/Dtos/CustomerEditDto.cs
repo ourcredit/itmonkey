@@ -11,11 +11,22 @@ namespace ItMonkey.Customers.Dtos
         public string Name { get; set; }
 
         /// <summary>
+        /// 一级技能
+        /// </summary>
+        public string Skill { get; set; }
+        /// <summary>
+        /// 二级技能
+        /// </summary>
+        public string ChildSkill { get; set; }
+        /// <summary>
         /// 唯一标识
         /// </summary>
         [Required]
         public string Key { get; set; }
-        public bool IsActive { get; set; }
-        public bool IsDeleted { get; set; }
+
+        public bool IsActive { get; set; } = true;
+
     }
+
+   
 }

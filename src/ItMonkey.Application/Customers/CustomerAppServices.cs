@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
@@ -24,16 +26,15 @@ namespace ItMonkey.Customers
         ////BCC/ BEGIN CUSTOM CODE SECTION
         ////ECC/ END CUSTOM CODE SECTION
         private readonly IRepository<Customer, long> _customerRepository;
+        private readonly IRepository<Family> _familyRepository;
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        public CustomerAppService(IRepository<Customer, long> customerRepository
-
-            )
+        public CustomerAppService(IRepository<Customer, long> customerRepository, IRepository<Family> familyRepository)
         {
             _customerRepository = customerRepository;
-
+            _familyRepository = familyRepository;
         }
 
         /// <summary>
@@ -133,6 +134,22 @@ namespace ItMonkey.Customers
         protected virtual async Task<CustomerEditDto> CreateCustomerAsync(CustomerEditDto input)
         {
             var entity = ObjectMapper.Map<Customer>(input);
+            var family =await _familyRepository.FirstOrDefaultAsync(c=>!c.IsSecret);
+            if (family == null)
+            {
+                var code = Guid.NewGuid().ToString("D").Split('-').Last();
+                family = await _familyRepository.InsertAsync(new Family()
+                {
+                    IsSecret = false,
+                    Name = code,
+                    Key = code
+                });
+
+            }
+            entity.Family = family.Key;
+            var count = await _customerRepository.CountAsync(c => c.Family == family.Key);
+            entity.FamilyCode = count + 1;
+            entity.Title = FamilyConsts.GetTitle(entity.FamilyCode.Value);
             entity = await _customerRepository.InsertAsync(entity);
             return entity.MapTo<CustomerEditDto>();
         }
@@ -149,7 +166,7 @@ namespace ItMonkey.Customers
             // ObjectMapper.Map(input, entity);
             await _customerRepository.UpdateAsync(entity);
         }
-      
+       
 
         /// <summary>
         /// 删除Customer信息的方法

@@ -33,6 +33,22 @@ namespace ItMonkey.Models
         [Range(0,27)]
         public int? FamilyCode { get; set; }
         /// <summary>
+        /// 职称
+        /// </summary>
+        public string Title { get; set; }
+        /// <summary>
+        /// 一级技能
+        /// </summary>
+        public string Skill { get; set; }
+        /// <summary>
+        /// 二级技能
+        /// </summary>
+        public string ChildSkill { get; set; }
+        /// <summary>
+        /// 余额
+        /// </summary>
+        public int Balance { get; set; }
+        /// <summary>
         /// 启用禁用
         /// </summary>
         public bool IsActive { get; set; }
