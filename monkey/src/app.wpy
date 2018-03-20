@@ -137,7 +137,7 @@ export default class extends wepy.app {
   };
 
   globalData = {
-    userInfo: { hasRegister: false }
+    userInfo: { user: null, hasRegister: false }
   };
 
   constructor() {
@@ -151,7 +151,7 @@ export default class extends wepy.app {
   }
   async getUserInfo() {
     const that = this;
-    if (this.globalData.userInfo) {
+    if (this.globalData.userInfo.user) {
       return this.globalData.userInfo;
     }
     const t = await wepy.login();
@@ -166,9 +166,10 @@ export default class extends wepy.app {
       };
       var res = await api.GetAuthInfo(params);
       if (res) {
-        this.globalData.userInfo = res;
+        this.globalData.userInfo.user = res;
+        this.globalData.userInfo.hasRegister = res.hasRegister;
       } else {
-        this.globalData.userInfo = r.userInfo;
+        this.globalData.userInfo.user = r.userInfo;
         this.globalData.userInfo.hasRegister = false;
       }
     }

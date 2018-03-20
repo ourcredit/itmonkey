@@ -57,15 +57,15 @@
 
       <view class="weui-flex">
         <view class="weui-flex__item">
-          <button class="weui-btn" type="default" @tap="showTopTips">我再想想</button>
+          <button class="weui-btn" type="default" @tap="goback">我再想想</button>
         </view>
         <view class="weui-flex__item">
-          <button class="weui-btn" type="primary" @tap="showTopTips">完成注册</button>
+          <button class="weui-btn" type="primary" @tap="create">完成注册</button>
         </view>
       </view>
       <view class="weui-btn-area">
         <view class="weui-flex__item">
-          <button class="weui-btn" type="primary" @tap="showTopTips">创建私密家族并完成注册</button>
+          <button class="weui-btn" type="primary" @tap="gopayfor">创建私密家族并完成注册</button>
         </view>
       </view>
     </view>
@@ -73,7 +73,9 @@
 </template>
 
 <script>
+import tip from 'tools/tip';
 import wepy from 'wepy';
+import { CreateCustomer } from 'api/api';
 const items = [
   {
     name: '随机加入家族',
@@ -91,6 +93,7 @@ export default class Input extends wepy.page {
     tipsFlag: false,
     secritJoin: false,
     childskills: [],
+    a: null,
     b: null,
     skills: [
       {
@@ -153,11 +156,53 @@ export default class Input extends wepy.page {
         v.checked = v.value === e.detail.value;
       });
     },
+    // 去支付页面
+    gopayfor() {},
+    async create() {
+      if (!this.isAgree) {
+        tip.alert('请阅读相关协议并同意');
+        return;
+      }
+      debugger;
+
+      if (!this.a || !this.b) {
+        tip.alert('请选择擅长技能');
+        return;
+      }
+      const user = await this.$parent.getUserInfo();
+      debugger;
+      if (user.hasRegister) {
+        tip.alert('当前用户已注册,即将跳去主页');
+        this.$redirect('../dash/index');
+      }
+      if (!user.openId) {
+        tip.alert('用户认证失败,请重新登陆');
+        this.$redirect('../dash/index');
+      }
+      const params = {
+        name: user.nickName,
+        key: user.openId,
+        skill: this.a.name,
+        childSkill: this.b.name,
+        isActive: true
+      };
+      var res = await CreateCustomer(params);
+      if (res.success) {
+        this.$redirect('../dash/index');
+      }
+    },
+    goback() {
+      this.$redirect('../dash/index');
+    },
     bindChange(e) {
       var temp = e.detail.value;
       this.childskills = this.skills[temp[0]].children;
+      this.a = this.skills[temp[0]];
       this.b = this.childskills[temp[1]];
       this.$apply();
+    },
+    bindAgreeChange(e) {
+      this.isAgree = !!e.detail.value.length;
     },
     showTopTips() {
       this.tipsFlag = true;
@@ -170,6 +215,7 @@ export default class Input extends wepy.page {
 
   onLoad() {
     this.childskills = this.skills[0].children;
+    this.a = this.skills[0];
     this.b = this.childskills[0];
   }
 }

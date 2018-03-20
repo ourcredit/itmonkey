@@ -21,10 +21,11 @@ const getShufflings = () => GetAsync({}, baseUrl + "services/app/Shuffling/GetPa
 const getJobs = params => GetAsync(params, baseUrl + "services/app/Job/GetPagedJobs")
 const GetAuthInfo = params => PostAsync(params, baseUrl + "TokenAuth/WeChatAuthenticate")
 
-
+const CreateCustomer = params => PostAsync(params, baseUrl + "services/app/Customer/CreateOrUpdateCustomer")
 
 module.exports = {
   getShufflings,
   getJobs,
-  GetAuthInfo
+  GetAuthInfo,
+  CreateCustomer
 }

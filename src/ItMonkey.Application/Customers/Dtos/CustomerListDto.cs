@@ -18,6 +18,8 @@ namespace ItMonkey.Customers.Dtos
         /// 二级技能
         /// </summary>
         public string ChildSkill { get; set; }
+
+        public int Balance { get; set; }
         /// <summary>
         /// 唯一标识
         /// </summary>

@@ -45,11 +45,6 @@ export default class WorkDetail extends wepy.page {
   };
   // 方法
   methods = {
-    create() {
-      wx.navigateTo({
-        url: 'workdetail'
-      });
-    },
     inputTitle(e) {
       this.model.title = e.detail.value;
     },
