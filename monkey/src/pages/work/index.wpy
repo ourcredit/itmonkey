@@ -3,28 +3,9 @@
 </style>
 <template>
   <view class="container">
-
-    <!-- <view wx:for="{{group}}" wx:key="index" class="weui-flex">
-
-      <view class="placeholder"> {{item.name}}</view>
-      <view wx:if="{{item.children}}" wx:for="{{item.children}}" wx:for-item="a" wx:key="index" class="weui-flex__item">
-        <view class="placeholder"> {{a.name}}</view>
-
-        <view wx:if="{{a.children}}" wx:for="{{a.children}}" wx:for-item="b" wx:key="index" class="weui-flex__item">
-          <view class="placeholder"> {{b.name}}</view>
-
-          <view wx:if="{{b.children}}" wx:for="{{b.children}}" wx:for-item="c" wx:key="index" class="weui-flex__item">
-            <view class="placeholder"> {{c.name}}</view>
-
-
-          </view>
-        </view>
-
-      </view>
-
-    </view> -->
   <family :list="[]"></family>
   </view>
+  <button class="weui-btn mini-btn" size="mini" type="default" @tap="goChat">聊天</button>
 </template>
 
 <script>
@@ -41,7 +22,11 @@ export default class Dash extends wepy.page {
     }
   };
   // 方法
-  methods = {};
+  methods = {
+    goChat() {
+      this.$navigate('chat');
+    }
+  };
 
   events = {};
   // 加载函数

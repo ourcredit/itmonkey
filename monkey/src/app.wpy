@@ -55,6 +55,7 @@ export default class extends wepy.app {
       'pages/store/index',
 
       'pages/work/index',
+      'pages/work/chat',
 
       'pages/my/index',
       'pages/my/register',
