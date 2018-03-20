@@ -50,7 +50,7 @@
 </style>
 <template>
   <view class="container">
-       <!-- 搜索插件 -->
+    <!-- 搜索插件 -->
     <search :searchApi="searchApi" :params="jobparams">
       <view slot="action" class="weui-search-bar__cancel-btn" @tap="create">
         <icon type="info_circle" size="20"></icon>
@@ -61,45 +61,7 @@
       <swiper :list.sync="shufflings"></swiper>
     </view>
 
-<list :searchApi="searchApi" :params="jobparams" :hasAction="hasAction" ></list>
-
-
-    <!--  按钮 -->
-    <!-- <view class="weui-flex">
-      <view class="weui-flex__item">
-        <view @tap="change('time')" class="placeholder">发布时间</view>
-      </view>
-      <view class="weui-flex__item">
-        <view @tap="change('price')" class="placeholder">任务金额</view>
-      </view>
-      <view class="weui-flex__item">
-        <view @tap="change('cate')" class="placeholder">任务分类</view>
-      </view>
-    </view>
-
-    <scroll-view class="list" style="height:1208rpx" scroll-y="true" bindscrolltolower="loadMore">
-      <view wx:for="{{jobs}}" wx:key="index" class="panel" @tap="detail({{item}})">
-        <view class="weui-flex">
-          <view class="weui-flex__item">
-            <view class="placeholder">
-              <view class="title">{{item.category}} :{{item.name}}</view>
-            </view>
-          </view>
-          <view class="weui-flex__item">
-            <view class="price">
-              <icon type="success" size="23"></icon>{{item.price}}</view>
-          </view>
-        </view>
-        <view class="weui-flex">
-          <view class="weui-flex__item">
-            <view class="info">{{item.content}}</view>
-          </view>
-          <view class="price">
-            <icon type="success" size="23"></icon>{{item.state}}</view>
-        </view>
-      </view>
-    </scroll-view> -->
-
+    <list :searchApi="searchApi" :params="jobparams" :hasAction="hasAction"></list>
   </view>
 </template>
 
@@ -130,8 +92,7 @@ export default class Dash extends wepy.page {
       total: 0,
       filter: '',
       index: 1
-    },
-    jobs: []
+    }
   };
 
   computed = {
@@ -141,12 +102,9 @@ export default class Dash extends wepy.page {
   };
   // 方法
   methods = {
-    change(type) {
-      console.log(type);
-    },
-    create() {
-      var per = this.$parent.globalData.userInfo.hasRegister;
-      if (!per) {
+    async create() {
+      var per = await this.$parent.getUserInfo();
+      if (!per.hasRegister) {
         wx.navigateTo({
           url: '/pages/my/register'
         });
@@ -157,7 +115,6 @@ export default class Dash extends wepy.page {
       }
     },
     detail(item) {
-      console.log(item);
       wx.navigateTo({
         url: 'task?id=' + item.id
       });
@@ -165,24 +122,15 @@ export default class Dash extends wepy.page {
     refresh() {},
     loadMore() {}
   };
-  async initJob() {
-    var jobs = await api.getJobs(this.jobparams);
-    if (jobs && jobs.items) {
-      this.jobparams.total = jobs.totalCount;
-      this.jobs = jobs.items;
-    }
-    this.$apply();
-  }
   async initShuffling() {
-    var result = await api.getShufflings();
-    if (result && result.items) {
-      this.shufflings = result.items;
+    var r = await api.getShufflings();
+    if (r.success) {
+      this.shufflings = r.result.items;
     }
     this.$apply();
   }
   async onLoad() {
     await this.initShuffling();
-    await this.initJob();
   }
   onReachBottom() {}
   onPullDownRefresh() {

@@ -26,7 +26,7 @@
             <view class="weui-label">工作名称</view>
           </view>
           <view class="weui-cell__bd">
-            <input class="weui-input" placeholder="工作名称" />
+            <input data-index="name" value="{{model.name}}" bindinput="bindInput" class="weui-input" placeholder="工作名称" />
           </view>
         </view>
         <view class="weui-cell weui-cell_select">
@@ -34,18 +34,18 @@
             <view class="weui-label">分类</view>
           </view>
           <view class="weui-cell__bd">
-            <picker @change="bindCountryChange" value="{{countryIndex}}" range="{{countries}}">
-              <view class="weui-select weui-select_in-select-after">{{countries[countryIndex]}}</view>
+            <picker range-key="name" @change="bindCateChange" value="{{cateIndex}}" range="{{cates}}">
+              <view class="weui-select weui-select_in-select-after">{{cates[cateIndex].name}}</view>
             </picker>
           </view>
         </view>
       </view>
-      <view class="weui-cells__title">文本域</view>
+      <view class="weui-cells__title">工作内容描述</view>
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea class="weui-textarea" placeholder="请输入文本" style="height: 10em" />
-            <view class="weui-textarea-counter">0/200</view>
+            <textarea class="weui-textarea" value="{{model.content}}" data-index="content"  bindinput="bindInput" maxlength="1000" placeholder="请输入文本" style="height: 10em" />
+            <view class="weui-textarea-counter">{{length}}/1000</view>
           </view>
         </view>
       </view>
@@ -56,7 +56,7 @@
               <view class="weui-label">支付酬劳</view>
             </view>
             <view class="weui-cell__bd">
-              <input class="weui-input" placeholder="￥" />
+              <input class="weui-input" value="{{model.payfor}}" data-index="payfor"  bindinput="bindInput" type="number" placeholder="￥" />
             </view>
           </view>
           <view class="weui-cell weui-cell_input">
@@ -64,7 +64,7 @@
               <view class="weui-label">一级奖励</view>
             </view>
             <view class="weui-cell__bd">
-              <input class="weui-input" placeholder="￥" />
+              <input class="weui-input" value="{{model.firstGrade}}" data-index="firstGrade" bindinput="bindInput" type="number" placeholder="￥" />
             </view>
           </view>
           <view class="weui-cell weui-cell_input">
@@ -72,7 +72,7 @@
               <view class="weui-label">二级奖励</view>
             </view>
             <view class="weui-cell__bd">
-              <input class="weui-input" placeholder="￥" />
+              <input class="weui-input" value="{{model.secondGrade}}" data-index="secondGrade" bindinput="bindInput" type="number" placeholder="￥" />
             </view>
           </view>
           <view class="weui-cell weui-cell_input">
@@ -80,7 +80,7 @@
               <view class="weui-label">三级奖励</view>
             </view>
             <view class="weui-cell__bd">
-              <input class="weui-input" placeholder="￥" />
+              <input class="weui-input" value="{{model.thirdGrade}}" data-index="thirdGrade" bindinput="bindInput" type="number" placeholder="￥" />
             </view>
           </view>
         </view>
@@ -89,7 +89,7 @@
         </view>
       </view>
 
-      <checkbox-group @change="bindAgreeChange">
+    <checkbox-group @change="bindAgreeChange">
         <label class="weui-agree" for="weuiAgree">
           <view class="weui-agree__text">
             <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}" />
@@ -97,20 +97,20 @@
               <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9" wx:if="{{isAgree}}"></icon>
             </view>
             阅读并同意
-            <navigator url="" class="weui-agree__link">《相关条款》</navigator>
+            <navigator url="../my/rules" class="weui-agree__link">《相关条款》</navigator>
           </view>
         </label>
       </checkbox-group>
 
       <view class="weui-flex">
         <view class="weui-flex__item">
-          <button class="weui-btn mini-btn" size="mini" type="default" @tap="showTopTips">关闭</button>
+          <button class="weui-btn mini-btn" size="mini" type="default" @tap="goBack">关闭</button>
         </view>
         <view class="weui-flex__item">
-          <button class="weui-btn mini-btn" size="mini" type="primary" @tap="showTopTips">私密邀请</button>
+          <button class="weui-btn mini-btn" size="mini" type="primary" @tap="secertCreate">私密邀请</button>
         </view>
         <view class="weui-flex__item">
-          <button class="weui-btn mini-btn" size="mini" type="primary" @tap="showTopTips">公开发布</button>
+          <button class="weui-btn mini-btn" size="mini" type="primary" @tap="publicCreate">公开发布</button>
         </view>
       </view>
 
@@ -123,8 +123,26 @@ import wepy from 'wepy';
 export default class CreateTask extends wepy.page {
   data = {
     id: null,
-    countries: ['中国', '美国', '英国'],
-    countryIndex: 0
+    cates: [
+      { id: 1, name: '设计' },
+      { id: 2, name: '研发' },
+      { id: 3, name: '文案' },
+      { id: 4, name: '新媒体' },
+      { id: 5, name: '兼职务工' },
+      { id: 6, name: '其他' }
+    ],
+    model: {
+      name: '',
+      content: '',
+      category: '设计',
+      payfor: null,
+      firstGrade: null,
+      secondGrade: null,
+      thirdGrade: null
+    },
+    cateIndex: 0,
+    isAgree: false,
+    length: 0
   };
 
   computed = {
@@ -134,9 +152,25 @@ export default class CreateTask extends wepy.page {
   };
   // 方法
   methods = {
-    bindCountryCodeChange(e) {
-      console.log('picker country code 发生选择改变，携带值为', e.detail.value);
-      this.countryCodeIndex = e.detail.value;
+    bindCateChange(e) {
+      this.cateIndex = e.detail.value;
+      this.model.category = this.cates[this.cateIndex].name;
+    },
+    bindInput(e) {
+      let name = e.currentTarget.dataset.index;
+      let value = e.detail.value;
+      if (name == 'content') {
+        this.length = value.length;
+      }
+      this.model[name] = value;
+    },
+    bindAgreeChange(e) {
+      this.isAgree = !!e.detail.value.length;
+    },
+    goBack() {},
+    secertCreate() {},
+    publicCreate() {
+      console.log(this.model);
     }
   };
   onLoad(option) {}

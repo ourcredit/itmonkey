@@ -14,7 +14,12 @@ namespace ItMonkey.Jobs.Dtos
         [Required, MaxLength(200)]
         public string Name { get; set; }
         public string Content { get; set; }
+        public bool IsSecert { get; set; }
+        public long CreatorUserId { get; set; }
         public string Category { get; set; }
         public int Price { get; set; }
+        public int FirstGrade { get; set; }
+        public int SecondGrade { get; set; }
+        public int ThirdGrade { get; set; }
     }
 }

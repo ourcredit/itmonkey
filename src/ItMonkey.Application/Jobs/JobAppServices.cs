@@ -8,6 +8,7 @@ using Abp.Linq.Extensions;
 
 using System.Linq.Dynamic.Core;
 using Microsoft.EntityFrameworkCore;
+
 using ItMonkey.Jobs.Dtos;
 using ItMonkey.Models;
 
@@ -16,6 +17,7 @@ namespace ItMonkey.Jobs
     /// <summary>
     /// Job应用层服务的接口实现方法
     /// </summary>
+
     public class JobAppService : ItMonkeyAppServiceBase, IJobAppService
     {
         ////BCC/ BEGIN CUSTOM CODE SECTION
@@ -26,9 +28,11 @@ namespace ItMonkey.Jobs
         /// 构造函数
         /// </summary>
         public JobAppService(IRepository<Job, int> jobRepository
-        )
+
+            )
         {
             _jobRepository = jobRepository;
+
         }
 
         /// <summary>
@@ -40,9 +44,7 @@ namespace ItMonkey.Jobs
         {
 
             var query = _jobRepository.GetAll();
-            //TODO:根据传入的参数添加过滤条件
             var jobCount = await query.CountAsync();
-
             var jobs = await query
                 .OrderBy(input.Sorting)
                 .PageBy(input)
@@ -50,7 +52,6 @@ namespace ItMonkey.Jobs
 
             //var jobListDtos = ObjectMapper.Map<List <JobListDto>>(jobs);
             var jobListDtos = jobs.MapTo<List<JobListDto>>();
-
             return new PagedResultDto<JobListDto>(
                 jobCount,
                 jobListDtos
@@ -64,20 +65,9 @@ namespace ItMonkey.Jobs
         public async Task<JobListDto> GetJobByIdAsync(EntityDto<int> input)
         {
             var entity = await _jobRepository.GetAsync(input.Id);
-
             return entity.MapTo<JobListDto>();
         }
 
-        /// <summary>
-        /// 导出Job为excel表
-        /// </summary>
-        /// <returns></returns>
-        //public async Task<FileDto> GetJobsToExcel(){
-        //var users = await UserManager.Users.ToListAsync();
-        //var userListDtos = ObjectMapper.Map<List<UserListDto>>(users);
-        //await FillRoleNames(userListDtos);
-        //return _userListExcelExporter.ExportToFile(userListDtos);
-        //}
         /// <summary>
         /// MPA版本才会用到的方法
         /// </summary>
@@ -127,8 +117,10 @@ namespace ItMonkey.Jobs
         /// <summary>
         /// 新增Job
         /// </summary>
+
         protected virtual async Task<JobEditDto> CreateJobAsync(JobEditDto input)
         {
+            //TODO:新增前的逻辑判断，是否允许新增
             var entity = ObjectMapper.Map<Job>(input);
 
             entity = await _jobRepository.InsertAsync(entity);
@@ -138,8 +130,10 @@ namespace ItMonkey.Jobs
         /// <summary>
         /// 编辑Job
         /// </summary>
+
         protected virtual async Task UpdateJobAsync(JobEditDto input)
         {
+            //TODO:更新前的逻辑判断，是否允许更新
             var entity = await _jobRepository.GetAsync(input.Id.Value);
             input.MapTo(entity);
 
@@ -152,17 +146,21 @@ namespace ItMonkey.Jobs
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+
         public async Task DeleteJob(EntityDto<int> input)
         {
 
+            //TODO:删除前的逻辑判断，是否允许删除
             await _jobRepository.DeleteAsync(input.Id);
         }
 
         /// <summary>
         /// 批量删除Job的方法
         /// </summary>
+
         public async Task BatchDeleteJobsAsync(List<int> input)
         {
+            //TODO:批量删除前的逻辑判断，是否允许删除
             await _jobRepository.DeleteAsync(s => input.Contains(s.Id));
         }
 

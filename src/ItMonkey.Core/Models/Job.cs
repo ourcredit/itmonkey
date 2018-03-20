@@ -24,6 +24,10 @@ namespace ItMonkey.Models
         /// </summary>
         public string Content { get; set; }
         /// <summary>
+        /// 是否私密邀请
+        /// </summary>
+        public bool IsSecert { get; set; }
+        /// <summary>
         /// 分类
         /// </summary>
         public string Category { get; set; }
@@ -31,7 +35,21 @@ namespace ItMonkey.Models
         /// 悬赏金额
         /// </summary>
         public int Price { get; set; }
-
+        /// <summary>
+        /// 一级奖励
+        /// </summary>
+        public int  FirstGrade { get; set; }
+        /// <summary>
+        /// 二级奖励
+        /// </summary>
+        public int  SecondGrade { get; set; }
+        /// <summary>
+        /// 三级奖励
+        /// </summary>
+        public int  ThirdGrade { get; set; }
+        /// <summary>
+        /// 是否删除
+        /// </summary>
         public bool IsDeleted { get; set; }
     }
   

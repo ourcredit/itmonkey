@@ -169,22 +169,25 @@ export default class Input extends wepy.page {
         tip.alert('请选择擅长技能');
         return;
       }
-      const user = await this.$parent.getUserInfo();
+      let user = await this.$parent.getUserInfo();
       debugger;
       if (user.hasRegister) {
         tip.alert('当前用户已注册,即将跳去主页');
         this.$redirect('../dash/index');
       }
+      user = user.user;
       if (!user.openId) {
         tip.alert('用户认证失败,请重新登陆');
         this.$redirect('../dash/index');
       }
       const params = {
-        name: user.nickName,
-        key: user.openId,
-        skill: this.a.name,
-        childSkill: this.b.name,
-        isActive: true
+        customer: {
+          name: user.nickName,
+          key: user.openId,
+          skill: this.a.name,
+          childSkill: this.b.name,
+          isActive: true
+        }
       };
       var res = await CreateCustomer(params);
       if (res.success) {

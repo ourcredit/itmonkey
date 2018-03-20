@@ -137,7 +137,22 @@ export default class extends wepy.app {
   };
 
   globalData = {
-    userInfo: { user: null, hasRegister: false }
+    userInfo: {
+      user: {
+        CreatorUserId: 1,
+        openId: 'oxxfx5IUWPrOBgXb1Q4B9WX2PCqU',
+        nickName: '十二',
+        gender: '1',
+        city: 'Haidian',
+        province: 'Beijing',
+        country: 'China',
+        avatarUrl:
+          'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83er3Uzg8ngviaVHZlgNsZxlrQrXSehEPa2aS32dRHRyykDjUdPRbhQKiavpO21VovjDCth63EdE0DzwQ/0',
+        unionId: null,
+        watermark: { appid: 'wxd91baf88184a42bb', timestamp: '1521526687' }
+      },
+      hasRegister: true
+    }
   };
 
   constructor() {
@@ -165,9 +180,9 @@ export default class extends wepy.app {
         signature: r.signature
       };
       var res = await api.GetAuthInfo(params);
-      if (res) {
-        this.globalData.userInfo.user = res;
-        this.globalData.userInfo.hasRegister = res.hasRegister;
+      if (res.success) {
+        this.globalData.userInfo.user = res.result;
+        this.globalData.userInfo.hasRegister = res.result.hasRegister;
       } else {
         this.globalData.userInfo.user = r.userInfo;
         this.globalData.userInfo.hasRegister = false;

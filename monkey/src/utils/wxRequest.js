@@ -15,7 +15,7 @@ const Get = async (params = {}, url) => {
   });
   tip.loaded();
   if (!res.data.success) {
-    tip.alert(res.data.error);
+    tip.alert(res.data.error.message);
   }
   return res.data.result;
 };
@@ -32,7 +32,7 @@ const Post = async (params = {}, url) => {
   });
   tip.loaded();
   if (!res.data.success) {
-    tip.alert(res.data.error);
+    tip.alert(res.data.error.message);
   }
   return res.data.result;
 };
@@ -47,9 +47,9 @@ const GetAsync = async (params = {}, url) => {
     },
   });
   if (!res.data.success) {
-    tip.alert(res.data.error);
+    tip.alert(res.data.error.message);
   }
-  return res.data.result;
+  return res.data;
 };
 const PostAsync = async (params = {}, url) => {
   let data = params || {};
@@ -62,9 +62,9 @@ const PostAsync = async (params = {}, url) => {
     },
   });
   if (!res.data.success) {
-    tip.alert(res.data.error);
+    tip.alert(res.data.error.message);
   }
-  return res.data.result;
+  return res.data;
 };
 
 module.exports = {
