@@ -210,11 +210,27 @@ namespace ItMonkey.Models
         public string avatarUrl { get; set; }
         public string unionId { get; set; }
         public Watermark watermark { get; set; }
+
         /// <summary>
         /// 是否注册
         /// </summary>
-        public bool hasRegister { get; set; }
-
+        public bool hasRegister { get; set; } = false;
+        /// <summary>
+        /// 用户id
+        /// </summary>
+        public long CustomerId { get; set; }
+        /// <summary>
+        /// 家族标识
+        /// </summary>
+        public string Family { get; set; }
+        /// <summary>
+        /// 家族级别
+        /// </summary>
+        public int? FamilyCode { get; set; }
+        /// <summary>
+        /// 职称
+        /// </summary>
+        public string Title { get; set; }
         public class Watermark
         {
             public string appid { get; set; }

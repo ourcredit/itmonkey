@@ -68,17 +68,22 @@ namespace ItMonkey.Controllers
         [HttpPost]
         public async Task<WechatUserInfo> WeChatAuthenticate([FromBody] WechatLoginInfo model)
         {
-            var c=new WeChatAppDecrypt("wxd91baf88184a42bb", "795eb3f4d6b227217cedf7e61070842c");
+            var c = new WeChatAppDecrypt("wxd91baf88184a42bb", "795eb3f4d6b227217cedf7e61070842c");
             var r = c.Decrypt(model);
 
             // var result = c.GetOpenIdAndSessionKeyString(model.code);
             //  var obj = JsonConvert.DeserializeObject<OpenIdAndSessionKey>(result);
 
-            var customer =await _customerAppService.GetCustomerByKeyAsync(new EntityDto<string>(r.openId));
-            r.hasRegister = customer != null;
+            var customer = await _customerAppService.GetCustomerByKeyAsync(new EntityDto<string>(r.openId));
+            if (customer == null) return r;
+            r.hasRegister = true;
+            r.CustomerId = customer.Id;
+            r.Family = customer.Family;
+            r.FamilyCode = customer.FamilyCode;
+            r.Title = customer.Title;
             return r;
         }
-     
+
 
         /// <summary>
         /// 用户认证

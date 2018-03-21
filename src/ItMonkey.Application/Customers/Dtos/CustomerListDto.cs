@@ -18,7 +18,18 @@ namespace ItMonkey.Customers.Dtos
         /// 二级技能
         /// </summary>
         public string ChildSkill { get; set; }
-
+        /// <summary>
+        /// 家族标识
+        /// </summary>
+        public string Family { get; set; }
+        /// <summary>
+        /// 家族级别
+        /// </summary>
+        public int? FamilyCode { get; set; }
+        /// <summary>
+        /// 职称
+        /// </summary>
+        public string Title { get; set; }
         public int Balance { get; set; }
         /// <summary>
         /// 唯一标识

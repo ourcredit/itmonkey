@@ -120,7 +120,7 @@ $activecolor: #13b113;
 <template>
     <scroll-view scroll-y="1" class="chartboard{{focus ? ' fixed' : ''}}">
         <block wx:for="{{message}}" wx:key="index" wx:for-index="index" wx:for-item="item">
-            <view class="msgarea{{item.senderId === from ? ' fromme' : ' other'}}">
+            <view class="msgarea{{item.senderid == from ? ' fromme' : ' other'}}">
                 <image class="icon" src="{{item.icon}}"></image>
                 <view class="msg">{{item.content}}</view>
                 <view class="clearfix"></view>
@@ -152,30 +152,28 @@ export default class Chartboard extends wepy.component {
     }
   };
   data = {
-    message: [
-      {
-        senderId: 1,
-        receiverId: 2,
-        type: 1,
-        content: 'hello world!',
-        icon: '../../images/logo.png'
-      }
-    ],
+    message: [],
     focusFlag: false,
     socketOpened: false,
     socketMsgQueue: [],
     readyToSend: ''
   };
+  events = {
+    close: $event => {
+      if (this.socketOpened) {
+        wx.closeSocket();
+      }
+    }
+  };
 
   methods = {
     send(evt) {
-      debugger;
       if (this.readyToSend) {
         const model = {
-          SenderId: this.from,
-          ReceiverId: this.to,
-          Type: 1,
-          Content: this.readyToSend
+          senderid: this.from,
+          receiverid: this.to,
+          type: 1,
+          content: this.readyToSend
         };
         this.sendSocketMessage(model);
       }
@@ -214,7 +212,6 @@ export default class Chartboard extends wepy.component {
     }
   }
   onLoad() {
-    debugger;
     var _self = this;
     this.connect();
     wx.onSocketOpen(
@@ -228,8 +225,7 @@ export default class Chartboard extends wepy.component {
       function(e) {}
     );
     wx.onSocketMessage(function(res) {
-      debugger;
-      var json = JSON.parse(res.data);
+      var json = JSON.parse(res.data.toLowerCase());
       _self.message.push(json);
       _self.$apply();
     });

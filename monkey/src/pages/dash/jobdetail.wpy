@@ -31,6 +31,9 @@ export default class JobDetail extends wepy.page {
   components = {
     chatboard: ChatBoard
   };
+  onUnload() {
+    this.$broadcast('close');
+  }
   // 加载函数
   onLoad(params, data) {
     let current = this.$parent.getUserInfo();
@@ -39,8 +42,8 @@ export default class JobDetail extends wepy.page {
     } else {
       this.model = data.preload.model;
     }
-    this.to = 2;
-    this.from = 1;
+    this.to = '2';
+    this.from = '1';
   }
 }
 </script>
