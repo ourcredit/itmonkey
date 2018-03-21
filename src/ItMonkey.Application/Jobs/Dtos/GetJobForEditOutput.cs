@@ -5,10 +5,10 @@ using ItMonkey.Models;
 namespace ItMonkey.Jobs.Dtos
 {
     public class GetJobForEditOutput
-{
-////BCC/ BEGIN CUSTOM CODE SECTION
-////ECC/ END CUSTOM CODE SECTION
+    {
+        ////BCC/ BEGIN CUSTOM CODE SECTION
+        ////ECC/ END CUSTOM CODE SECTION
         public JobEditDto Job { get; set; }
 
-}
+    }
 }

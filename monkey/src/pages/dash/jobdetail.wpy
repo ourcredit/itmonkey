@@ -1,0 +1,47 @@
+<style lang="less">
+.price {
+  float: right;
+}
+</style>
+<template>
+    <view class="weui-article">
+      <view class="weui-article__section">
+        <view class="weui-article__title">{{model.name}}</view>
+        <view class="price"> <icon type="info_circle" size="15"></icon> {{model.price}}</view>
+        <view class="weui-article__section">
+          <view class="weui-article__h3">{{model.category}}</view>
+          <view class="weui-article__p">
+         {{model.content}}
+          </view>
+        </view>
+      </view>
+    </view>
+  <chatboard :from="from" :to="to"></chatboard>
+</template>
+<script>
+import wepy from 'wepy';
+import ChatBoard from '@/components/chatboard'; // alias example
+export default class JobDetail extends wepy.page {
+  data = {
+    model: null,
+    from: null,
+    to: null
+  };
+  methods = {};
+  components = {
+    chatboard: ChatBoard
+  };
+  // 加载函数
+  onLoad(params, data) {
+    let current = this.$parent.getUserInfo();
+    if (!data.preload.model) {
+      this.model = {};
+    } else {
+      this.model = data.preload.model;
+    }
+
+    this.to = 2;
+    this.from = 1;
+  }
+}
+</script>

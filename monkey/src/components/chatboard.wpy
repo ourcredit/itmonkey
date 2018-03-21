@@ -140,6 +140,16 @@ $activecolor: #13b113;
 <script>
 import wepy from 'wepy';
 export default class Chartboard extends wepy.component {
+  props = {
+    from: {
+      type: Number,
+      required: true
+    },
+    to: {
+      type: Number,
+      required: true
+    }
+  };
   data = {
     message: [
       {

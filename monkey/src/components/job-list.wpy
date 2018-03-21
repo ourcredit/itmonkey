@@ -9,40 +9,42 @@
 </style>
 <template>
   <!--  按钮 -->
-    <view wx:if="{{hasAction}}" class="weui-flex">
-      <view class="weui-flex__item">
-        <view @tap="change('time')" class="placeholder">发布时间</view>
+  <view wx:if="{{hasAction}}" class="weui-flex">
+    <view class="weui-flex__item">
+      <view @tap="change('time')" class="placeholder">发布时间</view>
+    </view>
+    <view class="weui-flex__item">
+      <view @tap="change('price')" class="placeholder">任务金额</view>
+    </view>
+    <view class="weui-flex__item">
+      <view @tap="change('cate')" class="placeholder">任务分类</view>
+    </view>
+  </view>
+  <!-- list -->
+  <scroll-view class="list" style="height:{{height}}rpx" scroll-y="true" bindscrolltolower="loadMore">
+    <view wx:for="{{list}}" wx:key="index" class="panel">
+      <slot name="go">
+      </slot>
+      <view class="weui-flex">
+        <view class="weui-flex__item">
+          <view class="placeholder">
+            <view class="title">{{item.category}} :{{item.name}}</view>
+          </view>
+        </view>
+        <view class="weui-flex__item">
+          <view class="price">
+            <icon type="success" size="23"></icon>{{item.price}}</view>
+        </view>
       </view>
-      <view class="weui-flex__item">
-        <view @tap="change('price')" class="placeholder">任务金额</view>
-      </view>
-      <view class="weui-flex__item">
-        <view @tap="change('cate')" class="placeholder">任务分类</view>
+      <view class="weui-flex">
+        <view class="weui-flex__item">
+          <view class="info">{{item.content}}</view>
+        </view>
+        <view class="price">
+          <icon type="success" size="23"></icon>{{item.state}}</view>
       </view>
     </view>
-  <!-- list -->
-    <scroll-view class="list" style="height:{{height}}rpx" scroll-y="true" bindscrolltolower="loadMore">
-      <view wx:for="{{list}}" wx:key="index" class="panel" @tap="detail({{item}})">
-        <view class="weui-flex">
-          <view class="weui-flex__item">
-            <view class="placeholder">
-              <view class="title">{{item.category}} :{{item.name}}</view>
-            </view>
-          </view>
-          <view class="weui-flex__item">
-            <view class="price">
-              <icon type="success" size="23"></icon>{{item.price}}</view>
-          </view>
-        </view>
-        <view class="weui-flex">
-          <view class="weui-flex__item">
-            <view class="info">{{item.content}}</view>
-          </view>
-          <view class="price">
-            <icon type="success" size="23"></icon>{{item.state}}</view>
-        </view>
-      </view>
-    </scroll-view>
+  </scroll-view>
 </template>
 <script>
 import wepy from 'wepy';

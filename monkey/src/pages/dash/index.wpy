@@ -55,13 +55,16 @@
       <view slot="action" class="weui-search-bar__cancel-btn" @tap="create">
         <icon type="info_circle" size="20"></icon>
       </view>
+      <view slot="go" @tap="detail({{item}})" > ===> </view>
     </search>
     <!-- 轮播图 -->
     <view>
       <swiper :list.sync="shufflings"></swiper>
     </view>
 
-    <list :searchApi="searchApi" :params="jobparams" :hasAction="hasAction"></list>
+    <list :searchApi="searchApi" :params="jobparams" :hasAction="hasAction">
+      <view  @tap="detail({{item}})" slot="go">====></view>
+    </list>
   </view>
 </template>
 
@@ -102,22 +105,21 @@ export default class Dash extends wepy.page {
   };
   // 方法
   methods = {
+    detail(item) {
+      this.$preload('model', item);
+      this.$navigate('jobdetail');
+    },
     async create() {
       var per = await this.$parent.getUserInfo();
       if (!per.hasRegister) {
-        wx.navigateTo({
+        this.$navigate({
           url: '/pages/my/register'
         });
       } else {
-        wx.navigateTo({
+        this.$navigate({
           url: 'create'
         });
       }
-    },
-    detail(item) {
-      wx.navigateTo({
-        url: 'task?id=' + item.id
-      });
     },
     refresh() {},
     loadMore() {}

@@ -30,11 +30,12 @@
          <slot name="action"></slot></view>
     </view>
     <view class="weui-cells searchbar-result" wx:if="{{result.length > 0}}">
-      <navigator wx:for="{{result}}" wx:key="index" url="pages/detail?id={{item.id}}" class="weui-cell" hover-class="weui-cell_active">
+      <view wx:for="{{result}}" wx:key="index"  class="weui-cell" hover-class="weui-cell_active">
         <view class="weui-cell__bd">
           <view>{{item.name}}</view>
+         <slot name="go"></slot>
         </view>
-      </navigator>
+      </view>
 
     </view>
 </template>

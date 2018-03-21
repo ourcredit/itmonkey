@@ -51,6 +51,7 @@ export default class extends wepy.app {
       'pages/dash/index',
       'pages/dash/task',
       'pages/dash/create',
+      'pages/dash/jobdetail',
 
       'pages/store/index',
 
