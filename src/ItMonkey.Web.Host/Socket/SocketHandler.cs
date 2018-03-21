@@ -43,31 +43,19 @@ namespace ItMonkey.Web.Host.Socket
             //建立一个WebSocket连接请求
             var socket = await httpContext.WebSockets.AcceptWebSocketAsync();
             string socketId = httpContext.Request.Query["guid"].ToString();
-            string type = httpContext.Request.Query["type"].ToString();
-            //点对点私聊
-            if (type.Equals("1"))
+            //判断最大连接数
+            if (Sockets.Count >= 100)
             {
-                //判断最大连接数
-                if (Sockets.Count >= 100)
+                await socket.CloseAsync(WebSocketCloseStatus.PolicyViolation, "超过上限", CancellationToken.None);
+                return;
+            }
+            if (!Sockets.ContainsKey(socketId))
+            {
+                lock (ObjLock)
                 {
-                    await socket.CloseAsync(WebSocketCloseStatus.PolicyViolation, "超过上限", CancellationToken.None);
-                    return;
-                }
-                if (!Sockets.ContainsKey(socketId))
-                {
-                    lock (ObjLock)
-                    {
-                        Sockets.TryAdd(socketId, socket);
-                    }
+                    Sockets.TryAdd(socketId, socket);
                 }
             }
-            //群组聊天
-            else
-            {
-                
-            }
-
-          
             var buffer = new byte[BufferSize];
             Message msg;
             while (true)

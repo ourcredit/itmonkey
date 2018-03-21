@@ -120,7 +120,7 @@ $activecolor: #13b113;
 <template>
     <scroll-view scroll-y="1" class="chartboard{{focus ? ' fixed' : ''}}">
         <block wx:for="{{message}}" wx:key="index" wx:for-index="index" wx:for-item="item">
-            <view class="msgarea{{item.from === 'me' ? ' fromme' : ' other'}}">
+            <view class="msgarea{{item.senderId === from ? ' fromme' : ' other'}}">
                 <image class="icon" src="{{item.icon}}"></image>
                 <view class="msg">{{item.content}}</view>
                 <view class="clearfix"></view>
@@ -139,6 +139,7 @@ $activecolor: #13b113;
 </template>
 <script>
 import wepy from 'wepy';
+import { GetMessage } from 'api/api';
 export default class Chartboard extends wepy.component {
   props = {
     from: {
@@ -153,48 +154,111 @@ export default class Chartboard extends wepy.component {
   data = {
     message: [
       {
-        from: 'aaaa',
-        icon: '../../images/logo.png',
-        content: 'aaaaa'
-      },
-      {
-        from: 'aa',
-        icon: '../../images/logo.png',
-        content: 'aaaaa'
-      },
-      {
-        from: 'aaaa',
-        icon: '../../images/logo.png',
-        content: 'aaaaa'
-      },
-      {
-        from: 'aa',
-        icon: '../../images/logo.png',
-        content: 'aaaaa'
-      },
-      {
-        from: 'me',
-        icon: '../../images/logo.png',
-        content: 'aaaaa'
-      },
-      {
-        from: 'me',
-        icon: '../../images/logo.png',
-        content: 'aaaaa'
-      },
-      {
-        from: 'me',
-        icon: '../../images/logo.png',
-        content: 'aaaaa'
+        senderId: 1,
+        receiverId: 2,
+        type: 1,
+        content: 'hello world!',
+        icon: '../../images/logo.png'
       }
     ],
-    focus: false
+    focusFlag: false,
+    socketOpened: false,
+    socketMsgQueue: [],
+    readyToSend: ''
   };
 
-  methods = {};
-
-  onLoad() {}
-
+  methods = {
+    send(evt) {
+      debugger;
+      if (this.readyToSend) {
+        const model = {
+          SenderId: this.from,
+          ReceiverId: this.to,
+          Type: 1,
+          Content: this.readyToSend
+        };
+        this.sendSocketMessage(model);
+      }
+    },
+    input(evt) {
+      this.readyToSend = evt.detail.value;
+    },
+    focus(evt) {
+      this.fixPosition(true);
+    },
+    blur(evt) {
+      this.fixPosition(false);
+    },
+    clear() {
+      this.readyToSend = '';
+    }
+  };
+  sendSocketMessage(msg) {
+    if (typeof msg === 'object') {
+      // 只能发送string
+      msg = JSON.stringify(msg);
+    }
+    if (this.socketOpened) {
+      // socketOpened变量在wx.onSocketOpen时设置为true
+      wx.sendSocketMessage({
+        data: msg
+      });
+    } else {
+      // 发送的时候，链接还没建立
+      this.socketMsgQueue.push(msg);
+    }
+  }
+  onUnload() {
+    if (this.socketOpened) {
+      wx.closeSocket();
+    }
+  }
+  onLoad() {
+    debugger;
+    var _self = this;
+    this.connect();
+    wx.onSocketOpen(
+      function(r) {
+        _self.socketOpened = true;
+        console.log('socket 开启成功');
+        for (var i = 0; i < _self.socketMsgQueue.length; i++) {
+          _self.sendSocketMessage(_self.socketMsgQueue[i]);
+        }
+      },
+      function(e) {}
+    );
+    wx.onSocketMessage(function(res) {
+      debugger;
+      var json = JSON.parse(res.data);
+      _self.message.push(json);
+      _self.$apply();
+    });
+    wx.onSocketClose(function(res) {
+      console.log(res);
+      console.log('WebSocket 已关闭！');
+    });
+  }
+  connect() {
+    var props = {
+      url: 'wss://monkey.leftins.com/ws?guid=' + this.from,
+      // url: 'wss://monkey.leftins.com/ws',
+      header: {
+        contenttype: 'application/json'
+      },
+      //  protocols: ['protocol1'],
+      method: 'GET'
+    };
+    wx.connectSocket(
+      props,
+      function(r) {
+        console.log(r);
+      },
+      function(e) {
+        console.log(e);
+      }
+    );
+  }
+  getmessage() {}
   fixPosition(focus) {
     this.focus = focus;
     this.$apply();

@@ -16,7 +16,7 @@
         </view>
       </view>
     </view>
-  <chatboard :from="from" :to="to"></chatboard>
+  <chatboard :from.sync="from" :to.sync="to"></chatboard>
 </template>
 <script>
 import wepy from 'wepy';
@@ -24,8 +24,8 @@ import ChatBoard from '@/components/chatboard'; // alias example
 export default class JobDetail extends wepy.page {
   data = {
     model: null,
-    from: null,
-    to: null
+    from: 1,
+    to: 2
   };
   methods = {};
   components = {
@@ -39,7 +39,6 @@ export default class JobDetail extends wepy.page {
     } else {
       this.model = data.preload.model;
     }
-
     this.to = 2;
     this.from = 1;
   }
