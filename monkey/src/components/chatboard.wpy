@@ -176,6 +176,7 @@ export default class Chartboard extends wepy.component {
           content: this.readyToSend
         };
         this.sendSocketMessage(model);
+        this.readyToSend = '';
       }
     },
     input(evt) {

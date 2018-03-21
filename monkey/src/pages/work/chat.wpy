@@ -15,18 +15,20 @@ export default class Chat extends wepy.page {
     socketOpened: false,
     socketMsgQueue: [],
     body: {
-      senderId: 1,
-      receiverId: 2,
-      type: 'text',
+      senderid: 1,
+      receiverid: 2,
+      type: 1,
       content: ''
     }
   };
-
   computed = {
     now() {
       return +new Date();
     }
   };
+  onUnload() {
+    this.$broadcast('close');
+  }
   components = {
     chatboard: ChatBoard
   };

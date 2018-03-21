@@ -4,20 +4,20 @@
 }
 
 .mylist:even {
-  color: green;
+  color: black;
 }
 </style>
 <template>
   <!--  按钮 -->
   <view wx:if="{{hasAction}}" class="weui-flex">
     <view class="weui-flex__item">
-      <view @tap="change('time')" class="placeholder">发布时间</view>
+      <view @tap="change('creationTime')" class="placeholder">发布时间</view>
     </view>
     <view class="weui-flex__item">
       <view @tap="change('price')" class="placeholder">任务金额</view>
     </view>
     <view class="weui-flex__item">
-      <view @tap="change('cate')" class="placeholder">任务分类</view>
+      <view @tap="change('category')" class="placeholder">任务分类</view>
     </view>
   </view>
   <!-- list -->
@@ -33,7 +33,8 @@
         </view>
         <view class="weui-flex__item">
           <view class="price">
-            <icon type="success" size="23"></icon>{{item.price}}</view>
+               <i class="iconfont icon-CombinedShape" ></i>{{item.price}}
+           </view>
         </view>
       </view>
       <view class="weui-flex">
@@ -41,7 +42,8 @@
           <view class="info">{{item.content}}</view>
         </view>
         <view class="price">
-          <icon type="success" size="23"></icon>{{item.state}}</view>
+           <i class="iconfont icon-chakan" ></i>{{item.state}}
+         </view>
       </view>
     </view>
   </scroll-view>
@@ -62,7 +64,10 @@ export default class List extends wepy.component {
     params: {
       type: Object,
       required: false,
-      default: {}
+      default: {
+        skipCount: 0,
+        maxResultCount: 10
+      }
     }
   };
   data = {
@@ -70,11 +75,16 @@ export default class List extends wepy.component {
     total: 0,
     index: 1,
     height: 1208,
-    sort: 'creationTime'
+    sorting: '',
+    desc: false
   };
   methods = {
     async change(type) {
-      this.sort = type;
+      this.desc = !this.desc;
+      if (this.desc) {
+        type = type + ' desc';
+      }
+      this.sorting = type;
       this.params.skipCount = 0;
       this.params.maxResultCount = 10;
       var result = await this.search();
@@ -91,7 +101,7 @@ export default class List extends wepy.component {
   };
   async search() {
     var params = Object.assign(this.params, {
-      sort: this.sort
+      sorting: this.sorting
     });
     var result = await this.searchApi(params);
     return result.result;
@@ -109,5 +119,12 @@ export default class List extends wepy.component {
     var result = await this.search();
     this.gender(result, true);
   }
+  events = {
+    init: async $event => {
+      this.params.skipCount = 0;
+      var result = await this.search();
+      this.gender(result, true);
+    }
+  };
 }
 </script>

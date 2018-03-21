@@ -46,17 +46,16 @@ export default class SearchBar extends wepy.component {
   data = {
     inputShowed: false,
     inputVal: '',
-    result: []
+    result: [],
+    params: {
+      skipCount: 0,
+      maxResultCount: 10
+    }
   };
   props = {
     searchApi: {
       type: Function,
       required: true
-    },
-    params: {
-      type: Object,
-      required: false,
-      default: {}
     }
   };
   watch = {
