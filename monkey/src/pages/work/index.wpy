@@ -3,8 +3,7 @@
 </style>
 <template>
   <view class="container">
-  <family :list="[]">
-
+  <family >
   </family>
   </view>
   <button class="weui-btn mini-btn" size="mini" type="default" @tap="goChat">聊天</button>

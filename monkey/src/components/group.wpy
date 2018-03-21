@@ -1,20 +1,163 @@
 <style lang="less">
+.index {
+  background-color: aqua;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #666;
+  font-family: arial, verdana, tahoma;
+  font-size: 11px;
+  display: inline-block;
 
+  .a {
+    background-color: aqua;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #666;
+    font-family: arial, verdana, tahoma;
+    font-size: 11px;
+    display: inline-block;
+    background-color: blanchedalmond;
+    .b {
+      background-color: aqua;
+      border: 1px solid #ccc;
+      padding: 5px 10px;
+      text-decoration: none;
+      color: #666;
+      font-family: arial, verdana, tahoma;
+      font-size: 11px;
+      display: inline-block;
+      background-color: khaki;
+      .c {
+        background-color: aqua;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        text-decoration: none;
+        color: #666;
+        font-family: arial, verdana, tahoma;
+        font-size: 11px;
+        background-color: brown;
+      }
+    }
+  }
+}
+
+.strt-part {
+  text-align: center;
+  position: relative;
+  display: inline-block;
+}
+
+.strt-part .line-v {
+  position: relative;
+  height: 20px;
+  width: 100%;
+}
+
+.strt-part .line-v span {
+  display: block;
+  background: #ccc;
+  position: absolute;
+  top: 0;
+  font-size: 0;
+  line-height: 1px;
+  width: 1px;
+  height: 20px;
+  left: 50%;
+}
+
+.strt-name {
+  display: inline-block;
+  padding: 0 5px;
+  height: 24px;
+  line-height: 24px;
+  border: 1px solid #ccc;
+  margin: 0 10px;
+  border-radius: 3px;
+  background: #f8f8f8;
+}
+
+.strt-part .line-h {
+  height: 1px;
+  display: block;
+  background: #ccc;
+  position: absolute;
+  top: 0;
+  font-size: 0;
+}
+
+.strt-part .line-h-l {
+  width: 50%;
+  left: 0;
+}
+
+.strt-part .line-h-c {
+  width: 100%;
+  left: 0;
+}
+
+.strt-part .line-h-r {
+  width: 50%;
+  right: 0;
+}
+
+.strt-block {
+  float: left;
+}
 </style>
 <template>
-  <view class="container">
-    <view class="placeholder" wx:for="{{list}}" wx:key="index">{{item.name}}
-      <view  wx:if="{{item.children}}" wx:for="{{item.children}}" wx:for-item="a" wx:key="index">
-        {{a.name}}
-        <view wx:if="{{a.children}}" wx:for="{{a.children}}" wx:for-item="b" wx:key="index">
-          {{b.name}}
-          <view wx:if="{{b.children}}" wx:for="{{b.children}}" wx:for-item="c" wx:key="index">
-            {{c.name}}
+  <scroll-view scroll-x style="height: 1200px;width: 100%">
+    <view class="strt-part">
+      <span class="strt-name">{{model.name}}</span>
+      <view  class="line-v">
+        <span ></span>
+      </view>
+
+      <view wx:for="{{model.children}}" wx:if="{{model.children.length>0}}" wx:for-item="a" wx:key="a" class="strt-part">
+        <span wx:if="{{model.children.length>1}}" class="line-h line-h-r"></span>
+        <view  class="line-v">
+          <span></span>
+        </view>
+        <span class="strt-name">{{a.name}}</span>
+        <view class="line-v">
+          <span></span>
+        </view>
+        <view wx:for="{{a.children}}" wx:if="{{a.children.length>0}}" wx:for-item="b" wx:key="b" class="strt-part">
+          <span wx:if="{{model.children.length>1}}" class="line-h line-h-r"></span>
+          <view class="line-v">
+            <span></span>
+          </view>
+          <span class="strt-name">{{b.name}}</span>
+          <view class="line-v">
+            <span></span>
+          </view>
+          <view wx:for="{{b.children}}" wx:if="{{b.children.length>0}}" wx:for-item="c" wx:key="c" class="strt-part">
+            <span class="line-h line-h-r"></span>
+            <view class="line-v">
+              <span></span>
+            </view>
+            <span class="strt-name">{{c.name}}</span>
           </view>
         </view>
       </view>
 
+    </view>
+  </scroll-view>
 
+
+
+  <view class="container">
+    <view class="index">{{model.name}}
+      <view class="a" wx:if="{{model.children}}" wx:for="{{model.children}}" wx:for-item="a" wx:key="index">
+        {{a.name}}
+        <view class="b" wx:if="{{a.children}}" wx:for="{{a.children}}" wx:for-item="b" wx:key="index">
+          {{b.name}}
+          <view class="c" wx:if="{{b.children}}" wx:for="{{b.children}}" wx:for-item="c" wx:key="index">
+            {{c.name}}
+          </view>
+        </view>
+      </view>
     </view>
   </view>
 </template>
@@ -24,8 +167,8 @@ import wepy from 'wepy';
 export default class Family extends wepy.component {
   data = {};
   props = {
-    list: {
-      type: Array,
+    model: {
+      type: Object,
       required: true
     }
   };
@@ -40,194 +183,192 @@ export default class Family extends wepy.component {
   events = {};
   // 加载函数
   async onLoad() {
-    this.list = [
-      {
-        id: 1,
-        name: '族长',
-        children: [
-          {
-            id: 2,
-            name: 'A',
-            children: [
-              {
-                id: 5,
-                name: 'A.A',
-                children: [
-                  {
-                    id: 14,
-                    name: 'A.A.A'
-                  },
-                  {
-                    id: 23,
-                    name: 'A.A.B'
-                  },
-                  {
-                    id: 32,
-                    name: 'A.A.C'
-                  }
-                ]
-              },
-              {
-                id: 8,
-                name: 'A.B',
-                children: [
-                  {
-                    id: 17,
-                    name: 'A.B.A'
-                  },
-                  {
-                    id: 26,
-                    name: 'A.B.B'
-                  },
-                  {
-                    id: 35,
-                    name: 'A.B.C'
-                  }
-                ]
-              },
-              {
-                id: 11,
-                name: 'A.C',
-                children: [
-                  {
-                    id: 20,
-                    name: 'A.C.A'
-                  },
-                  {
-                    id: 29,
-                    name: 'A.C.B'
-                  },
-                  {
-                    id: 38,
-                    name: 'A.C.C'
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            id: 3,
-            name: 'B',
-            children: [
-              {
-                id: 6,
-                name: 'B.A',
-                children: [
-                  {
-                    id: 15,
-                    name: 'B.A.A'
-                  },
-                  {
-                    id: 24,
-                    name: 'B.A.B'
-                  },
-                  {
-                    id: 33,
-                    name: 'B.A.C'
-                  }
-                ]
-              },
-              {
-                id: 9,
-                name: 'B.B',
-                children: [
-                  {
-                    id: 18,
-                    name: 'B.B.A'
-                  },
-                  {
-                    id: 27,
-                    name: 'B.B.B'
-                  },
-                  {
-                    id: 36,
-                    name: 'B.B.C'
-                  }
-                ]
-              },
-              {
-                id: 12,
-                name: 'B.C',
-                children: [
-                  {
-                    id: 21,
-                    name: 'B.C.A'
-                  },
-                  {
-                    id: 30,
-                    name: 'B.C.B'
-                  },
-                  {
-                    id: 39,
-                    name: 'B.C.C'
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            id: 4,
-            name: 'C',
-            children: [
-              {
-                id: 7,
-                name: 'C.A',
-                children: [
-                  {
-                    id: 16,
-                    name: 'C.A.A'
-                  },
-                  {
-                    id: 25,
-                    name: 'C.A.B'
-                  },
-                  {
-                    id: 34,
-                    name: 'C.A.C'
-                  }
-                ]
-              },
-              {
-                id: 10,
-                name: 'C.B',
-                children: [
-                  {
-                    id: 19,
-                    name: 'C.B.A'
-                  },
-                  {
-                    id: 28,
-                    name: 'C.B.B'
-                  },
-                  {
-                    id: 37,
-                    name: 'C.B.C'
-                  }
-                ]
-              },
-              {
-                id: 13,
-                name: 'C.C',
-                children: [
-                  {
-                    id: 22,
-                    name: 'C.C.A'
-                  },
-                  {
-                    id: 31,
-                    name: 'C.C.B'
-                  },
-                  {
-                    id: 40,
-                    name: 'C.C.C'
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ];
+    this.model = {
+      id: 1,
+      name: '族长',
+      children: [
+        {
+          id: 2,
+          name: 'A',
+          children: [
+            {
+              id: 5,
+              name: 'A.A',
+              children: [
+                {
+                  id: 14,
+                  name: 'A.A.A'
+                },
+                {
+                  id: 23,
+                  name: 'A.A.B'
+                },
+                {
+                  id: 32,
+                  name: 'A.A.C'
+                }
+              ]
+            },
+            {
+              id: 8,
+              name: 'A.B',
+              children: [
+                {
+                  id: 17,
+                  name: 'A.B.A'
+                },
+                {
+                  id: 26,
+                  name: 'A.B.B'
+                },
+                {
+                  id: 35,
+                  name: 'A.B.C'
+                }
+              ]
+            },
+            {
+              id: 11,
+              name: 'A.C',
+              children: [
+                {
+                  id: 20,
+                  name: 'A.C.A'
+                },
+                {
+                  id: 29,
+                  name: 'A.C.B'
+                },
+                {
+                  id: 38,
+                  name: 'A.C.C'
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 3,
+          name: 'B',
+          children: [
+            {
+              id: 6,
+              name: 'B.A',
+              children: [
+                {
+                  id: 15,
+                  name: 'B.A.A'
+                },
+                {
+                  id: 24,
+                  name: 'B.A.B'
+                },
+                {
+                  id: 33,
+                  name: 'B.A.C'
+                }
+              ]
+            },
+            {
+              id: 9,
+              name: 'B.B',
+              children: [
+                {
+                  id: 18,
+                  name: 'B.B.A'
+                },
+                {
+                  id: 27,
+                  name: 'B.B.B'
+                },
+                {
+                  id: 36,
+                  name: 'B.B.C'
+                }
+              ]
+            },
+            {
+              id: 12,
+              name: 'B.C',
+              children: [
+                {
+                  id: 21,
+                  name: 'B.C.A'
+                },
+                {
+                  id: 30,
+                  name: 'B.C.B'
+                },
+                {
+                  id: 39,
+                  name: 'B.C.C'
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: 4,
+          name: 'C',
+          children: [
+            {
+              id: 7,
+              name: 'C.A',
+              children: [
+                {
+                  id: 16,
+                  name: 'C.A.A'
+                },
+                {
+                  id: 25,
+                  name: 'C.A.B'
+                },
+                {
+                  id: 34,
+                  name: 'C.A.C'
+                }
+              ]
+            },
+            {
+              id: 10,
+              name: 'C.B',
+              children: [
+                {
+                  id: 19,
+                  name: 'C.B.A'
+                },
+                {
+                  id: 28,
+                  name: 'C.B.B'
+                },
+                {
+                  id: 37,
+                  name: 'C.B.C'
+                }
+              ]
+            },
+            {
+              id: 13,
+              name: 'C.C',
+              children: [
+                {
+                  id: 22,
+                  name: 'C.C.A'
+                },
+                {
+                  id: 31,
+                  name: 'C.C.B'
+                },
+                {
+                  id: 40,
+                  name: 'C.C.C'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    };
   }
 }
 </script>
