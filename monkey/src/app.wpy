@@ -64,7 +64,10 @@ export default class extends wepy.app {
       'pages/my/rules',
       'pages/my/works',
       'pages/my/workdetail',
-      'pages/my/myjobs'
+      'pages/my/myjobs',
+
+      'pages/orders/payfor',
+      'pages/orders/payinfo'
     ],
     window: {
       // 导航栏标题文字内容

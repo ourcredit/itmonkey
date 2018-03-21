@@ -171,8 +171,22 @@ export default class CreateTask extends wepy.page {
     bindAgreeChange(e) {
       this.isAgree = !!e.detail.value.length;
     },
-    goBack() {},
-    secertCreate() {},
+    goBack() {
+      this.$switch('index');
+    },
+    async secertCreate() {
+      if (!this.isAgree) {
+        tip.alert('请阅读相关协议并同意');
+        return;
+      }
+      if (!this.model.name || !this.model.content || !this.model.price) {
+        tip.alert('请完善表单信息');
+        return;
+      }
+      const model = this.model;
+      this.$preload('model', model);
+      this.$navigate('../orders/payfor');
+    },
     async publicCreate() {
       if (!this.isAgree) {
         tip.alert('请阅读相关协议并同意');
