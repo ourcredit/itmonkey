@@ -14,6 +14,10 @@ namespace ItMonkey.Jobs.Dtos
         public bool IsSecert { get; set; }
         public string Category { get; set; }
         public int Price { get; set; }
+        /// <summary>
+        /// 创建人
+        /// </summary>
+        public long CreatorId { get; set; }
         public int FirstGrade { get; set; }
         public int SecondGrade { get; set; }
         public int ThirdGrade { get; set; }

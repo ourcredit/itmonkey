@@ -85,11 +85,11 @@
           </view>
         </view>
         <view>
-          <view class="placeholder">weui</view>
+          <view class="placeholder"><p>描述</p></view>
         </view>
       </view>
 
-    <checkbox-group @change="bindAgreeChange">
+    <checkbox-group style=" align-self: right;" @change="bindAgreeChange">
         <label class="weui-agree" for="weuiAgree">
           <view class="weui-agree__text">
             <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}" />
