@@ -3,10 +3,9 @@
 </style>
 <template>
   <view class="container">
-  <family >
+  <family @childFn.user="goChat" >
   </family>
   </view>
-  <button class="weui-btn mini-btn" size="mini" type="default" @tap="goChat">聊天</button>
 </template>
 
 <script>
@@ -24,7 +23,8 @@ export default class Dash extends wepy.page {
   };
   // 方法
   methods = {
-    goChat() {
+    goChat(item, evt) {
+      this.$parent.globalData.userInfo.user.ChatId = item.id;
       this.$navigate('chat');
     }
   };

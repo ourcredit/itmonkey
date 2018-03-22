@@ -51,7 +51,7 @@
 
 .strt-part .line-v {
   position: relative;
-  height: 20px;
+  height: 40px;
   width: 100%;
 }
 
@@ -63,11 +63,11 @@
   font-size: 0;
   line-height: 1px;
   width: 1px;
-  height: 20px;
+  height: 40px;
   left: 50%;
 }
 
-.strt-name {
+.strt-name-other {
   display: inline-block;
   padding: 0 5px;
   height: 24px;
@@ -76,6 +76,17 @@
   margin: 0 10px;
   border-radius: 3px;
   background: #f8f8f8;
+}
+.strt-name-my {
+  display: inline-block;
+  padding: 0 5px;
+  height: 24px;
+  line-height: 24px;
+  border: 1px solid yellowgreen;
+  margin: 0 10px;
+  border-radius: 3px;
+  background: gray;
+  color: blue;
 }
 
 .strt-part .line-h {
@@ -98,8 +109,17 @@
 }
 
 .strt-part .line-h-r {
-  width: 50%;
-  right: 0;
+  width: 100%;
+}
+
+.strt-part .line-h-r-left {
+  width: 100%;
+  margin-left: 50%;
+}
+
+.strt-part .line-h-r-right {
+  width: 100%;
+  margin-left: -50%;
 }
 
 .strt-block {
@@ -107,65 +127,49 @@
 }
 </style>
 <template>
-  <scroll-view scroll-x style="height: 1200px;width: 100%">
-    <view class="strt-part">
-      <span class="strt-name">{{model.name}}</span>
-      <view  class="line-v">
-        <span ></span>
+  <scroll-view scroll-with-animation="true" scroll-into-view="{{current}}" scroll-x="true" scroll-left="1" style="height: 100%;width: 100% ;white-space: nowrap;">
+    <view id="key_{{model.id}}" class="strt-part">
+      <span @tap="gochat({{item}})"  class="strt-name{{model.self?'-my':'-other'}}">{{model.id}}.{{model.name}}</span>
+      <view class="line-v">
+        <span></span>
       </view>
-
-      <view wx:for="{{model.children}}" wx:if="{{model.children.length>0}}" wx:for-item="a" wx:key="a" class="strt-part">
-        <span wx:if="{{model.children.length>1}}" class="line-h line-h-r"></span>
-        <view  class="line-v">
-          <span></span>
-        </view>
-        <span class="strt-name">{{a.name}}</span>
+      <view id="key_{{a.id}}"  wx:for="{{model.children}}" wx:if="{{model.children.length>0}}" wx:for-item="a" wx:key="a" class="strt-part">
+        <span wx:if="{{model.children.length>1}}" class="line-h line-h-r{{a.id<3?'-left':a.id==3?'': '-right'}}"></span>
         <view class="line-v">
           <span></span>
         </view>
-        <view wx:for="{{a.children}}" wx:if="{{a.children.length>0}}" wx:for-item="b" wx:key="b" class="strt-part">
-          <span wx:if="{{model.children.length>1}}" class="line-h line-h-r"></span>
+        <span  @tap="gochat({{a}})" class="strt-name{{a.self?'-my':'-other'}}">{{a.id}}.{{a.name}}</span>
+        <view class="line-v">
+          <span></span>
+        </view>
+        <view id="key_{{b.id}}"  wx:for="{{a.children}}" wx:if="{{a.children.length>0}}" wx:for-item="b" wx:key="b" class="strt-part">
+          <span  wx:if="{{model.children.length>1}}" class="line-h line-h-r{{b.id<9?'-left':b.id==9?'': '-right'}}"></span>
           <view class="line-v">
             <span></span>
           </view>
-          <span class="strt-name">{{b.name}}</span>
+          <span @tap="gochat({{b}})" class="strt-name{{b.self?'-my':'-other'}}">{{b.id}}.{{b.name}}</span>
           <view class="line-v">
             <span></span>
           </view>
-          <view wx:for="{{b.children}}" wx:if="{{b.children.length>0}}" wx:for-item="c" wx:key="c" class="strt-part">
-            <span class="line-h line-h-r"></span>
+          <view id="key_{{c.id}}" wx:for="{{b.children}}" wx:if="{{b.children.length>0}}" wx:for-item="c" wx:key="c" class="strt-part">
+            <span  wx:if="{{a.children.length>1}}" class="line-h line-h-r{{c.id<27?'-left':c.id==27?'': '-right'}}"></span>
             <view class="line-v">
               <span></span>
             </view>
-            <span class="strt-name">{{c.name}}</span>
+            <span @tap="gochat({{c}})"  class="strt-name{{c.self?'-my':'-other'}}">{{c.id}}.{{c.name}}</span>
           </view>
         </view>
       </view>
-
     </view>
   </scroll-view>
-
-
-
-  <view class="container">
-    <view class="index">{{model.name}}
-      <view class="a" wx:if="{{model.children}}" wx:for="{{model.children}}" wx:for-item="a" wx:key="index">
-        {{a.name}}
-        <view class="b" wx:if="{{a.children}}" wx:for="{{a.children}}" wx:for-item="b" wx:key="index">
-          {{b.name}}
-          <view class="c" wx:if="{{b.children}}" wx:for="{{b.children}}" wx:for-item="c" wx:key="index">
-            {{c.name}}
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
 </template>
 
 <script>
 import wepy from 'wepy';
 export default class Family extends wepy.component {
-  data = {};
+  data = {
+    current: 'key_27'
+  };
   props = {
     model: {
       type: Object,
@@ -178,7 +182,11 @@ export default class Family extends wepy.component {
     }
   };
   // 方法
-  methods = {};
+  methods = {
+    gochat(item) {
+      this.$emit('childFn', item);
+    }
+  };
 
   events = {};
   // 加载函数
@@ -186,62 +194,76 @@ export default class Family extends wepy.component {
     this.model = {
       id: 1,
       name: '族长',
+      self: false,
       children: [
         {
           id: 2,
           name: 'A',
+          self: false,
           children: [
             {
               id: 5,
               name: 'A.A',
+              self: false,
               children: [
                 {
                   id: 14,
-                  name: 'A.A.A'
+                  name: 'A.A.A',
+                  self: false
                 },
                 {
                   id: 23,
-                  name: 'A.A.B'
+                  name: 'A.A.B',
+                  self: false
                 },
                 {
                   id: 32,
-                  name: 'A.A.C'
+                  name: 'A.A.C',
+                  self: false
                 }
               ]
             },
             {
               id: 8,
               name: 'A.B',
+              self: false,
               children: [
                 {
                   id: 17,
-                  name: 'A.B.A'
+                  name: 'A.B.A',
+                  self: false
                 },
                 {
                   id: 26,
-                  name: 'A.B.B'
+                  name: 'A.B.B',
+                  self: true
                 },
                 {
                   id: 35,
-                  name: 'A.B.C'
+                  name: 'A.B.C',
+                  self: false
                 }
               ]
             },
             {
               id: 11,
               name: 'A.C',
+              self: false,
               children: [
                 {
                   id: 20,
-                  name: 'A.C.A'
+                  name: 'A.C.A',
+                  self: false
                 },
                 {
                   id: 29,
-                  name: 'A.C.B'
+                  name: 'A.C.B',
+                  self: false
                 },
                 {
                   id: 38,
-                  name: 'A.C.C'
+                  name: 'A.C.C',
+                  self: false
                 }
               ]
             }
@@ -250,58 +272,71 @@ export default class Family extends wepy.component {
         {
           id: 3,
           name: 'B',
+          self: false,
           children: [
             {
               id: 6,
               name: 'B.A',
+              self: false,
               children: [
                 {
                   id: 15,
-                  name: 'B.A.A'
+                  name: 'B.A.A',
+                  self: false
                 },
                 {
                   id: 24,
-                  name: 'B.A.B'
+                  name: 'B.A.B',
+                  self: false
                 },
                 {
                   id: 33,
-                  name: 'B.A.C'
+                  name: 'B.A.C',
+                  self: false
                 }
               ]
             },
             {
               id: 9,
               name: 'B.B',
+              self: false,
               children: [
                 {
                   id: 18,
-                  name: 'B.B.A'
+                  name: 'B.B.A',
+                  self: false
                 },
                 {
                   id: 27,
-                  name: 'B.B.B'
+                  name: 'B.B.B',
+                  self: false
                 },
                 {
                   id: 36,
-                  name: 'B.B.C'
+                  name: 'B.B.C',
+                  self: false
                 }
               ]
             },
             {
               id: 12,
               name: 'B.C',
+              self: false,
               children: [
                 {
                   id: 21,
-                  name: 'B.C.A'
+                  name: 'B.C.A',
+                  self: false
                 },
                 {
                   id: 30,
-                  name: 'B.C.B'
+                  name: 'B.C.B',
+                  self: false
                 },
                 {
                   id: 39,
-                  name: 'B.C.C'
+                  name: 'B.C.C',
+                  self: false
                 }
               ]
             }
@@ -310,58 +345,71 @@ export default class Family extends wepy.component {
         {
           id: 4,
           name: 'C',
+          self: false,
           children: [
             {
               id: 7,
               name: 'C.A',
+              self: false,
               children: [
                 {
                   id: 16,
-                  name: 'C.A.A'
+                  name: 'C.A.A',
+                  self: false
                 },
                 {
                   id: 25,
-                  name: 'C.A.B'
+                  name: 'C.A.B',
+                  self: false
                 },
                 {
                   id: 34,
-                  name: 'C.A.C'
+                  name: 'C.A.C',
+                  self: false
                 }
               ]
             },
             {
               id: 10,
               name: 'C.B',
+              self: false,
               children: [
                 {
                   id: 19,
-                  name: 'C.B.A'
+                  name: 'C.B.A',
+                  self: false
                 },
                 {
                   id: 28,
-                  name: 'C.B.B'
+                  name: 'C.B.B',
+                  self: false
                 },
                 {
                   id: 37,
-                  name: 'C.B.C'
+                  name: 'C.B.C',
+                  self: false
                 }
               ]
             },
             {
               id: 13,
               name: 'C.C',
+              self: false,
               children: [
                 {
                   id: 22,
-                  name: 'C.C.A'
+                  name: 'C.C.A',
+                  self: false
                 },
                 {
                   id: 31,
-                  name: 'C.C.B'
+                  name: 'C.C.B',
+                  self: false
                 },
                 {
                   id: 40,
-                  name: 'C.C.C'
+                  name: 'C.C.C',
+                  self: false
                 }
               ]
             }

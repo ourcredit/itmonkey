@@ -3,7 +3,7 @@ $fontcolor: #7b7b7b;
 $activecolor: #13b113;
 .chartboard {
   background-color: #ededed;
-  padding-bottom: 120rpx;
+  padding-bottom: 50rpx;
   &.fixed {
     position: fixed;
     left: 0;
@@ -144,11 +144,13 @@ export default class Chartboard extends wepy.component {
   props = {
     from: {
       type: Number,
-      required: true
+      required: false,
+      twoWay: true
     },
     to: {
       type: Number,
-      required: true
+      required: false,
+      twoWay: true
     }
   };
   data = {
@@ -214,6 +216,8 @@ export default class Chartboard extends wepy.component {
   }
   onLoad() {
     var _self = this;
+    _self.from = _self.$root.$parent.globalData.userInfo.user.CustomerId;
+    _self.to = _self.$root.$parent.globalData.userInfo.user.ChatId;
     this.connect();
     wx.onSocketOpen(
       function(r) {
@@ -255,7 +259,6 @@ export default class Chartboard extends wepy.component {
       }
     );
   }
-  getmessage() {}
   fixPosition(focus) {
     this.focus = focus;
     this.$apply();

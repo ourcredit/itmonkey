@@ -2,25 +2,12 @@
 
 </style>
 <template>
-<chatboard></chatboard>
+<chatboard ></chatboard>
 </template>
-
 <script>
 import wepy from 'wepy';
 import ChatBoard from '@/components/chatboard'; // alias example
 export default class Chat extends wepy.page {
-  data = {
-    chat: null,
-    contents: [],
-    socketOpened: false,
-    socketMsgQueue: [],
-    body: {
-      senderid: 1,
-      receiverid: 2,
-      type: 1,
-      content: ''
-    }
-  };
   computed = {
     now() {
       return +new Date();
@@ -34,10 +21,8 @@ export default class Chat extends wepy.page {
   };
   // 方法
   methods = {};
-
   events = {};
-
   // 加载函数
-  async onLoad() {}
+  async onLoad(params, data) {}
 }
 </script>

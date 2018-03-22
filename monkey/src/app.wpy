@@ -145,7 +145,9 @@ export default class extends wepy.app {
   globalData = {
     userInfo: {
       user: {
-        CreatorUserId: 1,
+        CustomerId: 1,
+        ChatId: null,
+        GroupId: null,
         openId: 'oxxfx5IUWPrOBgXb1Q4B9WX2PCqU',
         nickName: '十二',
         gender: '1',

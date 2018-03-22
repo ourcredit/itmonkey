@@ -1,7 +1,7 @@
 {
   "name": "itmonkey",
-  "version": "0.0.1",
-  "description": "A WePY project",
+  "version": "1.0.0",
+  "description": "猿人超市",
   "main": "dist/app.js",
   "scripts": {
     "dev": "wepy build --watch",
