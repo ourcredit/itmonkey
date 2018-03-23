@@ -30,10 +30,9 @@ namespace ItMonkey.Models.MonkeyChain
         /// <returns></returns>
         public static string Sha256Encrypt(string model)
         {
-            var ac=new ASCIIEncoding();
-            var temp =  ac.GetBytes(model);
-            var bytes = new SHA1Managed().ComputeHash(temp);
-            return ac.GetString(bytes);
+            byte[] clearBytes = Encoding.UTF8.GetBytes(model);
+            var bytes = new SHA1Managed().ComputeHash(clearBytes);
+          return  BitConverter.ToString(bytes).Replace("-", "").ToLower();
         }
 
         public static string TimeStamp()
