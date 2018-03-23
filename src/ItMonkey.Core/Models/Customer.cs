@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using ItMonkey.Models.MonkeyChain;
 
 namespace ItMonkey.Models
 {
@@ -61,5 +62,10 @@ namespace ItMonkey.Models
         /// </summary>
         [ForeignKey("CustomerId")]
         public  virtual  ICollection<CustomerJob> CustomerJobs { get; set; }
+        /// <summary>
+        /// 持有的猿人币
+        /// </summary>
+        [ForeignKey("CustomerId")]
+        public  virtual  ICollection<CustomerMonkeyChain> CustomerMonkeyChains { get; set; }
     }
 }

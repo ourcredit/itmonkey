@@ -4,6 +4,7 @@ using Abp.Zero.EntityFrameworkCore;
 using ItMonkey.Authorization.Roles;
 using ItMonkey.Authorization.Users;
 using ItMonkey.Models;
+using ItMonkey.Models.MonkeyChain;
 using ItMonkey.MultiTenancy;
 
 namespace ItMonkey.EntityFrameworkCore
@@ -17,6 +18,10 @@ namespace ItMonkey.EntityFrameworkCore
         public virtual DbSet<Shuffling> Shufflings { get; set; }
         public virtual DbSet<MessageStore> MessageStores { get; set; }
         public virtual  DbSet<Family> Families { get; set; }
+        public virtual  DbSet<MonkeyChain> MonkeyChains { get; set; }
+        public virtual  DbSet<CustomerMonkeyChain> CustomerMonkeyChains { get; set; }
+
+        
         public ItMonkeyDbContext(DbContextOptions<ItMonkeyDbContext> options)
             : base(options)
         {

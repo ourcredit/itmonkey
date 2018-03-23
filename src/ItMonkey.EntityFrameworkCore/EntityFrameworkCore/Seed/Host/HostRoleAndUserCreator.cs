@@ -7,6 +7,7 @@ using Abp.MultiTenancy;
 using ItMonkey.Authorization;
 using ItMonkey.Authorization.Roles;
 using ItMonkey.Authorization.Users;
+using ItMonkey.Models.MonkeyChain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
@@ -24,6 +25,7 @@ namespace ItMonkey.EntityFrameworkCore.Seed.Host
         public void Create()
         {
             CreateHostRoleAndUsers();
+            CreateGenesisChain();
         }
 
         private void CreateHostRoleAndUsers()
@@ -99,6 +101,19 @@ namespace ItMonkey.EntityFrameworkCore.Seed.Host
                     UserName = AbpUserBase.AdminUserName,
                     EmailAddress = adminUserForHost.EmailAddress
                 });
+                _context.SaveChanges();
+            }
+        }
+        /// <summary>
+        /// 创建创世区块
+        /// </summary>
+        private void CreateGenesisChain()
+        {
+           var model=new MonkeyChain(0,
+                "GenesisChain", "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7");
+            if (_context.MonkeyChains.FirstOrDefault(c => c.Hash == model.Hash) == null)
+            {
+                _context.MonkeyChains.Add(model);
                 _context.SaveChanges();
             }
         }

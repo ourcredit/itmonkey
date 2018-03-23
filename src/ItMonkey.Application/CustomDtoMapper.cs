@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
 using ItMonkey.CustomerExperiences.Dtos;
+using ItMonkey.CustomerMonkeyChains.Dtos;
 using ItMonkey.Customers.Dtos;
 using ItMonkey.Jobs.Dtos;
 using ItMonkey.Models;
+using ItMonkey.Models.MonkeyChain;
 using ItMonkey.Shufflings.Dtos;
 
 namespace ItMonkey
@@ -25,6 +27,9 @@ namespace ItMonkey
 
             configuration.CreateMap<CustomerExperience, CustomerExperienceListDto>();
             configuration.CreateMap<CustomerExperienceEditDto, CustomerExperience>();
+
+            configuration.CreateMap<CustomerMonkeyChain, CustomerMonkeyChainListDto>();
+            configuration.CreateMap<CustomerMonkeyChainEditDto, CustomerMonkeyChain>();
         }
     }
 }

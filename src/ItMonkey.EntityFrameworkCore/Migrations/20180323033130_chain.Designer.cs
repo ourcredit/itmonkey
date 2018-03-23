@@ -17,9 +17,10 @@ using System;
 namespace ItMonkey.Migrations
 {
     [DbContext(typeof(ItMonkeyDbContext))]
-    partial class ItMonkeyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180323033130_chain")]
+    partial class chain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
