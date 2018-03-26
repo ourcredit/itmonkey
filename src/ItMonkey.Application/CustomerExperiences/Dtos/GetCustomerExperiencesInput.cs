@@ -12,7 +12,10 @@ namespace ItMonkey.CustomerExperiences.Dtos
         /// 模糊搜索使用的关键字
         /// </summary>
         public string Filter { get; set; }
-
+        /// <summary>
+        /// 客户id
+        /// </summary>
+        public long CustomerId { get; set; }
         /// <summary>
         /// 正常化排序使用
         /// </summary>
