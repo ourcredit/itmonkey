@@ -20,8 +20,9 @@ namespace ItMonkey.EntityFrameworkCore
         public virtual  DbSet<Family> Families { get; set; }
         public virtual  DbSet<MonkeyChain> MonkeyChains { get; set; }
         public virtual  DbSet<CustomerMonkeyChain> CustomerMonkeyChains { get; set; }
+        public virtual  DbSet<CustomerExperience> CustomerExperiences { get; set; }
 
-        
+
         public ItMonkeyDbContext(DbContextOptions<ItMonkeyDbContext> options)
             : base(options)
         {
