@@ -111,7 +111,8 @@ namespace ItMonkey.EntityFrameworkCore.Seed.Host
         {
            var model=new MonkeyChain(0,
                 "GenesisChain", "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7");
-            if (_context.MonkeyChains.FirstOrDefault(c => c.Hash == model.Hash) == null)
+            var t = _context.MonkeyChains.FirstOrDefault(c => c.Hash == model.Hash);
+            if ( t== null)
             {
                 _context.MonkeyChains.Add(model);
                 _context.SaveChanges();

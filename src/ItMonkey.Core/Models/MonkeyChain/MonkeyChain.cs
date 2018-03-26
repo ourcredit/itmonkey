@@ -13,6 +13,7 @@ namespace ItMonkey.Models.MonkeyChain
     [Table("m_monkey_chain")]
     public class MonkeyChain:Entity<Guid>
     {
+        public MonkeyChain() { }
         public MonkeyChain(long index, string data, string previousHash)
         {
             var time = TimeStamp();

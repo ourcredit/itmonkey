@@ -1,6 +1,4 @@
  class Chat {
-
-
    constructor(guid, props = {}) {
      this.msgArr = [];
      this.props = {
