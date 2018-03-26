@@ -42,9 +42,8 @@
             <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover" />
             <view class="userinfo-info">
               <view class="userinfo-nickname">{{ userInfo.nickName }}</view>
-              <view class="userinfo-status">￥1890</view>
-              <view class="userinfo-status">族长</view>
-
+              <view class="userinfo-status">￥{{ userInfo.nickName }}</view>
+              <view class="userinfo-status">{{ userInfo.nickName }}</view>
             </view>
           </view>
         </view>
@@ -119,7 +118,9 @@ export default class Dash extends wepy.page {
   config = {
     navigationBarTitleText: '我'
   };
-  data = {};
+  data = {
+    userInfo: {}
+  };
   computed = {
     now() {
       return +new Date();
@@ -135,6 +136,7 @@ export default class Dash extends wepy.page {
     if (user) {
       this.userInfo = user;
     }
+    console.log(this.userInfo);
   }
 }
 </script>

@@ -228,6 +228,11 @@ namespace ItMonkey.Models
         /// </summary>
         public int? FamilyCode { get; set; }
         /// <summary>
+        /// 余额
+        /// </summary>
+        public int Balance { get; set; }
+
+        /// <summary>
         /// 职称
         /// </summary>
         public string Title { get; set; }

@@ -143,24 +143,8 @@ export default class extends wepy.app {
   };
 
   globalData = {
-    userInfo: {
-      user: {
-        CustomerId: 1,
-        ChatId: null,
-        GroupId: null,
-        openId: 'oxxfx5IUWPrOBgXb1Q4B9WX2PCqU',
-        nickName: '十二',
-        gender: '1',
-        city: 'Haidian',
-        province: 'Beijing',
-        country: 'China',
-        avatarUrl:
-          'https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83er3Uzg8ngviaVHZlgNsZxlrQrXSehEPa2aS32dRHRyykDjUdPRbhQKiavpO21VovjDCth63EdE0DzwQ/0',
-        unionId: null,
-        watermark: { appid: 'wxd91baf88184a42bb', timestamp: '1521526687' }
-      },
-      hasRegister: true
-    }
+    user: null,
+    hasRegister: false
   };
 
   constructor() {
@@ -174,8 +158,8 @@ export default class extends wepy.app {
   }
   async getUserInfo() {
     const that = this;
-    if (this.globalData.userInfo.user) {
-      return this.globalData.userInfo;
+    if (this.globalData.user) {
+      return this.globalData.user;
     }
     const t = await wepy.login();
     const r = await wepy.getUserInfo();
@@ -189,14 +173,14 @@ export default class extends wepy.app {
       };
       var res = await api.GetAuthInfo(params);
       if (res.success) {
-        this.globalData.userInfo.user = res.result;
-        this.globalData.userInfo.hasRegister = res.result.hasRegister;
+        this.globalData.user = res.result;
+        this.globalData.hasRegister = res.result.hasRegister;
       } else {
-        this.globalData.userInfo.user = r.userInfo;
-        this.globalData.userInfo.hasRegister = false;
+        this.globalData.user = r.userInfo;
+        this.globalData.hasRegister = false;
       }
     }
-    return this.globalData.userInfo;
+    return this.globalData.user;
   }
 }
 </script>
