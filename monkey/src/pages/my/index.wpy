@@ -42,8 +42,8 @@
             <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover" />
             <view class="userinfo-info">
               <view class="userinfo-nickname">{{ userInfo.nickName }}</view>
-              <view class="userinfo-status">￥{{ userInfo.nickName }}</view>
-              <view class="userinfo-status">{{ userInfo.nickName }}</view>
+              <view class="userinfo-status">￥{{ userInfo.balance }}</view>
+              <view class="userinfo-status">{{ userInfo.title }}</view>
             </view>
           </view>
         </view>
@@ -137,6 +137,7 @@ export default class Dash extends wepy.page {
       this.userInfo = user;
     }
     console.log(this.userInfo);
+    this.$apply();
   }
 }
 </script>

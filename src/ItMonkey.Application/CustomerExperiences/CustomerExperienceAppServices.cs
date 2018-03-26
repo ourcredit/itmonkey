@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
@@ -44,13 +45,12 @@ namespace ItMonkey.CustomerExperiences
         {
 
             var query = _customerexperienceRepository.GetAll();
+            query = query.Where(c => c.CustomerId == input.CustomerId);
             var customerexperienceCount = await query.CountAsync();
-
             var customerexperiences = await query
                 .OrderBy(input.Sorting)
                 .PageBy(input)
                 .ToListAsync();
-
             //var customerexperienceListDtos = ObjectMapper.Map<List <CustomerExperienceListDto>>(customerexperiences);
             var customerexperienceListDtos = customerexperiences.MapTo<List<CustomerExperienceListDto>>();
 

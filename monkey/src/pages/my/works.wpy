@@ -79,7 +79,12 @@ export default class Works extends wepy.page {
   events = {};
   // 加载函数
   async onLoad() {
-    const params = { SkipCount: 0, MaxResultCount: 99 };
+    const user = this.$parent.getUserInfo();
+    const params = {
+      SkipCount: 0,
+      MaxResultCount: 99,
+      CustomerId: user.customerId
+    };
     var r = await GetPagedExperience(params);
     if (r.success) {
       this.lists = r.result.items;
