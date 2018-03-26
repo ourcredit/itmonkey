@@ -103,15 +103,14 @@ import wepy from 'wepy';
 import { connect } from 'wepy-redux';
 
 @connect({
-  num(state) {
-    return state.counter.num;
+  user(state) {
+    console.log(state);
+    return state.userState.user;
   },
-  asyncNum(state) {
-    return state.counter.asyncNum;
+  hasRegister(state) {
+    return state.userState.hasRegister;
   },
-  sumNum(state) {
-    return state.counter.num + state.counter.asyncNum;
-  }
+  UPDATE(state) {}
 })
 export default class Dash extends wepy.page {
   components = {};

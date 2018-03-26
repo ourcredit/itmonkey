@@ -1,6 +1,8 @@
-import { combineReducers } from 'redux'
-import counter from './counter'
+import {
+  combineReducers
+} from 'redux'
+import userState from './userState'
 
 export default combineReducers({
-  counter
+  userState
 })

@@ -24,7 +24,7 @@ export default class Dash extends wepy.page {
   // 方法
   methods = {
     goChat(item, evt) {
-      this.$parent.globalData.userInfo.user.ChatId = item.id;
+      this.$parent.globalData.user.ChatId = item.id;
       this.$navigate('chat');
     }
   };
