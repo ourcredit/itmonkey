@@ -22,7 +22,7 @@
     </view>
   </view>
   <view>添加
-    <icon @tap="create" type="info_circle" size="20"></icon>
+    <icon @tap="modify" type="info_circle" size="20"></icon>
   </view>
 </template>
 
@@ -35,7 +35,7 @@ export default class WorkDetail extends wepy.page {
     navigationBarTitleText: '我的工作经验'
   };
   data = {
-    model: null,
+    model: {},
     length: 0
   };
   computed = {
@@ -55,16 +55,16 @@ export default class WorkDetail extends wepy.page {
     async modify() {
       const mo = { customerExperience: this.model };
       var res = await ModifyExperience(mo);
-      if (r.success) {
+      if (res.success) {
         this.$redirect('./works');
       }
     }
   };
-
   events = {};
   // 加载函数
-  async onLoad(params, data) {
-    if (!data.preload.model) {
+  onLoad(params, data) {
+    debugger;
+    if (!data.preload || !data.preload.model) {
       this.model = {};
     } else {
       this.model = data.preload.model;

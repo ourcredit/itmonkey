@@ -10,7 +10,7 @@ const baseUrl = 'https://monkey.leftins.com/api/'
 /**
  * 获取轮播图列表接口
  * @param  {[type]} params [description]
- * @return {[type]}        [description]
+ * @return {[type]}        [ddescription]
  */
 const getShufflings = () => GetAsync({}, baseUrl + "services/app/Shuffling/GetPagedShufflings")
 /**

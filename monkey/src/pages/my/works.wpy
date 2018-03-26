@@ -79,7 +79,6 @@ export default class Works extends wepy.page {
   events = {};
   // 加载函数
   async onLoad() {
-    debugger;
     const user = await this.$parent.getUserInfo();
     const params = {
       SkipCount: 0,
