@@ -11,7 +11,7 @@ namespace ItMonkey.Models
     /// 人参与的工作实例
     /// </summary>
     [Table("m_customer_job")]
-    public class CustomerJob : CreationAuditedEntity, ISoftDelete
+    public class CustomerJob : Entity,IHasCreationTime
     {
         /// <summary>
         /// 工作id
@@ -32,10 +32,18 @@ namespace ItMonkey.Models
         /// <summary>
         /// 工作状态
         /// </summary>
-        public int State { get; set; }
+        public int? State { get; set; }
         /// <summary>
-        /// 是否删除
+        /// 审核状态
         /// </summary>
-        public bool IsDeleted { get; set; }
+        public bool VilidateState { get; set; }
+        /// <summary>
+        /// 创建人
+        /// </summary>
+        public long CreatorId { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CreationTime { get; set; }
     }
 }

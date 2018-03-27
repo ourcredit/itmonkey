@@ -21,7 +21,7 @@
       </view>
     </view>
   </view>
-  <view>添加
+  <view wx:if="{{!model.id}}">添加
     <icon @tap="modify" type="info_circle" size="20"></icon>
   </view>
 </template>
@@ -62,10 +62,10 @@ export default class WorkDetail extends wepy.page {
   };
   events = {};
   // 加载函数
-  onLoad(params, data) {
-    debugger;
+  async onLoad(params, data) {
+    let user = await this.$parent.getUserInfo();
     if (!data.preload || !data.preload.model) {
-      this.model = {};
+      this.model = { customerId: user.customerId };
     } else {
       this.model = data.preload.model;
     }

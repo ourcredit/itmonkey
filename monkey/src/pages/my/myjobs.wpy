@@ -50,50 +50,23 @@
 </style>
 <template>
   <view class="container">
-    <!-- 搜索插件 -->
-    <search :searchApi="searchApi" :params="jobparams">
-      <view slot="action" class="weui-search-bar__cancel-btn" @tap="create">
-        <icon type="info_circle" size="20"></icon>
-      </view>
-    </search>
-    <!-- 轮播图 -->
-    <view>
-      <swiper :list.sync="shufflings"></swiper>
-    </view>
-
     <list :searchApi="searchApi" :params="jobparams" :hasAction="hasAction"></list>
   </view>
 </template>
-
 <script>
 import wepy from 'wepy';
 import api from 'api/api';
-import SearchBar from '@/components/searchbar'; // alias example
-import Swiper from '@/components/swiper';
 import JobList from '@/components/job-list';
 
 export default class Dash extends wepy.page {
   components = {
-    swiper: Swiper,
-    search: SearchBar,
     list: JobList
   };
   data = {
-    inputShowed: false,
-    inputVal: '',
-    shufflings: null,
     searchApi: api.getJobs,
-    hasAction: true,
-    jobparams: {
-      skipCount: 0,
-      maxResultCount: 10,
-      total: 0,
-      filter: '',
-      index: 1
-    },
-    jobs: []
+    hasAction: false,
+    jobparams: {}
   };
-
   computed = {
     now() {
       return +new Date();
@@ -101,52 +74,15 @@ export default class Dash extends wepy.page {
   };
   // 方法
   methods = {
-    change(type) {
-      console.log(type);
-    },
-    create() {
-      var per = this.$parent.globalData.userInfo.hasRegister;
-      if (!per) {
-        wx.navigateTo({
-          url: '/pages/my/register'
-        });
-      } else {
-        wx.navigateTo({
-          url: 'create'
-        });
-      }
-    },
     detail(item) {
       console.log(item);
       wx.navigateTo({
-        url: 'task?id=' + item.id
+        url: '../dash/task?id=' + item.id
       });
-    },
-    refresh() {},
-    loadMore() {}
+    }
   };
-  async initJob() {
-    var jobs = await api.getJobs(this.jobparams);
-    if (jobs && jobs.items) {
-      this.jobparams.total = jobs.totalCount;
-      this.jobs = jobs.items;
-    }
-    this.$apply();
-  }
-  async initShuffling() {
-    var result = await api.getShufflings();
-    if (result && result.items) {
-      this.shufflings = result.items;
-    }
-    this.$apply();
-  }
-  async onLoad() {
-    await this.initShuffling();
-    await this.initJob();
-  }
+  async onLoad() {}
   onReachBottom() {}
-  onPullDownRefresh() {
-    this.methods.refresh();
-  }
+  onPullDownRefresh() {}
 }
 </script>

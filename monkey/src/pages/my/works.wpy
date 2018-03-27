@@ -43,7 +43,6 @@
           <view class="weui-cell__bd">{{item.title}}</view>
           <view class="weui-cell__ft weui-cell__ft_in-access"></view>
           </view>
-
         </view>
       </view>
     </view>
@@ -88,6 +87,7 @@ export default class Works extends wepy.page {
     var r = await GetPagedExperience(params);
     if (r.success) {
       this.lists = r.result.items;
+      this.$apply();
     }
   }
 }

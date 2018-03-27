@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
@@ -23,16 +24,15 @@ namespace ItMonkey.Jobs
         ////BCC/ BEGIN CUSTOM CODE SECTION
         ////ECC/ END CUSTOM CODE SECTION
         private readonly IRepository<Job, int> _jobRepository;
+        private readonly IRepository<CustomerJob, int> _myJobRepository;
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        public JobAppService(IRepository<Job, int> jobRepository
-
-            )
+        public JobAppService(IRepository<Job, int> jobRepository, IRepository<CustomerJob, int> myJobRepository)
         {
             _jobRepository = jobRepository;
-
+            _myJobRepository = myJobRepository;
         }
 
         /// <summary>
@@ -42,7 +42,6 @@ namespace ItMonkey.Jobs
         /// <returns></returns>
         public async Task<PagedResultDto<JobListDto>> GetPagedJobs(GetJobsInput input)
         {
-
             var query = _jobRepository.GetAll();
             var jobCount = await query.CountAsync();
             var jobs = await query
@@ -56,7 +55,74 @@ namespace ItMonkey.Jobs
                 jobCount,
                 jobListDtos
                 );
+        }
+        /// <summary>
+        /// 获取当前用户的工作列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<JobListDto>> GetMyJobs(GetMyJobsInput input)
+        {
+            var query = _myJobRepository.GetAll();
+            query = query.Where(c => c.CustomerId == input.CustomerId&&c.VilidateState);
+            var jobCount = await query.CountAsync();
+            var jobs = await query
+                .OrderBy(input.Sorting)
+                .PageBy(input)
+                .ToListAsync();
+            var result=new List<JobListDto>();
+            foreach (var c in jobs)
+            {
+                var model = c.Job.MapTo<JobListDto>();
+                model.State = c.State;
+                result.Add(model);
+            }
+            //var jobListDtos = ObjectMapper.Map<List <JobListDto>>(jobs);
+            return new PagedResultDto<JobListDto>(
+                jobCount,
+                result
+            );
+        }
 
+        /// <summary>
+        /// 获取我创建的工作列表i
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<JobListDto>> GetMyCreateJobs(GetMyJobsInput input)
+        {
+            var query = _jobRepository.GetAll();
+            query = query.Where(c => c.CreatorId == input.CustomerId);
+            var jobCount = await query.CountAsync();
+            var jobs = await query
+                .OrderBy(input.Sorting)
+                .PageBy(input)
+                .ToListAsync();
+            var cj = _myJobRepository.GetAll();
+            var t = from c in jobs
+                    join d in await cj.ToListAsync() on c.Id equals d.JobId
+                    into h
+                group c by c
+                into hh
+                from tt in hh.DefaultIfEmpty()
+                select new
+                {
+                    hh.Key,
+                    Count = hh.Count()
+                };
+
+            var result = new List<JobListDto>();
+            foreach (var c in t)
+            {
+                var model = c.Key.MapTo<JobListDto>();
+                model.JoinCount = c.Count;
+                result.Add(model);
+            }
+            //var jobListDtos = ObjectMapper.Map<List <JobListDto>>(jobs);
+            return new PagedResultDto<JobListDto>(
+                jobCount,
+                result
+            );
         }
 
         /// <summary>

@@ -25,6 +25,20 @@ namespace ItMonkey.Jobs
         Task<JobListDto> GetJobByIdAsync(EntityDto<int> input);
 
         /// <summary>
+        /// 获取当前用户的工作列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<JobListDto>> GetMyJobs(GetMyJobsInput input);
+
+
+        /// <summary>
+        /// 获取我创建的工作列表i
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<JobListDto>> GetMyCreateJobs(GetMyJobsInput input);
+        /// <summary>
         /// 导出Job为excel表
         /// </summary>
         /// <returns></returns>

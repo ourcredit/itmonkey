@@ -12,7 +12,7 @@ namespace ItMonkey.Models
     /// 工作实体
     /// </summary>
     [Table("m_job")]
-   public class Job:CreationAuditedEntity,ISoftDelete
+   public class Job:Entity,IHasCreationTime,ISoftDelete
     {
         /// <summary>
         /// 工作名称
@@ -59,6 +59,10 @@ namespace ItMonkey.Models
         /// 是否删除
         /// </summary>
         public bool IsDeleted { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CreationTime { get; set; }
     }
   
 }

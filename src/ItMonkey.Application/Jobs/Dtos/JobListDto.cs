@@ -21,5 +21,10 @@ namespace ItMonkey.Jobs.Dtos
         public int FirstGrade { get; set; }
         public int SecondGrade { get; set; }
         public int ThirdGrade { get; set; }
+        public int? State { get; set; }
+        /// <summary>
+        /// 报名人数
+        /// </summary>
+        public int JoinCount { get; set; }
     }
 }
