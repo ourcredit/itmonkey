@@ -65,7 +65,7 @@
           </view>
         </navigator>
 
-        <navigator url="/pages/my/join" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <navigator url="/pages/my/joinjobs" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <view class="weui-cell__bd">报名信息</view>
           <view class="weui-cell__ft weui-cell__ft_in-access">
             <text class="color-green">3</text>
@@ -102,7 +102,6 @@ import { connect } from 'wepy-redux';
 
 @connect({
   user(state) {
-    console.log(state);
     return state.userState.user;
   },
   hasRegister(state) {

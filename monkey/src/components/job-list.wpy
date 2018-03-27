@@ -50,7 +50,7 @@
 </template>
 <script>
 import wepy from 'wepy';
-
+import { getStore } from 'wepy-redux';
 export default class List extends wepy.component {
   props = {
     searchApi: {
@@ -100,9 +100,20 @@ export default class List extends wepy.component {
     }
   };
   async search() {
-    var params = Object.assign(this.params, {
-      sorting: this.sorting
-    });
+    const store = getStore();
+    const state = store.getState();
+    var params = {};
+    if (!state.userState.user || !state.userState.user.customerId) {
+      params = Object.assign(this.params, {
+        sorting: this.sorting
+      });
+    } else {
+      params = Object.assign(this.params, {
+        sorting: this.sorting,
+        customerId: state.userState.user.customerId
+      });
+    }
+
     var result = await this.searchApi(params);
     return result.result;
   }

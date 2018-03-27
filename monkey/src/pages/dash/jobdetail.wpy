@@ -26,7 +26,6 @@ import { connect } from 'wepy-redux';
 import { getStore } from 'wepy-redux';
 @connect({
   user(state) {
-    console.log(state);
     return state.userState.user;
   },
   hasRegister(state) {

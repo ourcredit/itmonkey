@@ -396,7 +396,6 @@ export default class Index extends wepy.page {
       this.activeIndex = e.currentTarget.id;
     },
     show(index) {
-      console.log(index);
       this.current = index;
     },
     handleDelItem(itemData) {
@@ -406,9 +405,7 @@ export default class Index extends wepy.page {
   onReady() {
     this.$invoke('lineChart', 'draw');
   }
-  async deleteGoods(itemData) {
-    console.log(itemData);
-  }
+  async deleteGoods(itemData) {}
   async onLoad() {
     let res = await wepy.getSystemInfo();
     this.sliderLeft = (res.windowWidth / this.tabs.length - sliderWidth) / 2;

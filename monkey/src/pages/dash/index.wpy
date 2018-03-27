@@ -77,7 +77,6 @@ import JobList from '@/components/job-list';
 import { connect } from 'wepy-redux';
 @connect({
   user(state) {
-    console.log(state);
     return state.userState.user;
   },
   hasRegister(state) {

@@ -237,7 +237,6 @@ export default class Chartboard extends wepy.component {
       _self.$apply();
     });
     wx.onSocketClose(function(res) {
-      console.log(res);
       console.log('WebSocket 已关闭！');
     });
   }
@@ -251,15 +250,7 @@ export default class Chartboard extends wepy.component {
       //  protocols: ['protocol1'],
       method: 'GET'
     };
-    wx.connectSocket(
-      props,
-      function(r) {
-        console.log(r);
-      },
-      function(e) {
-        console.log(e);
-      }
-    );
+    wx.connectSocket(props, function(r) {}, function(e) {});
   }
   fixPosition(focus) {
     this.focus = focus;

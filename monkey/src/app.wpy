@@ -65,6 +65,7 @@ export default class extends wepy.app {
       'pages/my/works',
       'pages/my/workdetail',
       'pages/my/myjobs',
+      'pages/my/joinjobs',
 
       'pages/orders/payfor',
       'pages/orders/payinfo'

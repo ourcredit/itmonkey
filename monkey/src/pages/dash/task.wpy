@@ -100,7 +100,6 @@ export default class Task extends wepy.page {
   methods = {};
   onLoad(option) {
     this.id = option.id;
-    console.log(option.id);
   }
   onReachBottom() {}
   onPullDownRefresh() {}

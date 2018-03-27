@@ -22,13 +22,12 @@ const getJobs = params => GetAsync(params, baseUrl + "services/app/Job/GetPagedJ
 const GetAuthInfo = params => PostAsync(params, baseUrl + "TokenAuth/WeChatAuthenticate")
 
 const CreateCustomer = params => PostAsync(params, baseUrl + "services/app/Customer/CreateOrUpdateCustomer")
-
-
 const CreateJob = params => PostAsync(params, baseUrl + "services/app/Job/CreateOrUpdateJob")
-
 const GetPagedExperience = params => GetAsync(params, baseUrl + "services/app/CustomerExperience/GetPagedCustomerExperiences")
 const ModifyExperience = params => PostAsync(params, baseUrl + "services/app/CustomerExperience/CreateOrUpdateCustomerExperience")
 const GetMessage = params => PostAsync(params, baseUrl + "")
+const GetMyJobs = params => GetAsync(params, baseUrl + "services/app/Job/GetMyJobs")
+const GetMyCreateJobs = params => GetAsync(params, baseUrl + "services/app/Job/GetMyCreateJobs")
 module.exports = {
   getShufflings,
   getJobs,
@@ -37,5 +36,7 @@ module.exports = {
   CreateJob,
   GetPagedExperience,
   ModifyExperience,
-  GetMessage
+  GetMessage,
+  GetMyJobs,
+  GetMyCreateJobs
 }
