@@ -29,6 +29,16 @@
 <script>
 import wepy from 'wepy';
 import { ModifyExperience } from 'api/api';
+import { connect } from 'wepy-redux';
+
+@connect({
+  user(state) {
+    return state.userState.user;
+  },
+  hasRegister(state) {
+    return state.userState.hasRegister;
+  }
+})
 export default class WorkDetail extends wepy.page {
   components = {};
   config = {
@@ -63,7 +73,7 @@ export default class WorkDetail extends wepy.page {
   events = {};
   // 加载函数
   async onLoad(params, data) {
-    let user = await this.$parent.getUserInfo();
+    let user = this.user;
     if (!data.preload || !data.preload.model) {
       this.model = { customerId: user.customerId };
     } else {

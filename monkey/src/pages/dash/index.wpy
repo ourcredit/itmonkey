@@ -74,7 +74,16 @@ import api from 'api/api';
 import SearchBar from '@/components/searchbar'; // alias example
 import Swiper from '@/components/swiper';
 import JobList from '@/components/job-list';
-
+import { connect } from 'wepy-redux';
+@connect({
+  user(state) {
+    console.log(state);
+    return state.userState.user;
+  },
+  hasRegister(state) {
+    return state.userState.hasRegister;
+  }
+})
 export default class Dash extends wepy.page {
   components = {
     swiper: Swiper,
@@ -93,7 +102,6 @@ export default class Dash extends wepy.page {
       index: 1
     }
   };
-
   computed = {
     now() {
       return +new Date();
@@ -106,8 +114,8 @@ export default class Dash extends wepy.page {
       this.$navigate('jobdetail');
     },
     async create() {
-      var per = await this.$parent.getUserInfo();
-      if (!per.hasRegister) {
+      debugger;
+      if (!this.hasRegister) {
         this.$navigate({
           url: '/pages/my/register'
         });
@@ -132,8 +140,6 @@ export default class Dash extends wepy.page {
     this.$broadcast('init');
   }
   onReachBottom() {}
-  onPullDownRefresh() {
-    this.methods.refresh();
-  }
+  onPullDownRefresh() {}
 }
 </script>

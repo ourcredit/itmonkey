@@ -173,14 +173,13 @@ export default class extends wepy.app {
       };
       var res = await api.GetAuthInfo(params);
       if (res.success) {
-        this.globalData.user = res.result;
-        this.globalData.hasRegister = res.result.hasRegister;
+        store.dispatch({ type: 'UPDATE', model: res.result });
+        store.dispatch({ type: 'REGISTER', model: res.result.hasRegister });
       } else {
-        this.globalData.user = r.userInfo;
-        this.globalData.hasRegister = false;
+        store.dispatch({ type: 'UPDATE', model: r.userInfo });
+        store.dispatch({ type: 'REGISTER', model: false });
       }
     }
-    return this.globalData.user;
   }
 }
 </script>

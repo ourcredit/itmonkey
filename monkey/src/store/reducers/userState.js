@@ -3,22 +3,30 @@ import {
 } from 'redux-actions'
 import {
   UPDATE,
-  REGISTER
+  REGISTER,
+  CHATID
 } from '../types/userState'
 
 export default handleActions({
-  [UPDATE](state) {
+  [UPDATE](state, action = {}) {
     return { ...state,
-      nickName: "十三"
+      user: action.model
     }
   },
-  [REGISTER](state) {
+  [REGISTER](state, action = {}) {
     return {
       ...state,
-      hasRegister: true
+      hasRegister: action.model
+    }
+  },
+  [CHATID](state, action = {}) {
+    return {
+      ...state,
+      chatId: action.model
     }
   }
 }, {
   user: null,
-  hasRegister: false
+  hasRegister: false,
+  chatId: null
 })

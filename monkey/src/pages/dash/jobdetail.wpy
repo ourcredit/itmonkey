@@ -16,16 +16,26 @@
         </view>
       </view>
     </view>
-  <chatboard :from.sync="from" :to.sync="to"></chatboard>
+  <chatboard ></chatboard>
 </template>
 <script>
 import wepy from 'wepy';
 import ChatBoard from '@/components/chatboard'; // alias example
+
+import { connect } from 'wepy-redux';
+import { getStore } from 'wepy-redux';
+@connect({
+  user(state) {
+    console.log(state);
+    return state.userState.user;
+  },
+  hasRegister(state) {
+    return state.userState.hasRegister;
+  }
+})
 export default class JobDetail extends wepy.page {
   data = {
-    model: null,
-    from: 1,
-    to: 2
+    model: null
   };
   methods = {};
   components = {
@@ -36,14 +46,15 @@ export default class JobDetail extends wepy.page {
   }
   // 加载函数
   onLoad(params, data) {
-    let current = this.$parent.getUserInfo();
+    debugger;
+    let current = this.user;
     if (!data.preload.model) {
       this.model = {};
     } else {
       this.model = data.preload.model;
     }
-    this.to = '2';
-    this.from = '1';
+    var store = getStore();
+    store.dispatch({ type: 'CHATID', model: this.model.creatorId });
   }
 }
 </script>

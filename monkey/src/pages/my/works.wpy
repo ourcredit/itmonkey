@@ -51,6 +51,16 @@
 <script>
 import wepy from 'wepy';
 import { GetPagedExperience } from 'api/api';
+import { connect } from 'wepy-redux';
+
+@connect({
+  user(state) {
+    return state.userState.user;
+  },
+  hasRegister(state) {
+    return state.userState.hasRegister;
+  }
+})
 export default class Works extends wepy.page {
   components = {};
   config = {
@@ -78,7 +88,7 @@ export default class Works extends wepy.page {
   events = {};
   // 加载函数
   async onLoad() {
-    const user = await this.$parent.getUserInfo();
+    const user = this.user;
     const params = {
       SkipCount: 0,
       MaxResultCount: 99,

@@ -52,6 +52,8 @@
   <view class="container">
     <list :searchApi="searchApi" :params="jobparams" :hasAction="hasAction"></list>
   </view>
+
+
 </template>
 <script>
 import wepy from 'wepy';
@@ -86,3 +88,4 @@ export default class Dash extends wepy.page {
   onPullDownRefresh() {}
 }
 </script>
+

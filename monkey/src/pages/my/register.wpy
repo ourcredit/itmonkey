@@ -88,6 +88,16 @@ const items = [
     checked: false
   }
 ];
+import { connect } from 'wepy-redux';
+
+@connect({
+  user(state) {
+    return state.userState.user;
+  },
+  hasRegister(state) {
+    return state.userState.hasRegister;
+  }
+})
 export default class Input extends wepy.page {
   data = {
     tipsFlag: false,
@@ -169,9 +179,9 @@ export default class Input extends wepy.page {
         tip.alert('请选择擅长技能');
         return;
       }
-      let user = await this.$parent.getUserInfo();
+      let user = this.user;
       debugger;
-      if (user.hasRegister) {
+      if (this.hasRegister) {
         tip.alert('当前用户已注册,即将跳去主页');
         this.$redirect('../dash/index');
       }

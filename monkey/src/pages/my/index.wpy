@@ -39,11 +39,11 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd userinfo clearfix">
-            <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover" />
+            <image class="userinfo-avatar" src="{{ user.avatarUrl }}" background-size="cover" />
             <view class="userinfo-info">
-              <view class="userinfo-nickname">{{ userInfo.nickName }}</view>
-              <view class="userinfo-status">￥{{ userInfo.balance }}</view>
-              <view class="userinfo-status">{{ userInfo.title }}</view>
+              <view class="userinfo-nickname">{{ user.nickName }}</view>
+              <view class="userinfo-status">￥{{ user.balance }}</view>
+              <view class="userinfo-status">{{ user.title }}</view>
             </view>
           </view>
         </view>
@@ -92,12 +92,10 @@
             <text class="color-green">3</text>
           </view>
         </navigator>
-
       </view>
     </view>
   </view>
 </template>
-
 <script>
 import wepy from 'wepy';
 import { connect } from 'wepy-redux';
@@ -109,8 +107,7 @@ import { connect } from 'wepy-redux';
   },
   hasRegister(state) {
     return state.userState.hasRegister;
-  },
-  UPDATE(state) {}
+  }
 })
 export default class Dash extends wepy.page {
   components = {};
@@ -130,13 +127,6 @@ export default class Dash extends wepy.page {
 
   events = {};
   // 加载函数
-  async onLoad() {
-    const user = await this.$parent.getUserInfo();
-    if (user) {
-      this.userInfo = user;
-    }
-    console.log(this.userInfo);
-    this.$apply();
-  }
+  async onLoad() {}
 }
 </script>

@@ -140,19 +140,21 @@ $activecolor: #13b113;
 <script>
 import wepy from 'wepy';
 import { GetMessage } from 'api/api';
+import { connect } from 'wepy-redux';
+
+@connect({
+  from(state) {
+    return state.userState.user.customerId;
+  },
+  hasRegister(state) {
+    return state.userState.hasRegister;
+  },
+  to(state) {
+    return state.userState.chatId;
+  }
+})
 export default class Chartboard extends wepy.component {
-  props = {
-    from: {
-      type: Number,
-      required: false,
-      twoWay: true
-    },
-    to: {
-      type: Number,
-      required: false,
-      twoWay: true
-    }
-  };
+  props = {};
   data = {
     message: [],
     focusFlag: false,
@@ -216,8 +218,8 @@ export default class Chartboard extends wepy.component {
   }
   onLoad() {
     var _self = this;
-    _self.from = _self.$root.$parent.globalData.userInfo.user.CustomerId;
-    _self.to = _self.$root.$parent.globalData.userInfo.user.ChatId;
+    _self.from = _self.from;
+    _self.to = _self.to;
     this.connect();
     wx.onSocketOpen(
       function(r) {
