@@ -340,36 +340,6 @@ export default class Index extends wepy.page {
         price: 1.44
       }
     ],
-    resources: [
-      {
-        id: 1,
-        title: '(设)任务名称',
-        price: 1890,
-        content: '任务描述',
-        state: '报'
-      },
-      {
-        id: 2,
-        title: '(研)任务名称',
-        price: 1890,
-        content: '任务描述',
-        state: '执'
-      },
-      {
-        id: 3,
-        title: '(其)任务名称',
-        price: 1890,
-        content: '任务描述',
-        state: '完'
-      },
-      {
-        id: 4,
-        title: '(U)任务名称',
-        price: 1890,
-        content: '任务描述',
-        state: '报'
-      }
-    ],
     list: [
       {
         id: 1,
@@ -389,7 +359,6 @@ export default class Index extends wepy.page {
       }
     ]
   };
-
   methods = {
     tabClick(e) {
       this.sliderOffset = e.currentTarget.offsetLeft;

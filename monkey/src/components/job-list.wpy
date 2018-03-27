@@ -1,10 +1,51 @@
 <style lang="less">
-.mylist:odd {
-  color: red;
+.searchbar-result {
+  margin-top: 0;
+  font-size: 14px;
 }
 
-.mylist:even {
-  color: black;
+.searchbar-result:before {
+  display: none;
+}
+
+.weui-cell {
+  padding: 12px 15px 12px 35px;
+}
+
+.placeholder {
+  margin: 5px;
+  padding: 0 10px;
+  height: 2em;
+  line-height: 2em;
+  color: #000000;
+}
+
+.panel {
+  width: 100%;
+  margin-top: 10rpx;
+  text-align: left;
+  font-size: 12px;
+  padding-top: 10rpx;
+  padding-left: 50rpx;
+  padding-bottom: 20rpx;
+  border: 1px solid #ccc;
+  .title {
+    padding-bottom: 20rpx;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .info {
+    padding: 15rpx;
+  }
+  .price {
+    margin: 5rpx;
+    margin-right: 70rpx;
+    padding: 0 10px;
+    height: 2em;
+    line-height: 2em;
+    color: #000000;
+    text-align: right;
+  }
 }
 </style>
 <template>

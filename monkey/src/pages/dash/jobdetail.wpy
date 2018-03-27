@@ -45,7 +45,6 @@ export default class JobDetail extends wepy.page {
   }
   // 加载函数
   onLoad(params, data) {
-    debugger;
     let current = this.user;
     if (!data.preload.model) {
       this.model = {};
