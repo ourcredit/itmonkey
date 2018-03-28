@@ -8,6 +8,8 @@ using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 
 using System.Linq.Dynamic.Core;
+using Abp.Collections.Extensions;
+using Abp.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 using ItMonkey.Jobs.Dtos;
@@ -43,6 +45,7 @@ namespace ItMonkey.Jobs
         public async Task<PagedResultDto<JobListDto>> GetPagedJobs(GetJobsInput input)
         {
             var query = _jobRepository.GetAll();
+            query = query.WhereIf(!input.Filter.IsNullOrWhiteSpace(), c => c.Name.Contains(input.Filter));
             var jobCount = await query.CountAsync();
             var jobs = await query
                 .OrderBy(input.Sorting)
@@ -56,6 +59,48 @@ namespace ItMonkey.Jobs
                 jobListDtos
                 );
         }
+
+        /// <summary>
+        /// 获取Job的分页列表信息
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<PagedResultDto<JobListDto>> GetPagedStateJobs(GetJobsInput input)
+        {
+            var query = _jobRepository.GetAll();
+            query = query.WhereIf(!input.Filter.IsNullOrWhiteSpace(), c => c.Name.Contains(input.Filter));
+            var jobCount = await query.CountAsync();
+
+            var myjobs = _myJobRepository.GetAll().Where(c => c.CustomerId == input.CustomerId);
+            var jobs = await query
+                .OrderBy(input.Sorting)
+                .PageBy(input)
+                .ToListAsync();
+
+            var res = from c in jobs
+                join d in await myjobs.ToListAsync() on c.Id equals d.JobId
+                    into temp
+                from tt in temp.DefaultIfEmpty()
+                select new
+                {
+                    c,
+                    tt,Count= temp.Count()
+                };
+            var result=new List<JobListDto>();
+            foreach (var re in res)
+            {
+                var model = re.c.MapTo<JobListDto>();
+                model.State = re.tt?.State;
+                model.JoinCount = re.Count;
+                result.Add(model);
+            }
+            //var jobListDtos = ObjectMapper.Map<List <JobListDto>>(jobs);
+            return new PagedResultDto<JobListDto>(
+                jobCount,
+                result
+            );
+        }
+
         /// <summary>
         /// 获取当前用户的工作列表
         /// </summary>
