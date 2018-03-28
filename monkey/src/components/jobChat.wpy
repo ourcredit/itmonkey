@@ -242,7 +242,7 @@ export default class JobChat extends wepy.component {
   }
   connect() {
     var props = {
-      url: 'wss://monkey.leftins.com/ws?guid=' + this.from,
+      url: 'wss://monkey.leftins.com/jobs?job=' + this.from,
       // url: 'wss://monkey.leftins.com/ws',
       header: {
         contenttype: 'application/json'

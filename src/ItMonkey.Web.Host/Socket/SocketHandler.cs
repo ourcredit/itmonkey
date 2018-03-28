@@ -7,10 +7,9 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Abp.Domain.Repositories;
+using Abp.Extensions;
 using Abp.Logging;
 using ItMonkey.Models;
-using ItMonkey.Web.Host.Startup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -19,16 +18,112 @@ namespace ItMonkey.Web.Host.Socket
 {
     public class SocketHandler
     {
-        private static readonly ConcurrentDictionary<string, WebSocket> Sockets =
-            new ConcurrentDictionary<string, WebSocket>();
+        public class Point
+        {
+            public string Key { get; set; }
+            public WebSocket Socket { get; set; }
+        }
+        public class Group
+        {
+            public string Key { get; set; }
+            public List<Point> Sockets { get; set; }
+        }
+        /// <summary>
+        /// 人员socket集合
+        /// </summary>
+        private static readonly ConcurrentBag<Point> Points =
+            new ConcurrentBag<Point>();
 
 
-        private static readonly ConcurrentDictionary<string, List<WebSocket>> Groups =
-            new ConcurrentDictionary<string, List<WebSocket>>();
+        private static readonly ConcurrentBag<Group> Groups =
+            new ConcurrentBag<Group>();
+        private static readonly ConcurrentBag<Group> Jobs =
+            new ConcurrentBag<Group>();
         public const int BufferSize = 4096;
         public static object ObjLock = new object();
         public static List<Message> HistoricalMessg = new List<Message>();//存放历史消息
 
+
+        private static async Task DealSocketType(string job,string group, Point point)
+        {
+            if (Points.Count > 100)
+            {
+                await point.Socket.CloseAsync(WebSocketCloseStatus.PolicyViolation, "超过上限", CancellationToken.None);
+                return;
+            }
+
+            if (!Points.Contains(point))
+            {
+                lock (ObjLock)
+                {
+                    Points.Add(point);
+                }
+
+            }
+          
+            if (!group.IsNullOrWhiteSpace())
+            {
+                if (Groups.Count > 100)
+                {
+                    await point.Socket.CloseAsync(WebSocketCloseStatus.PolicyViolation, "超过上限", CancellationToken.None);
+                    return;
+                }
+                var p = Groups.FirstOrDefault(c => c.Key == group);
+                if (p == null)
+                {
+                    p = new Group()
+                    {
+                        Key = group,
+                        Sockets = new List<Point>()
+                        {
+                            point
+                        }
+                    };
+                    Groups.Add(p);
+                }
+                else
+                {
+                    if (!p.Sockets.Contains(point))
+                    {
+                        lock (ObjLock)
+                        {
+                            p.Sockets.Add(point);
+                        }
+                    }
+                }
+            }
+            if (!job.IsNullOrWhiteSpace())
+            {
+                if (Jobs.Count > 100)
+                {
+                    await point.Socket.CloseAsync(WebSocketCloseStatus.PolicyViolation, "超过上限", CancellationToken.None);
+                    return;
+                }
+                var p = Jobs.FirstOrDefault(c => c.Key == job);
+                if (p == null)
+                {
+                    p = new Group()
+                    {
+                        Key = job,
+                        Sockets = new List<Point>()
+                        {
+                            point
+                        }
+                    };
+                    Jobs.Add(p);
+                }
+                else
+                {
+                    if (!p.Sockets.Contains(point))
+                    {
+                        lock (ObjLock)
+                        {
+                            p.Sockets.Add(point);
+                        }
+                    }
+                }
+            }
+        }
         /// <summary>
         /// 接收请求
         /// </summary>
@@ -42,20 +137,28 @@ namespace ItMonkey.Web.Host.Socket
 
             //建立一个WebSocket连接请求
             var socket = await httpContext.WebSockets.AcceptWebSocketAsync();
-            string socketId = httpContext.Request.Query["point"].ToString();
+            string user = httpContext.Request.Query["user"].ToString();
+            string job = httpContext.Request.Query["job"].ToString();
+            string group = httpContext.Request.Query["group"].ToString();
             //判断最大连接数
-            if (Sockets.Count >= 100)
+            //if (Sockets.Count >= 100)
+            //{
+            //    await socket.CloseAsync(WebSocketCloseStatus.PolicyViolation, "超过上限", CancellationToken.None);
+            //    return;
+            //}
+            //if (!Sockets.ContainsKey(socketId))
+            //{
+            //    lock (ObjLock)
+            //    {
+            //        Sockets.TryAdd(socketId, socket);
+            //    }
+            //}
+            Point point=new Point()
             {
-                await socket.CloseAsync(WebSocketCloseStatus.PolicyViolation, "超过上限", CancellationToken.None);
-                return;
-            }
-            if (!Sockets.ContainsKey(socketId))
-            {
-                lock (ObjLock)
-                {
-                    Sockets.TryAdd(socketId, socket);
-                }
-            }
+                Key= user,
+                Socket = socket
+            };
+            await DealSocketType(job,group, point);
             var buffer = new byte[BufferSize];
             Message msg;
             while (true)
@@ -69,7 +172,8 @@ namespace ItMonkey.Web.Host.Socket
                     {
                         lock (ObjLock)
                         {
-                            Sockets.TryRemove(socketId, out socket);//移除   
+                            Points.TryTake(out point);
+                           // Sockets.TryRemove(socketId, out socket);//移除   
                         }
                         break; //【注意】：：这里一定要记得 跳出循环 （坑了好久）
                     }
@@ -78,14 +182,13 @@ namespace ItMonkey.Web.Host.Socket
                     if (chatDataStr == "@heart")//如果是心跳检查，则直接跳过
                         continue;
                     msg = JsonConvert.DeserializeObject<Message>(chatDataStr);
-                    var soc = Sockets.Where(t => t.Key == socketId || msg.ReceiverId == t.Key).Select(c => c.Value)
-                        .ToList();
-                    await SendToWebSocketsAsync(soc, msg);
+                
+                    await SendToWebSocketsAsync( msg);
                 }
                 catch (Exception ex) //因为 nginx 没有数据传输 会自动断开 然后就会异常。
                 {
                     LogHelper.Logger.Error(ex.Message);
-                    Sockets.TryRemove(socketId, out socket);//移除  
+                    Points.TryTake(out point);//移除  
                     //【注意】：：这里很重要 （如果不发送关闭会一直循环，且不能直接break。）
                     await socket.CloseAsync(WebSocketCloseStatus.PolicyViolation, "未知异常 ...", CancellationToken.None);
                     // 后面 就不走了？ CloseAsync也不能 try 包起来？
@@ -96,29 +199,39 @@ namespace ItMonkey.Web.Host.Socket
         /// <summary>
         /// 发送消息到所有人
         /// </summary>
-        /// <param name="sockets"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static  async Task SendToWebSocketsAsync(List<WebSocket> sockets, Message data)
+        public static async Task SendToWebSocketsAsync(Message data)
         {
             SaveHistoricalMessg(data);//保存历史消息
+           var list=new List<Point>();
+            if (data.Type == MessageType.P2P)
+            {
+                list = Points.Where(c => c.Key == data.SenderId || c.Key == data.ReceiverId).ToList();
+            }
+            if (data.Type == MessageType.Group)
+            {
+                list = Groups.Where(c => c.Key == data.ReceiverId).SelectMany(c => c.Sockets).ToList();
+            }
+            if (data.Type == MessageType.Job)
+            {
+                list = Jobs.Where(c => c.Key == data.ReceiverId).SelectMany(c => c.Sockets).ToList();
+            }
             var chatData = JsonConvert.SerializeObject(data);
             var buffer = Encoding.UTF8.GetBytes(chatData);
             ArraySegment<byte> arraySegment = new ArraySegment<byte>(buffer);
             //循环发送消息
-            foreach (var tempsocket in sockets)
+            foreach (var temp in list)
             {
-                if (tempsocket.State == WebSocketState.Open)
+                if (temp.Socket.State == WebSocketState.Open)
                 {
                     //发送消息
-                    await tempsocket.SendAsync(arraySegment, WebSocketMessageType.Text, true, CancellationToken.None);
+                    await temp.Socket.SendAsync(arraySegment, WebSocketMessageType.Text, true, CancellationToken.None);
                 }
             }
         }
 
         static readonly object LockSaveMsg = new object();
-
-     
 
         /// <summary>
         /// 保存历史消息
@@ -133,17 +246,16 @@ namespace ItMonkey.Web.Host.Socket
             }
             if (HistoricalMessg.Count >= size)
             {
-            
+
                 SaveToDb(HistoricalMessg);
                 lock (LockSaveMsg)
                 {
-                   
                     HistoricalMessg.Clear();
                 }
             }
         }
 
-        public static  void SaveToDb(List<Message> list)
+        public static void SaveToDb(List<Message> list)
         {
             var sql = @"INSERT INTO `itmonkey`.`s_message_store`
 (`Content`, `CreationTime`,`ReceiverId`, `SenderId`, `State`, `Type` )
@@ -175,14 +287,13 @@ VALUES
             }
         }
         #endregion
-
         /// <summary>
         /// 请求
         /// </summary>
         /// <param name="app"></param>
         public static void Map(IApplicationBuilder app)
         {
-            app.UseWebSockets(); //nuget   导入 Microsoft.AspNetCore.WebSockets.Server
+            // app.UseWebSockets(); //nuget   导入 Microsoft.AspNetCore.WebSockets.Server
             app.Use(Acceptor);
         }
 
