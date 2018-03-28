@@ -183,9 +183,11 @@ export default class CreateTask extends wepy.page {
         tip.alert('请完善表单信息');
         return;
       }
-      const model = this.model;
-      this.$preload('model', model);
-      this.$navigate('../orders/payfor');
+      var r = await CreateJob({ job: this.model });
+      if (r.success) {
+        this.$preload('model', r.result);
+        this.$navigate('../orders/payfor');
+      }
     },
     async publicCreate() {
       if (!this.isAgree) {

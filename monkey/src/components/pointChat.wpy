@@ -218,13 +218,11 @@ export default class PointChat extends wepy.component {
   }
   onLoad() {
     var _self = this;
-    _self.from = _self.from;
-    _self.to = _self.to;
     this.connect();
     wx.onSocketOpen(
       function(r) {
         _self.socketOpened = true;
-        console.log('socket 开启成功' + _self.from + '___' + _self.to);
+        console.log('socket 开启成功');
         for (var i = 0; i < _self.socketMsgQueue.length; i++) {
           _self.sendSocketMessage(_self.socketMsgQueue[i]);
         }
@@ -242,7 +240,7 @@ export default class PointChat extends wepy.component {
   }
   connect() {
     var props = {
-      url: 'wss://monkey.leftins.com/point?point=' + this.from,
+      url: `wss://monkey.leftins.com/point?user=${this.from}`,
       // url: 'wss://monkey.leftins.com/ws',
       header: {
         contenttype: 'application/json'

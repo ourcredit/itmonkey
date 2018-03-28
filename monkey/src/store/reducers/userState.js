@@ -4,7 +4,9 @@ import {
 import {
   UPDATE,
   REGISTER,
-  CHATID
+  CHATID,
+  FAMILY,
+  JOB
 } from '../types/userState'
 
 export default handleActions({
@@ -24,9 +26,23 @@ export default handleActions({
       ...state,
       chatId: action.model
     }
+  },
+  [FAMILY](state, action = {}) {
+    return {
+      ...state,
+      family: action.model
+    }
+  },
+  [JOB](state, action = {}) {
+    return {
+      ...state,
+      job: action.model
+    }
   }
 }, {
   user: null,
   hasRegister: false,
-  chatId: null
+  chatId: null,
+  family: null,
+  job: null
 })

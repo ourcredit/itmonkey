@@ -93,7 +93,6 @@ export default class Dash extends wepy.page {
       this.$navigate('jobdetail');
     },
     async create() {
-      debugger;
       if (!this.hasRegister) {
         this.$navigate({
           url: '/pages/my/register'

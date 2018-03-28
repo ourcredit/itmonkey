@@ -27,6 +27,11 @@ namespace ItMonkey.Models
         /// 是否私密邀请
         /// </summary>
         public bool IsSecert { get; set; }
+
+        /// <summary>
+        /// 支付状态
+        /// </summary>
+        public bool PayState { get; set; } = false;
         /// <summary>
         /// 分类
         /// </summary>

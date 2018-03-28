@@ -25,6 +25,18 @@ namespace ItMonkey.Jobs
         Task<JobListDto> GetJobByIdAsync(EntityDto<int> input);
 
         /// <summary>
+        /// 审核用户报名
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task VilidateJober(VilidateJober input);
+        /// <summary>
+        /// 报名工作
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task JoinJob(JoinJobInput input);
+        /// <summary>
         /// 获取当前用户的工作列表
         /// </summary>
         /// <param name="input"></param>
@@ -50,14 +62,10 @@ namespace ItMonkey.Jobs
         /// <returns></returns>
         Task<GetJobForEditOutput> GetJobForEdit(NullableIdDto<int> input);
 
-        //todo:缺少Dto的生成GetJobForEditOutput
         /// <summary>
-        /// 添加或者修改Job的公共方法
+        /// 新增Job
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        Task CreateOrUpdateJob(CreateOrUpdateJobInput input);
-
+        Task<JobEditDto> CreateJobAsync(JobEditDto input);
         /// <summary>
         /// 删除Job信息的方法
         /// </summary>

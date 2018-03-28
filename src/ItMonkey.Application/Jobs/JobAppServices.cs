@@ -1,19 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
-using Abp.Authorization;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 
 using System.Linq.Dynamic.Core;
-using Abp.Collections.Extensions;
 using Abp.Extensions;
+using Abp.UI;
 using Microsoft.EntityFrameworkCore;
-
 using ItMonkey.Jobs.Dtos;
 using ItMonkey.Models;
+using ItMonkey.Models.MonkeyChain;
 
 namespace ItMonkey.Jobs
 {
@@ -27,14 +27,16 @@ namespace ItMonkey.Jobs
         ////ECC/ END CUSTOM CODE SECTION
         private readonly IRepository<Job, int> _jobRepository;
         private readonly IRepository<CustomerJob, int> _myJobRepository;
+        private readonly IRepository<CustomerMonkeyChain, Guid> _bankRepository;
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        public JobAppService(IRepository<Job, int> jobRepository, IRepository<CustomerJob, int> myJobRepository)
+        public JobAppService(IRepository<Job, int> jobRepository, IRepository<CustomerJob, int> myJobRepository, IRepository<CustomerMonkeyChain, Guid> bankRepository)
         {
             _jobRepository = jobRepository;
             _myJobRepository = myJobRepository;
+            _bankRepository = bankRepository;
         }
 
         /// <summary>
@@ -59,7 +61,32 @@ namespace ItMonkey.Jobs
                 jobListDtos
                 );
         }
-
+        /// <summary>
+        /// 报名工作
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task JoinJob(JoinJobInput input)
+        {
+            var job = await _jobRepository.FirstOrDefaultAsync(c => c.Id == input.JobId);
+            if (job == null) throw new UserFriendlyException("该工作不存在");
+            var model=new CustomerJob()
+            {
+                CustomerId=input.CustomerId,JobId=input.JobId,VilidateState = false,CreatorId=job.CreatorId
+            };
+            await _myJobRepository.InsertAsync(model);
+        }
+        /// <summary>
+        /// 审核用户报名
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task VilidateJober(VilidateJober input)
+        {
+            var job = await _myJobRepository.FirstOrDefaultAsync(c => c.Id == input.Id);
+            if (job == null) throw new UserFriendlyException("该报名信息不存在");
+            job.VilidateState = input.State;
+        }
         /// <summary>
         /// 获取Job的分页列表信息
         /// </summary>
@@ -78,18 +105,19 @@ namespace ItMonkey.Jobs
                 .ToListAsync();
 
             var res = from c in jobs
-                join d in await myjobs.ToListAsync() on c.Id equals d.JobId
-                    into temp
-                from tt in temp.DefaultIfEmpty()
-                select new
-                {
-                    c,
-                    tt,Count= temp.Count()
-                };
-            var result=new List<JobListDto>();
+                      join d in await myjobs.ToListAsync() on c.Id equals d.JobId
+                          into temp
+                      from tt in temp.DefaultIfEmpty()
+                      select new
+                      {
+                          c,
+                          tt,
+                          Count = temp.Count()
+                      };
+            var result = new List<JobListDto>();
             foreach (var re in res)
             {
-                
+
                 var model = re.c.MapTo<JobListDto>();
                 model.State = re.tt?.State;
                 model.JoinCount = re.Count;
@@ -110,13 +138,13 @@ namespace ItMonkey.Jobs
         public async Task<PagedResultDto<JobListDto>> GetMyJobs(GetMyJobsInput input)
         {
             var query = _myJobRepository.GetAll();
-            query = query.Where(c => c.CustomerId == input.CustomerId&&c.VilidateState);
+            query = query.Where(c => c.CustomerId == input.CustomerId && c.VilidateState.HasValue&&c.VilidateState.Value);
             var jobCount = await query.CountAsync();
             var jobs = await query
                 .OrderBy(input.Sorting)
                 .PageBy(input)
                 .ToListAsync();
-            var result=new List<JobListDto>();
+            var result = new List<JobListDto>();
             foreach (var c in jobs)
             {
                 var model = c.Job.MapTo<JobListDto>();
@@ -148,14 +176,14 @@ namespace ItMonkey.Jobs
             var t = from c in jobs
                     join d in await cj.ToListAsync() on c.Id equals d.JobId
                     into h
-                group c by c
+                    group c by c
                 into hh
-                from tt in hh.DefaultIfEmpty()
-                select new
-                {
-                    hh.Key,
-                    Count = hh.Count()
-                };
+                    from tt in hh.DefaultIfEmpty()
+                    select new
+                    {
+                        hh.Key,
+                        Count = hh.Count()
+                    };
 
             var result = new List<JobListDto>();
             foreach (var c in t)
@@ -209,50 +237,40 @@ namespace ItMonkey.Jobs
         }
 
         /// <summary>
-        /// 添加或者修改Job的公共方法
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public async Task CreateOrUpdateJob(CreateOrUpdateJobInput input)
-        {
-
-            if (input.Job.Id.HasValue)
-            {
-                await UpdateJobAsync(input.Job);
-            }
-            else
-            {
-                await CreateJobAsync(input.Job);
-            }
-        }
-
-        /// <summary>
         /// 新增Job
         /// </summary>
 
-        protected virtual async Task<JobEditDto> CreateJobAsync(JobEditDto input)
+        public async Task<JobEditDto> CreateJobAsync(JobEditDto input)
         {
-            //TODO:新增前的逻辑判断，是否允许新增
             var entity = ObjectMapper.Map<Job>(input);
+            var balances = await _bankRepository.GetAllListAsync(c => c.CustomerId == input.CreatorId);
 
+            if (input.IsSecert)
+            {
+                if (balances.Count >= 3)
+                {
+                    var res = balances.OrderBy(c => c.CreationTime).Take(3).Select(c => c.Id);
+                    await _bankRepository.DeleteAsync(c => res.Any(w => w == c.Id));
+                    entity.PayState = true;
+                }
+                else
+                {
+                    await _bankRepository.DeleteAsync(c => c.CustomerId == input.CreatorId);
+                }
+
+            }
             entity = await _jobRepository.InsertAsync(entity);
-            return entity.MapTo<JobEditDto>();
+            var model = entity.MapTo<JobEditDto>();
+            if (input.IsSecert)
+            {
+                model.Price = input.Price - balances.Count * 1;
+            }
+            return model;
         }
 
         /// <summary>
         /// 编辑Job
         /// </summary>
-
-        protected virtual async Task UpdateJobAsync(JobEditDto input)
-        {
-            //TODO:更新前的逻辑判断，是否允许更新
-            var entity = await _jobRepository.GetAsync(input.Id.Value);
-            input.MapTo(entity);
-
-            // ObjectMapper.Map(input, entity);
-            await _jobRepository.UpdateAsync(entity);
-        }
-
         /// <summary>
         /// 删除Job信息的方法
         /// </summary>
@@ -262,7 +280,6 @@ namespace ItMonkey.Jobs
         public async Task DeleteJob(EntityDto<int> input)
         {
 
-            //TODO:删除前的逻辑判断，是否允许删除
             await _jobRepository.DeleteAsync(input.Id);
         }
 
@@ -272,7 +289,6 @@ namespace ItMonkey.Jobs
 
         public async Task BatchDeleteJobsAsync(List<int> input)
         {
-            //TODO:批量删除前的逻辑判断，是否允许删除
             await _jobRepository.DeleteAsync(s => input.Contains(s.Id));
         }
 

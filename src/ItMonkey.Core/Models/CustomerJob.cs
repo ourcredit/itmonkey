@@ -36,7 +36,7 @@ namespace ItMonkey.Models
         /// <summary>
         /// 审核状态
         /// </summary>
-        public bool VilidateState { get; set; }
+        public bool? VilidateState { get; set; }
         /// <summary>
         /// 创建人
         /// </summary>

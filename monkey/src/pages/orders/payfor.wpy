@@ -9,20 +9,20 @@
       <view class="weui-form-preview">
         <view class="weui-form-preview__hd">
           <view class="weui-form-preview__label">付款金额</view>
-          <view class="weui-form-preview__value_in-hd">¥2400.00</view>
+          <view class="weui-form-preview__value_in-hd">¥{{model.price}}</view>
         </view>
         <view class="weui-form-preview__bd">
           <view class="weui-form-preview__item">
             <view class="weui-form-preview__label">商品</view>
-            <view class="weui-form-preview__value">电动打蛋机</view>
+            <view class="weui-form-preview__value">{{model.name}}</view>
           </view>
           <view class="weui-form-preview__item">
-            <view class="weui-form-preview__label">标题标题</view>
-            <view class="weui-form-preview__value">名字名字名字</view>
+            <view class="weui-form-preview__label">分类</view>
+            <view class="weui-form-preview__value">{{model.category}}</view>
           </view>
           <view class="weui-form-preview__item">
-            <view class="weui-form-preview__label">标题标题</view>
-            <view class="weui-form-preview__value">很长很长的名字很长很长的名字很长很长的名字很长很长的名字很长很长的名字</view>
+            <view class="weui-form-preview__label">内容</view>
+            <view class="weui-form-preview__value">{{model.content}}</view>
           </view>
         </view>
         <view class="weui-form-preview__ft">
@@ -35,13 +35,15 @@
     </view>
   </view>
 </template>
-
 <script>
 import wepy from 'wepy';
 
 export default class Preview extends wepy.page {
   config = {
     navigationBarTitleText: '支付'
+  };
+  data = {
+    model: null
   };
   methods = {
     close() {
@@ -51,6 +53,9 @@ export default class Preview extends wepy.page {
       this.$navigate('payinfo');
     }
   };
-  onLoad(params, data) {}
+  onLoad(params, data) {
+    console.log(data);
+    this.model = data.preload.model;
+  }
 }
 </script>
