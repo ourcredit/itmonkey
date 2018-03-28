@@ -37,7 +37,10 @@ namespace ItMonkey.Customers.Dtos
         public string Key { get; set; }
 
         public bool IsActive { get; set; } = true;
-
+        /// <summary>
+        /// 参与工作数
+        /// </summary>
+        public int JobsCount { get; set; }
       
     }
 }

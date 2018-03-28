@@ -80,6 +80,7 @@ namespace ItMonkey.Controllers
             r.Balance = customer.Balance;
             r.FamilyCode = customer.FamilyCode;
             r.Title = customer.Title;
+            r.JobsCount = customer.JobsCount;
             return r;
         }
 

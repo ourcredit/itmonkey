@@ -1,5 +1,13 @@
 <style lang="less">
-
+.price {
+  margin: 5rpx;
+  margin-right: 70rpx;
+  padding: 0 10px;
+  height: 2em;
+  line-height: 2em;
+  color: #000000;
+  text-align: right;
+}
 </style>
 <template>
   <view class="container">
@@ -8,7 +16,6 @@
       <view slot="action" class="weui-search-bar__cancel-btn" @tap="create">
         <i class="iconfont icon-xiugai" ></i>
       </view>
-      <view slot="go" @tap="detail({{item}})" > ===> </view>
     </search>
     <!-- 轮播图 -->
     <view>
@@ -16,14 +23,15 @@
     </view>
 
     <list :searchApi="searchApi" :params="jobparams" :hasAction="hasAction">
-      <view  @tap="detail({{item}})" slot="go">====></view>
+      <view class="price"  @tap="detail({{item}})" slot="go"> <i class="iconfont icon-chakan" ></i>
+     {{!item.state?(item.creatorId==user.customerId?'查':'报'):(item.state==0?'执':'完')}}</view>
     </list>
   </view>
 </template>
 
 <script>
 import wepy from 'wepy';
-import api from 'api/api';
+import { getShufflings, getJobs } from 'api/api';
 import SearchBar from '@/components/searchbar'; // alias example
 import Swiper from '@/components/swiper';
 import JobList from '@/components/job-list';
@@ -44,7 +52,7 @@ export default class Dash extends wepy.page {
   };
   data = {
     shufflings: null,
-    searchApi: api.getJobs,
+    searchApi: getJobs,
     hasAction: true,
     jobparams: {
       skipCount: 0,
@@ -61,6 +69,15 @@ export default class Dash extends wepy.page {
   // 方法
   methods = {
     detail(item) {
+      if (!this.hasRegister) {
+        wx.showToast({
+          title: '当前用户还未注册',
+          mask: true,
+          duration: 1000
+        });
+        this.$navigate('../my/register');
+        return;
+      }
       this.$preload('model', item);
       this.$navigate('jobdetail');
     },
@@ -78,7 +95,7 @@ export default class Dash extends wepy.page {
     }
   };
   async initShuffling() {
-    var r = await api.getShufflings();
+    var r = await getShufflings();
     if (r.success) {
       this.shufflings = r.result.items;
     }

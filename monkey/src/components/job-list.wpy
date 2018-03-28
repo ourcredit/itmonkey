@@ -73,19 +73,19 @@
         </view>
         <view class="weui-flex__item">
           <view class="price">
-               <i class="iconfont icon-CombinedShape" ></i>{{item.price}}
-           </view>
+            <i class="iconfont icon-CombinedShape"></i>{{item.price}}
+          </view>
         </view>
       </view>
       <view class="weui-flex">
         <view class="weui-flex__item">
           <view class="info">{{item.content}}</view>
         </view>
-           <slot name="go">
-      </slot>
-        <view class="price">
+        <slot name="go">
+        </slot>
+        <!-- <view class="price">
            <i class="iconfont icon-chakan" ></i>{{item.state}}
-         </view>
+         </view> -->
       </view>
     </view>
   </scroll-view>
@@ -149,6 +149,7 @@ export default class List extends wepy.component {
       params = Object.assign(this.params, {
         sorting: this.sorting
       });
+      delete params['customerId'];
     } else {
       params = Object.assign(this.params, {
         sorting: this.sorting,

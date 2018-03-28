@@ -78,7 +78,10 @@ namespace ItMonkey.Customers
         public async Task<CustomerListDto> GetCustomerByKeyAsync(EntityDto<string> input)
         {
             var entity = await _customerRepository.FirstOrDefaultAsync(c=>c.Key.Equals(input.Id));
-            return entity.MapTo<CustomerListDto>();
+
+            var model= entity.MapTo<CustomerListDto>();
+            model.JobsCount = entity.CustomerJobs.Count;
+            return model;
         }
 
         /// <summary>

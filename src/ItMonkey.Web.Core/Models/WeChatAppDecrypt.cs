@@ -231,7 +231,10 @@ namespace ItMonkey.Models
         /// 余额
         /// </summary>
         public int Balance { get; set; }
-
+        /// <summary>
+        /// 参与工作数
+        /// </summary>
+        public int JobsCount { get; set; }
         /// <summary>
         /// 职称
         /// </summary>
