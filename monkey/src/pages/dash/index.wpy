@@ -42,6 +42,9 @@ import { connect } from 'wepy-redux';
   },
   hasRegister(state) {
     return state.userState.hasRegister;
+  },
+  jobsCount(state) {
+    return state.userState.user.jobsCount;
   }
 })
 export default class Dash extends wepy.page {
@@ -76,6 +79,14 @@ export default class Dash extends wepy.page {
           duration: 1000
         });
         this.$navigate('../my/register');
+        return;
+      }
+      if (this.jobsCount >= 3) {
+        wx.showToast({
+          title: '已经参与多份工作',
+          mask: true,
+          duration: 1000
+        });
         return;
       }
       this.$preload('model', item);

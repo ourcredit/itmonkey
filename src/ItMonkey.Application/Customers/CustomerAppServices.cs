@@ -27,6 +27,7 @@ namespace ItMonkey.Customers
         ////ECC/ END CUSTOM CODE SECTION
         private readonly IRepository<Customer, long> _customerRepository;
         private readonly IRepository<Family> _familyRepository;
+        private readonly IRepository<CustomerJob> _myJobRepository;
 
         /// <summary>
         /// 构造函数
@@ -80,7 +81,8 @@ namespace ItMonkey.Customers
             var entity = await _customerRepository.FirstOrDefaultAsync(c=>c.Key.Equals(input.Id));
 
             var model= entity.MapTo<CustomerListDto>();
-            model.JobsCount = entity.CustomerJobs.Count;
+            var count =await _myJobRepository.CountAsync(c => c.CustomerId == entity.Id);
+            model.JobsCount = count;
             return model;
         }
 
