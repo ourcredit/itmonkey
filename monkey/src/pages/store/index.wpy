@@ -174,7 +174,7 @@
             </view>
           </view>
 
-          <lineChart :collection.sync="collection" :labels="labels" onXLabelFilter="enable"></lineChart>
+          <linechart :collection.sync="collection" :labels.sync="labels" onXLabelFilter="enable"></linechart>
         </view>
         <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
           <view class="goodsList">
@@ -221,7 +221,7 @@ export default class Index extends wepy.page {
   };
 
   components = {
-    lineChart: Charts,
+    linechart: Charts,
     swipeDelete
   };
   data = {
@@ -372,7 +372,7 @@ export default class Index extends wepy.page {
     }
   };
   onReady() {
-    this.$invoke('lineChart', 'draw');
+    this.$invoke('linechart', 'draw');
   }
   async deleteGoods(itemData) {}
   async onLoad() {

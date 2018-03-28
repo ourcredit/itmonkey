@@ -6,7 +6,7 @@
 </template>
 <script>
 import wepy from 'wepy';
-import ChatBoard from '@/components/chatboard'; // alias example
+import pointChat from '@/components/pointChat'; // alias example
 export default class Chat extends wepy.page {
   computed = {
     now() {
@@ -17,7 +17,7 @@ export default class Chat extends wepy.page {
     this.$broadcast('close');
   }
   components = {
-    chatboard: ChatBoard
+    chatboard: pointChat
   };
   // 方法
   methods = {};
