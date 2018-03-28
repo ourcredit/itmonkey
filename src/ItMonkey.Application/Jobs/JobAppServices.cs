@@ -71,7 +71,7 @@ namespace ItMonkey.Jobs
             query = query.WhereIf(!input.Filter.IsNullOrWhiteSpace(), c => c.Name.Contains(input.Filter));
             var jobCount = await query.CountAsync();
 
-            var myjobs = _myJobRepository.GetAll().Where(c => c.CustomerId == input.CustomerId);
+            var myjobs = _myJobRepository.GetAll().WhereIf(input.CustomerId.HasValue, c => c.CustomerId == input.CustomerId);
             var jobs = await query
                 .OrderBy(input.Sorting)
                 .PageBy(input)
@@ -89,6 +89,7 @@ namespace ItMonkey.Jobs
             var result=new List<JobListDto>();
             foreach (var re in res)
             {
+                
                 var model = re.c.MapTo<JobListDto>();
                 model.State = re.tt?.State;
                 model.JoinCount = re.Count;

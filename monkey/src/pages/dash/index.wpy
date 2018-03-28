@@ -49,9 +49,8 @@ export default class Dash extends wepy.page {
     jobparams: {
       skipCount: 0,
       maxResultCount: 10,
-      total: 0,
       filter: '',
-      index: 1
+      customerId: null
     }
   };
   computed = {

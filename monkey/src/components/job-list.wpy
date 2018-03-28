@@ -64,8 +64,7 @@
   <!-- list -->
   <scroll-view class="list" style="height:{{height}}rpx" scroll-y="true" bindscrolltolower="loadMore">
     <view wx:for="{{list}}" wx:key="index" class="panel">
-      <slot name="go">
-      </slot>
+
       <view class="weui-flex">
         <view class="weui-flex__item">
           <view class="placeholder">
@@ -82,6 +81,8 @@
         <view class="weui-flex__item">
           <view class="info">{{item.content}}</view>
         </view>
+           <slot name="go">
+      </slot>
         <view class="price">
            <i class="iconfont icon-chakan" ></i>{{item.state}}
          </view>
