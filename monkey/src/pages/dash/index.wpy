@@ -44,7 +44,7 @@ import { connect } from 'wepy-redux';
     return state.userState.hasRegister;
   },
   jobsCount(state) {
-    return state.userState.user.jobsCount;
+    return state.userState.user ? state.userState.user.jobsCount : 0;
   }
 })
 export default class Dash extends wepy.page {

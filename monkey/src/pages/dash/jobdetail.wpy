@@ -4,23 +4,29 @@
 }
 </style>
 <template>
-    <view class="weui-article">
+  <view class="weui-article">
+    <view class="weui-article__section">
+      <view class="weui-article__title">{{model.name}}</view>
+      <view class="price">
+        <icon type="info_circle" size="15"></icon> {{model.price}}</view>
       <view class="weui-article__section">
-        <view class="weui-article__title">{{model.name}}</view>
-        <view class="price"> <icon type="info_circle" size="15"></icon> {{model.price}}</view>
-        <view class="weui-article__section">
-          <view class="weui-article__h3">{{model.category}}</view>
-          <view class="weui-article__p">
-         {{model.content}}
-          </view>
+        <view class="weui-article__h3">{{model.category}}</view>
+        <view class="weui-article__p">
+          {{model.content}}
         </view>
       </view>
     </view>
-  <chatboard ></chatboard>
+  </view>
+  <jobchat wx:if="{{model.state}}"></jobchat>
+  <view wx:if="{{!model.state&&model.creatorId!=user.customerId}}" class="weui-btn-area">
+    <view class="weui-flex__item">
+      <button class="weui-btn" type="primary" @tap="gopayfor">报名</button>
+    </view>
+  </view>
 </template>
 <script>
 import wepy from 'wepy';
-import ChatBoard from '@/components/chatboard'; // alias example
+import jobChat from '@/components/jobChat'; // alias example
 
 import { connect } from 'wepy-redux';
 import { getStore } from 'wepy-redux';
@@ -38,21 +44,34 @@ export default class JobDetail extends wepy.page {
   };
   methods = {};
   components = {
-    chatboard: ChatBoard
+    jobchat: jobChat
   };
   onUnload() {
     this.$broadcast('close');
   }
   // 加载函数
   onLoad(params, data) {
-    let current = this.user;
     if (!data.preload.model) {
       this.model = {};
     } else {
       this.model = data.preload.model;
     }
     var store = getStore();
-    store.dispatch({ type: 'CHATID', model: this.model.creatorId });
+    store.dispatch({
+      type: 'CHATID',
+      model: this.model.creatorId
+    });
+  }
+  onShareAppMessage(res) {
+    if (res.from == 'button') {
+    }
+    return {
+      title: '邀请你加入工作',
+      path: '/pages/dash/jobdetail?id=123',
+      success: function(r) {
+        console.log(r);
+      }
+    };
   }
 }
 </script>

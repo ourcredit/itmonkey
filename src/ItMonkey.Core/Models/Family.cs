@@ -35,6 +35,7 @@ namespace ItMonkey.Models
     public enum MessageType
     {
         P2P = 1,
-        Group = 2
+        Group = 2,
+        Job=3
     }
 }

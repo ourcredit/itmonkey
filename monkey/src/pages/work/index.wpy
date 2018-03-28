@@ -11,6 +11,7 @@
 <script>
 import wepy from 'wepy';
 import Family from '@/components/group';
+import { getStore } from 'wepy-redux';
 export default class Dash extends wepy.page {
   data = {};
   components = {
@@ -24,7 +25,8 @@ export default class Dash extends wepy.page {
   // 方法
   methods = {
     goChat(item, evt) {
-      this.$parent.globalData.user.ChatId = item.id;
+      const store = getStore();
+      store.dispatch({ type: 'CHATID', model: item.id });
       this.$navigate('chat');
     }
   };

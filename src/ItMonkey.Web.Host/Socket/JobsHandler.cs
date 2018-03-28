@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 
 namespace ItMonkey.Web.Host.Socket
 {
-    public class GroupHandler
+    public class JobsHandler
     {
         private static readonly ConcurrentDictionary<string, List<WebSocket>> Groups =
             new ConcurrentDictionary<string, List<WebSocket>>();
@@ -38,7 +38,7 @@ namespace ItMonkey.Web.Host.Socket
                 return;
             //建立一个WebSocket连接请求
             var socket = await httpContext.WebSockets.AcceptWebSocketAsync();
-            string socketId = httpContext.Request.Query["group"].ToString();
+            string socketId = httpContext.Request.Query["job"].ToString();
             //点对点私聊
             if (!Groups.ContainsKey(socketId))
             {

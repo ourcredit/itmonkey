@@ -42,7 +42,7 @@ namespace ItMonkey.Web.Host.Socket
 
             //建立一个WebSocket连接请求
             var socket = await httpContext.WebSockets.AcceptWebSocketAsync();
-            string socketId = httpContext.Request.Query["guid"].ToString();
+            string socketId = httpContext.Request.Query["point"].ToString();
             //判断最大连接数
             if (Sockets.Count >= 100)
             {
@@ -133,17 +133,17 @@ namespace ItMonkey.Web.Host.Socket
             }
             if (HistoricalMessg.Count >= size)
             {
+            
+                SaveToDb(HistoricalMessg);
                 lock (LockSaveMsg)
                 {
-                    var temps = JsonConvert.SerializeObject(HistoricalMessg);
-                    var arra = JsonConvert.DeserializeObject<List<MessageStore>>(temps);
-                    SaveToDb(arra);
-                    HistoricalMessg.RemoveAll(c=>c!=null);
+                   
+                    HistoricalMessg.Clear();
                 }
             }
         }
 
-        public static  void SaveToDb(List<MessageStore> list)
+        public static  void SaveToDb(List<Message> list)
         {
             var sql = @"INSERT INTO `itmonkey`.`s_message_store`
 (`Content`, `CreationTime`,`ReceiverId`, `SenderId`, `State`, `Type` )
@@ -152,7 +152,7 @@ VALUES
             list.ForEach(c =>
             {
                 var time = DateTime.Now.ToString("yyyy/MM/DD HH:mm:ss");
-                sql += $"('{c.Content}', '{time}', {c.ReceiverId}, {c.SenderId}, b'{c.State}',{c.Type} );";
+                sql += $"('{c.Content}', '{time}', {c.ReceiverId}, {c.SenderId}, b'0',{c.Type} );";
             });
             MySqlHelper.ExecuteSql(sql);
         }
