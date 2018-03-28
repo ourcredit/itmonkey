@@ -32,10 +32,12 @@ namespace ItMonkey.Customers
         /// <summary>
         /// 构造函数
         /// </summary>
-        public CustomerAppService(IRepository<Customer, long> customerRepository, IRepository<Family> familyRepository)
+        public CustomerAppService(IRepository<Customer, long> customerRepository, IRepository<Family> familyRepository,
+            IRepository<CustomerJob> myJobRepository)
         {
             _customerRepository = customerRepository;
             _familyRepository = familyRepository;
+            _myJobRepository = myJobRepository;
         }
 
         /// <summary>
