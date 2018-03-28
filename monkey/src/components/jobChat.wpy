@@ -144,7 +144,7 @@ import { connect } from 'wepy-redux';
 
 @connect({
   from(state) {
-    return state.userState.user.customerId;
+    return state.userState.user.customerId + '';
   },
   hasRegister(state) {
     return state.userState.hasRegister;
@@ -175,7 +175,7 @@ export default class JobChat extends wepy.component {
       if (this.readyToSend) {
         const model = {
           senderid: this.from,
-          receiverid: this.to,
+          receiverid: this.job,
           type: 3,
           content: this.readyToSend
         };

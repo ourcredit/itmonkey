@@ -17,8 +17,8 @@
       </view>
     </view>
   </view>
-  <jobchat wx:if="{{model.state}}"></jobchat>
-  <view wx:if="{{!model.state&&model.creatorId!=user.customerId}}" class="weui-btn-area">
+  <jobchat wx:if="{{model.state || model.creatorId==user.customerId}}"></jobchat>
+  <view wx:if="{{model.state==null && model.creatorId != user.customerId}}" class="weui-btn-area">
     <view class="weui-flex__item">
       <button class="weui-btn" type="primary" @tap="gopayfor">报名</button>
     </view>
@@ -29,13 +29,9 @@ import wepy from 'wepy';
 import jobChat from '@/components/jobChat'; // alias example
 
 import { connect } from 'wepy-redux';
-import { getStore } from 'wepy-redux';
 @connect({
   user(state) {
     return state.userState.user;
-  },
-  hasRegister(state) {
-    return state.userState.hasRegister;
   }
 })
 export default class JobDetail extends wepy.page {
@@ -56,11 +52,7 @@ export default class JobDetail extends wepy.page {
     } else {
       this.model = data.preload.model;
     }
-    var store = getStore();
-    store.dispatch({
-      type: 'CHATID',
-      model: this.model.creatorId
-    });
+    console.log(this.model);
   }
   onShareAppMessage(res) {
     if (res.from == 'button') {

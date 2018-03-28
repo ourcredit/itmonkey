@@ -36,6 +36,7 @@ import SearchBar from '@/components/searchbar'; // alias example
 import Swiper from '@/components/swiper';
 import JobList from '@/components/job-list';
 import { connect } from 'wepy-redux';
+import { getStore } from 'wepy-redux';
 @connect({
   user(state) {
     return state.userState.user;
@@ -59,7 +60,7 @@ export default class Dash extends wepy.page {
     hasAction: true,
     jobparams: {
       skipCount: 0,
-      maxResultCount: 10,
+      maxResultCount: 7,
       filter: '',
       customerId: null
     }
@@ -89,6 +90,8 @@ export default class Dash extends wepy.page {
         });
         return;
       }
+      var store = getStore();
+      store.dispatch({ type: 'JOB', model: item.id });
       this.$preload('model', item);
       this.$navigate('jobdetail');
     },
