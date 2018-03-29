@@ -22,7 +22,7 @@ const getJobs = params => GetAsync(params, baseUrl + "services/app/Job/GetPagedJ
 const GetAuthInfo = params => PostAsync(params, baseUrl + "TokenAuth/WeChatAuthenticate")
 
 const CreateCustomer = params => PostAsync(params, baseUrl + "services/app/Customer/CreateOrUpdateCustomer")
-const CreateJob = params => PostAsync(params, baseUrl + "services/app/Job/CreateOrUpdateJob")
+const CreateJob = params => PostAsync(params, baseUrl + "services/app/Job/CreateJobAsync")
 const GetPagedExperience = params => GetAsync(params, baseUrl + "services/app/CustomerExperience/GetPagedCustomerExperiences")
 const ModifyExperience = params => PostAsync(params, baseUrl + "services/app/CustomerExperience/CreateOrUpdateCustomerExperience")
 const GetMessage = params => PostAsync(params, baseUrl + "")

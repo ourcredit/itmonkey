@@ -183,7 +183,7 @@ export default class CreateTask extends wepy.page {
         tip.alert('请完善表单信息');
         return;
       }
-      var r = await CreateJob({ job: this.model });
+      var r = await CreateJob(this.model);
       if (r.success) {
         this.$preload('model', r.result);
         this.$navigate('../orders/payfor');
@@ -198,7 +198,7 @@ export default class CreateTask extends wepy.page {
         tip.alert('请完善表单信息');
         return;
       }
-      var r = await CreateJob({ job: this.model });
+      var r = await CreateJob(this.model);
       if (r.success) {
         this.$switch('../dash/index');
       }

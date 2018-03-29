@@ -89,9 +89,10 @@ const items = [
   }
 ];
 import { connect } from 'wepy-redux';
-
+import { getStore } from 'wepy-redux';
 @connect({
   user(state) {
+    console.log(state);
     return state.userState.user;
   },
   hasRegister(state) {
@@ -167,7 +168,9 @@ export default class Input extends wepy.page {
       });
     },
     // 去支付页面
-    gopayfor() {},
+    gopayfor() {
+      this.$navigate('');
+    },
     async create() {
       if (!this.isAgree) {
         tip.alert('请阅读相关协议并同意');
@@ -185,10 +188,9 @@ export default class Input extends wepy.page {
         tip.alert('当前用户已注册,即将跳去主页');
         this.$redirect('../dash/index');
       }
-      user = user.user;
       if (!user.openId) {
         tip.alert('用户认证失败,请重新登陆');
-        this.$redirect('../dash/index');
+        this.$switch('../dash/index');
       }
       const params = {
         customer: {
@@ -201,6 +203,7 @@ export default class Input extends wepy.page {
       };
       var res = await CreateCustomer(params);
       if (res.success) {
+        this.$root.$parent.getUserInfo();
         this.$redirect('../dash/index');
       }
     },

@@ -12,6 +12,7 @@ namespace ItMonkey.Models.MonkeyChain
     [Table("m_user_monkey_chain")]
     public class CustomerMonkeyChain : CreationAuditedEntity<Guid>
     {
+        public CustomerMonkeyChain() { }
         public CustomerMonkeyChain(long id, Guid hash)
         {
             CustomerId = id;
