@@ -17,8 +17,8 @@ using System;
 namespace ItMonkey.Migrations
 {
     [DbContext(typeof(ItMonkeyDbContext))]
-    [Migration("20180320054437_balance")]
-    partial class balance
+    [Migration("20180329023003_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -914,20 +914,9 @@ namespace ItMonkey.Migrations
                         .IsRequired()
                         .HasMaxLength(256);
 
-                    b.Property<string>("EmailConfirmationCode")
-                        .HasMaxLength(328);
-
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDeleted");
-
-                    b.Property<bool>("IsEmailConfirmed");
-
-                    b.Property<bool>("IsLockoutEnabled");
-
-                    b.Property<bool>("IsPhoneNumberConfirmed");
-
-                    b.Property<bool>("IsTwoFactorEnabled");
 
                     b.Property<DateTime?>("LastLoginTime");
 
@@ -959,6 +948,10 @@ namespace ItMonkey.Migrations
                     b.Property<string>("PhoneNumber");
 
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<string>("SignInToken");
+
+                    b.Property<DateTime?>("SignInTokenExpireTimeUtc");
 
                     b.Property<string>("Surname")
                         .IsRequired()
@@ -1020,10 +1013,14 @@ namespace ItMonkey.Migrations
                     b.ToTable("m_customer");
                 });
 
-            modelBuilder.Entity("ItMonkey.Models.CustomerJob", b =>
+            modelBuilder.Entity("ItMonkey.Models.CustomerExperience", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(1000);
 
                     b.Property<DateTime>("CreationTime");
 
@@ -1031,11 +1028,31 @@ namespace ItMonkey.Migrations
 
                     b.Property<long>("CustomerId");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("m_customer_experience");
+                });
+
+            modelBuilder.Entity("ItMonkey.Models.CustomerJob", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long>("CreatorId");
+
+                    b.Property<long>("CustomerId");
 
                     b.Property<int>("JobId");
 
-                    b.Property<int>("State");
+                    b.Property<int?>("State");
+
+                    b.Property<bool?>("VilidateState");
 
                     b.HasKey("Id");
 
@@ -1077,17 +1094,29 @@ namespace ItMonkey.Migrations
 
                     b.Property<DateTime>("CreationTime");
 
-                    b.Property<long?>("CreatorUserId");
+                    b.Property<long>("CreatorId");
+
+                    b.Property<int>("FirstGrade");
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("IsSecert");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200);
 
+                    b.Property<bool>("PayState");
+
                     b.Property<int>("Price");
 
+                    b.Property<int>("SecondGrade");
+
+                    b.Property<int>("ThirdGrade");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("m_job");
                 });
@@ -1114,6 +1143,46 @@ namespace ItMonkey.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("s_message_store");
+                });
+
+            modelBuilder.Entity("ItMonkey.Models.MonkeyChain.CustomerMonkeyChain", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<long>("CustomerId");
+
+                    b.Property<Guid>("Hash");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("m_user_monkey_chain");
+                });
+
+            modelBuilder.Entity("ItMonkey.Models.MonkeyChain.MonkeyChain", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Data");
+
+                    b.Property<string>("Hash");
+
+                    b.Property<long>("Index");
+
+                    b.Property<string>("PreviousHash");
+
+                    b.Property<string>("TimeSpan");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("m_monkey_chain");
                 });
 
             modelBuilder.Entity("ItMonkey.Models.Shuffling", b =>
@@ -1350,6 +1419,22 @@ namespace ItMonkey.Migrations
                     b.HasOne("ItMonkey.Models.Job", "Job")
                         .WithMany()
                         .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ItMonkey.Models.Job", b =>
+                {
+                    b.HasOne("ItMonkey.Models.Customer", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ItMonkey.Models.MonkeyChain.CustomerMonkeyChain", b =>
+                {
+                    b.HasOne("ItMonkey.Models.Customer")
+                        .WithMany("CustomerMonkeyChains")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

@@ -913,20 +913,9 @@ namespace ItMonkey.Migrations
                         .IsRequired()
                         .HasMaxLength(256);
 
-                    b.Property<string>("EmailConfirmationCode")
-                        .HasMaxLength(328);
-
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDeleted");
-
-                    b.Property<bool>("IsEmailConfirmed");
-
-                    b.Property<bool>("IsLockoutEnabled");
-
-                    b.Property<bool>("IsPhoneNumberConfirmed");
-
-                    b.Property<bool>("IsTwoFactorEnabled");
 
                     b.Property<DateTime?>("LastLoginTime");
 
@@ -958,6 +947,10 @@ namespace ItMonkey.Migrations
                     b.Property<string>("PhoneNumber");
 
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<string>("SignInToken");
+
+                    b.Property<DateTime?>("SignInTokenExpireTimeUtc");
 
                     b.Property<string>("Surname")
                         .IsRequired()

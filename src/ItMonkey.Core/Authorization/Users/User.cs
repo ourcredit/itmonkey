@@ -19,6 +19,12 @@ namespace ItMonkey.Authorization.Users
 
         private new bool IsLockoutEnabled { get; set; }
         private new bool IsTwoFactorEnabled { get; set; }
+        private new string EmailConfirmationCode { get; set; }
+        private new bool IsEmailConfirmed { get; set; }
+        private new bool IsPhoneNumberConfirmed { get; set; }
+        private new string NormalizedEmailAddress { get; set; }
+        private new string NormalizedUserName { get; set; }
+        
 
         public static User CreateTenantAdminUser(int tenantId, string emailAddress)
         {
