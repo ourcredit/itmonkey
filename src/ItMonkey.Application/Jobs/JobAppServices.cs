@@ -253,21 +253,11 @@ namespace ItMonkey.Jobs
                     await _bankRepository.DeleteAsync(c => res.Any(w => w == c.Id));
                     entity.PayState = true;
                 }
-                else
-                {
-                    await _bankRepository.DeleteAsync(c => c.CustomerId == input.CreatorId);
-                }
-
             }
             entity = await _jobRepository.InsertAsync(entity);
             var model = entity.MapTo<JobEditDto>();
-            if (input.IsSecert)
-            {
-                model.Price = input.Price - balances.Count * 1;
-            }
             return model;
         }
-
         /// <summary>
         /// 编辑Job
         /// </summary>

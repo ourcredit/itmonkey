@@ -9,6 +9,7 @@ using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 
 using System.Linq.Dynamic.Core;
+using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 
 using ItMonkey.Customers.Dtos;
@@ -140,6 +141,8 @@ namespace ItMonkey.Customers
 
         protected virtual async Task<CustomerEditDto> CreateCustomerAsync(CustomerEditDto input)
         {
+            var temp = await _customerRepository.CountAsync(c => c.Key == input.Key);
+            if (temp > 0) throw new UserFriendlyException("该用户已经注册");
             var entity = ObjectMapper.Map<Customer>(input);
             var family =await _familyRepository.FirstOrDefaultAsync(c=>!c.IsSecret);
             if (family == null)
