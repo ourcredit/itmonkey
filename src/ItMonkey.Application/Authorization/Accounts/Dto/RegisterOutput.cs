@@ -1,4 +1,4 @@
-﻿namespace ItMonkey.Authorization.Accounts.Dto
+namespace ItMonkey.Authorization.Accounts.Dto
 {
     public class RegisterOutput
     {

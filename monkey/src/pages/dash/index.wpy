@@ -1,13 +1,5 @@
 <style lang="less">
-.price {
-  margin: 5rpx;
-  margin-right: 70rpx;
-  padding: 0 10px;
-  height: 2em;
-  line-height: 2em;
-  color: #000000;
-  text-align: right;
-}
+
 </style>
 <template>
   <view class="container">

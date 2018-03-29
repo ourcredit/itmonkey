@@ -1,6 +1,7 @@
 ﻿using System;
 using Abp.Authorization.Users;
 using Abp.Extensions;
+using Abp.Timing;
 
 namespace ItMonkey.Authorization.Users
 {
@@ -12,6 +13,12 @@ namespace ItMonkey.Authorization.Users
         {
             return Guid.NewGuid().ToString("N").Truncate(16);
         }
+        public DateTime? SignInTokenExpireTimeUtc { get; set; }
+
+        public string SignInToken { get; set; }
+
+        private new bool IsLockoutEnabled { get; set; }
+        private new bool IsTwoFactorEnabled { get; set; }
 
         public static User CreateTenantAdminUser(int tenantId, string emailAddress)
         {
@@ -27,6 +34,17 @@ namespace ItMonkey.Authorization.Users
             user.SetNormalizedNames();
 
             return user;
+        }
+        public void Unlock()
+        {
+            AccessFailedCount = 0;
+            LockoutEndDateUtc = null;
+        }
+
+        public void SetSignInToken()
+        {
+            SignInToken = Guid.NewGuid().ToString();
+            SignInTokenExpireTimeUtc = Clock.Now.AddMinutes(1).ToUniversalTime();
         }
     }
 }

@@ -21,12 +21,12 @@ namespace ItMonkey.Identity
                 .AddAbpEditionManager<EditionManager>()
                 .AddAbpUserStore<UserStore>()
                 .AddAbpRoleStore<RoleStore>()
-                .AddAbpLogInManager<LogInManager>()
-                .AddAbpSignInManager<SignInManager>()
-                .AddAbpSecurityStampValidator<SecurityStampValidator>()
                 .AddAbpUserClaimsPrincipalFactory<UserClaimsPrincipalFactory>()
+                .AddAbpSecurityStampValidator<SecurityStampValidator>()
                 .AddPermissionChecker<PermissionChecker>()
+                .AddAbpSignInManager<SignInManager>()
                 .AddDefaultTokenProviders();
+          
         }
     }
 }

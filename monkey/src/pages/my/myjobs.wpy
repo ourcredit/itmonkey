@@ -1,56 +1,13 @@
 <style lang="less">
-.searchbar-result {
-  margin-top: 0;
-  font-size: 14px;
-}
 
-.searchbar-result:before {
-  display: none;
-}
-
-.weui-cell {
-  padding: 12px 15px 12px 35px;
-}
-
-.placeholder {
-  margin: 5px;
-  padding: 0 10px;
-  height: 2em;
-  line-height: 2em;
-  color: #00ff00;
-}
-
-.panel {
-  width: 100%;
-  margin-top: 10rpx;
-  text-align: left;
-  font-size: 12px;
-  padding-top: 10rpx;
-  padding-left: 50rpx;
-  padding-bottom: 20rpx;
-  border: 1px solid #ccc;
-  .title {
-    padding-bottom: 20rpx;
-    font-size: 14px;
-    font-weight: bold;
-  }
-  .info {
-    padding: 15rpx;
-  }
-  .price {
-    margin: 5rpx;
-    margin-right: 70rpx;
-    padding: 0 10px;
-    height: 2em;
-    line-height: 2em;
-    color: #00ff00;
-    text-align: right;
-  }
-}
 </style>
 <template>
   <view class="container">
-    <list :searchApi="searchApi"  :hasAction="hasAction"></list>
+    <list :searchApi="searchApi"  :hasAction="hasAction">
+ <view class="price"  @tap="detail({{item}})" slot="go"> <i class="iconfont icon-chakan" ></i>
+     {{!item.state?(item.creatorId==user.customerId?'查':'报'):(item.state==0?'执':'完')}}</view>
+
+    </list>
   </view>
 </template>
 <script>

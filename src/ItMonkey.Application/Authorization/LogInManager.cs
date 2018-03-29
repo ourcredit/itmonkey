@@ -1,4 +1,3 @@
-﻿using Microsoft.AspNetCore.Identity;
 using Abp.Authorization;
 using Abp.Authorization.Users;
 using Abp.Configuration;
@@ -10,6 +9,7 @@ using Abp.Zero.Configuration;
 using ItMonkey.Authorization.Roles;
 using ItMonkey.Authorization.Users;
 using ItMonkey.MultiTenancy;
+using Microsoft.AspNetCore.Identity;
 
 namespace ItMonkey.Authorization
 {
@@ -17,29 +17,30 @@ namespace ItMonkey.Authorization
     {
         public LogInManager(
             UserManager userManager, 
-            IMultiTenancyConfig multiTenancyConfig,
-            IRepository<Tenant> tenantRepository,
-            IUnitOfWorkManager unitOfWorkManager,
+            IMultiTenancyConfig multiTenancyConfig, 
+            IRepository<Tenant> tenantRepository, 
+            IUnitOfWorkManager unitOfWorkManager, 
             ISettingManager settingManager, 
             IRepository<UserLoginAttempt, long> userLoginAttemptRepository, 
-            IUserManagementConfig userManagementConfig,
-            IIocResolver iocResolver,
-            IPasswordHasher<User> passwordHasher, 
+            IUserManagementConfig userManagementConfig, 
+            IIocResolver iocResolver, 
             RoleManager roleManager,
-            UserClaimsPrincipalFactory claimsPrincipalFactory) 
+            IPasswordHasher<User> passwordHasher,
+            UserClaimsPrincipalFactory claimsPrincipalFactory)
             : base(
                   userManager, 
-                  multiTenancyConfig,
+                  multiTenancyConfig, 
                   tenantRepository, 
                   unitOfWorkManager, 
                   settingManager, 
                   userLoginAttemptRepository, 
                   userManagementConfig, 
                   iocResolver, 
-                  passwordHasher, 
-                  roleManager, 
+                  passwordHasher,
+                  roleManager,
                   claimsPrincipalFactory)
         {
+
         }
     }
 }

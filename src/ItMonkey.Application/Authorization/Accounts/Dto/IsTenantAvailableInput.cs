@@ -6,7 +6,7 @@ namespace ItMonkey.Authorization.Accounts.Dto
     public class IsTenantAvailableInput
     {
         [Required]
-        [StringLength(AbpTenantBase.MaxTenancyNameLength)]
+        [MaxLength(AbpTenantBase.MaxTenancyNameLength)]
         public string TenancyName { get; set; }
     }
 }

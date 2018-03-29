@@ -1,6 +1,6 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace ItMonkey.Users.Dto
+namespace ItMonkey.Authorization.Users.Dto
 {
     public class ChangeUserLanguageDto
     {
