@@ -41,19 +41,7 @@ function vailPhone(number) {
   }
   return flag;
 }
-//验证是否西班牙手机(6开头 9位数)
-function ifSpanish(number) {
-  let flag = false;
-  let myreg = /^([6|7|9]{1}(\d+){8})$/;
-  if (number.length != 9) {
-    flag = flag;
-  } else if (!myreg.test(number)) {
-    flag = flag;
-  } else {
-    flag = true;
-  }
-  return flag;
-}
+
 //浮点型除法
 function div(a, b) {
   var c, d, e = 0,
@@ -112,21 +100,6 @@ function sTrim(text) {
 function replaceMaohao(txt) {
   return txt.replace(/\:/ig, '')
 }
-//转换星星分数
-function convertStarArray(score) {
-  //1 全星,0 空星,2半星
-  var arr = []
-  for (var i = 1; i <= 5; i++) {
-    if (score >= i) {
-      arr.push(1)
-    } else if (score > i - 1 && score < i + 1) {
-      arr.push(2)
-    } else {
-      arr.push(0)
-    }
-  }
-  return arr
-}
 module.exports = {
   getCurrentTime: getCurrentTime,
   objLength: objLength,
@@ -134,9 +107,7 @@ module.exports = {
   sTrim: sTrim,
   replaceMaohao: replaceMaohao,
   vailPhone: vailPhone,
-  ifSpanish: ifSpanish,
   div: div,
   mul: mul,
-  accAdd: accAdd,
-  convertStarArray: convertStarArray
+  accAdd: accAdd
 }

@@ -1,6 +1,5 @@
 import wepy from 'wepy';
 import util from './util';
-import md5 from './md5';
 import tip from './tip'
 const Get = async (params = {}, url) => {
   tip.loading();
