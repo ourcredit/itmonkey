@@ -240,7 +240,7 @@ export default class GroupChat extends wepy.component {
   }
   connect() {
     var props = {
-      url: `wss://monkey.leftins.com/point?user=${this.from}&group=${
+      url: `wss://point.leftins.com/point?user=${this.from}&group=${
         this.family
       }`,
 
