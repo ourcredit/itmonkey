@@ -34,4 +34,16 @@ namespace ItMonkey.Jobs.Dtos
         public int Id { get; set; }
         public bool State { get; set; }
     }
+
+    public class VilidateJoberInput
+    {
+        /// <summary>
+        /// 共组oid
+        /// </summary>
+        public int JobId { get; set; }
+        /// <summary>
+        /// 参与人与那
+        /// </summary>
+        public  List<VilidateJober> Vilidates { get; set; }
+    }
 }

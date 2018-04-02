@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using ItMonkey.Customers.Dtos;
 using ItMonkey.Jobs.Dtos;
 using ItMonkey.Models;
 
@@ -29,7 +30,7 @@ namespace ItMonkey.Jobs
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task VilidateJober(VilidateJober input);
+        Task VilidateJober(VilidateJoberInput input);
         /// <summary>
         /// 报名工作
         /// </summary>
@@ -43,7 +44,13 @@ namespace ItMonkey.Jobs
         /// <returns></returns>
         Task<PagedResultDto<JobListDto>> GetMyJobs(GetMyJobsInput input);
 
-
+        /// <summary>
+        /// 获取用户工作下的报名以及参与人员
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<PagedResultDto<CustomerListDto>> GetJobCustomersTask(GetMyJobsInput input);
+       
         /// <summary>
         /// 获取我创建的工作列表i
         /// </summary>

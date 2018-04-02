@@ -35,7 +35,7 @@ namespace ItMonkey.Jobs.Dtos
         /// <summary>
         /// 模糊搜索使用的关键字
         /// </summary>
-        public long CustomerId { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// 正常化排序使用

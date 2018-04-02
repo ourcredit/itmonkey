@@ -3,10 +3,9 @@
 </style>
 <template>
   <view class="container">
-    <list :searchApi="searchApi"  :hasAction="hasAction">
- <view class="price"  @tap="detail({{item}})" slot="go"> <i class="iconfont icon-chakan" ></i>
-     {{!item.state?(item.creatorId==user.customerId?'查':'报'):(item.state==0?'执':'完')}}</view>
-
+    <list :searchApi="searchApi" :params="jobparams"  :hasAction="hasAction">
+ <view class="price"  @tap="vilidate({{item}})" slot="go">
+     人数:{{item.joinCount}}</view>
     </list>
   </view>
 </template>
@@ -20,7 +19,13 @@ export default class Dash extends wepy.page {
   };
   data = {
     searchApi: GetMyCreateJobs,
-    hasAction: false
+    hasAction: false,
+    jobparams: {
+      skipCount: 0,
+      maxResultCount: 7,
+      filter: '',
+      customerId: null
+    }
   };
   computed = {
     now() {
@@ -29,15 +34,13 @@ export default class Dash extends wepy.page {
   };
   // 方法
   methods = {
-    detail(item) {
+    vilidate(item) {
       wx.navigateTo({
-        url: '../dash/task?id=' + item.id
+        url: 'vilidate?jobId=' + item.id
       });
     }
   };
   async onLoad() {}
-  onReachBottom() {}
-  onPullDownRefresh() {}
 }
 </script>
 

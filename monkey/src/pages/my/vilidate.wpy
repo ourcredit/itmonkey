@@ -3,30 +3,22 @@
 </style>
 <template>
   <view class="container">
-    <list :searchApi="searchApi" :params="jobparams" :hasAction="hasAction">
-      <view class="price" @tap="vilidate({{item}})" slot="go">
-        <i class="iconfont icon-chakan"></i>
-        人数:{{item.joinCount}}</view>
+    <list :searchApi="searchApi" :params="jobparams"  :hasAction="hasAction">
+ <view class="price"  @tap="vilidate({{item}})" slot="go">
+     人数:{{item.joinCount}}</view>
     </list>
   </view>
 </template>
 <script>
 import wepy from 'wepy';
-import { GetMyJobs } from 'api/api';
+import { GetMyCreateJobs } from 'api/api';
 import JobList from '@/components/job-list';
 export default class Dash extends wepy.page {
   components = {
     list: JobList
   };
   data = {
-    searchApi: GetMyJobs,
-    hasAction: false,
-    jobparams: {
-      skipCount: 0,
-      maxResultCount: 7,
-      filter: '',
-      customerId: null
-    }
+    jobId: null
   };
   computed = {
     now() {
@@ -41,8 +33,9 @@ export default class Dash extends wepy.page {
       });
     }
   };
-  async onLoad() {}
-  onReachBottom() {}
-  onPullDownRefresh() {}
+  async onLoad(option) {
+    this.jobId = option.jobId;
+  }
 }
 </script>
+

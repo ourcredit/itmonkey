@@ -1,41 +1,14 @@
 <style lang="less">
-@import '../../style/base/fn.less';
-
-.page-user {
-  @userinfoHeight: 150rpx;
-  @userinfoSpace: 8rpx;
-  .userinfo {
-    padding: 20rpx 0;
-  }
-
-  .userinfo-avatar {
-    float: left;
-    margin-left: 120rpx;
-    width: @userinfoHeight;
-    height: @userinfoHeight;
-    border-radius: 50%;
-  } // space + space
-  .userinfo-info {
-    float: left;
-    line-height: 1;
-    padding: @userinfoSpace 0;
-    margin-left: 3 * @userinfoSpace;
-  } // text + space + text
-  .userinfo-nickname {
-    color: @uiColorGreen;
-    font-size: (@userinfoHeight - 4 * @userinfoSpace) * (16 / 30);
-    margin-bottom: 2 * @userinfoSpace;
-  }
-  .userinfo-status {
-    color: #999;
-    font-size: (@userinfoHeight - 4 * @userinfoSpace) * (14 / 30);
-  }
+.add-icon {
+  float: right;
+  margin-top: 20rpx;
+  margin-right: 20rpx;
 }
 </style>
 <template>
   <view class="page-user">
     <view>工作经验
-      <icon @tap="create" type="info_circle" size="20"></icon>
+      <icon @tap="create" class="add-icon" type="info_circle" size="20"></icon>
     </view>
     <view class="weui-panel">
       <view class="weui-cells weui-cells_after-title">
@@ -78,10 +51,10 @@ export default class Works extends wepy.page {
   methods = {
     OnClick(item) {
       this.$preload('model', item);
-      this.$navigate('workdetail');
+      this.$navigate('experiencedetail');
     },
     create() {
-      this.$navigate('workdetail');
+      this.$navigate('experiencedetail');
     }
   };
 

@@ -7,8 +7,6 @@ namespace ItMonkey.Customers.Dtos
 {
     public class CustomerListDto
     {
-        ////BCC/ BEGIN CUSTOM CODE SECTION
-        ////ECC/ END CUSTOM CODE SECTION
         public long Id { get; set; }
         public string Name { get; set; }
         /// <summary>
@@ -42,7 +40,10 @@ namespace ItMonkey.Customers.Dtos
         /// 参与工作数
         /// </summary>
         public int JobsCount { get; set; }
-      
+        /// <summary>
+        /// 验证状态
+        /// </summary>
+        public bool? VilidateState { get; set; }
     }
 
     public class FamilyChildsDto
