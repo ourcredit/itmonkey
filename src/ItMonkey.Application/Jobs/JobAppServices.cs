@@ -96,7 +96,7 @@ namespace ItMonkey.Jobs
         public async Task<PagedResultDto<CustomerListDto>> GetJobCustomersTask(GetMyJobsInput input)
         {
             var query = _myJobRepository.GetAll();
-            query = query.Where(c => c.JobId == input.Id);
+            query = query.Where(c => c.JobId == input.CustomerId);
             var jobCount = await query.CountAsync();
             var cusomter = await query
                 .OrderBy(input.Sorting)
@@ -179,7 +179,7 @@ namespace ItMonkey.Jobs
         public async Task<PagedResultDto<JobListDto>> GetMyJobs(GetMyJobsInput input)
         {
             var query = _myJobRepository.GetAll();
-            query = query.Where(c => c.CustomerId == input.Id && c.VilidateState.HasValue && c.VilidateState.Value);
+            query = query.Where(c => c.CustomerId == input.CustomerId && c.VilidateState.HasValue && c.VilidateState.Value);
             var jobCount = await query.CountAsync();
             var jobs = await query
                 .OrderBy(input.Sorting)
@@ -198,7 +198,6 @@ namespace ItMonkey.Jobs
                 result
             );
         }
-
         /// <summary>
         /// 获取我创建的工作列表i
         /// </summary>
@@ -207,7 +206,7 @@ namespace ItMonkey.Jobs
         public async Task<PagedResultDto<JobListDto>> GetMyCreateJobs(GetMyJobsInput input)
         {
             var query = _jobRepository.GetAll();
-            query = query.Where(c => c.CreatorId == input.Id);
+            query = query.Where(c => c.CreatorId == input.CustomerId);
             var jobCount = await query.CountAsync();
             var jobs = await query
                 .OrderBy(input.Sorting)

@@ -3,22 +3,23 @@
 </style>
 <template>
   <view class="container">
-    <list :searchApi="searchApi" :params="jobparams"  :hasAction="hasAction">
- <view class="price"  @tap="vilidate({{item}})" slot="go">
-     人数:{{item.joinCount}}</view>
-    </list>
+    <view wx:if="{{data.length>0}}" wx:for="{{data}}" wx:key="index" >
+         <view  class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+          <view class="weui-cell__bd">{{item.name}}</view>
+            <view class="weui-cell__ft weui-cell__ft_in-access">
+          </view>
+        </view>
+    </view>
   </view>
 </template>
 <script>
 import wepy from 'wepy';
-import { GetMyCreateJobs } from 'api/api';
-import JobList from '@/components/job-list';
+import { GetJobCustomers } from 'api/api';
 export default class Dash extends wepy.page {
-  components = {
-    list: JobList
-  };
+  components = {};
   data = {
-    jobId: null
+    jobId: null,
+    data: []
   };
   computed = {
     now() {
@@ -27,14 +28,18 @@ export default class Dash extends wepy.page {
   };
   // 方法
   methods = {
-    detail(item) {
-      wx.navigateTo({
-        url: '../dash/task?id=' + item.id
-      });
-    }
+    submit(item) {}
   };
   async onLoad(option) {
     this.jobId = option.jobId;
+    var res = await GetJobCustomers({
+      id: this.jobId,
+      skipCount: 0,
+      MaxResultCount: 99
+    });
+    if (res.success) {
+      this.data = res.result.items;
+    }
   }
 }
 </script>
