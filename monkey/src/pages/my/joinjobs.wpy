@@ -4,7 +4,7 @@
 <template>
   <view class="container">
     <list :searchApi="searchApi" :params="jobparams" :hasAction="hasAction">
-      <view wx:if="{{item.VilidateState}}" class="price" @tap="detail({{item}})" slot="go">
+      <view  class="price" @tap="detail({{item}})" slot="go">
         <i class="iconfont icon-chakan"></i>
         状态:{{item.state}}</view>
     </list>
@@ -14,6 +14,7 @@
 import wepy from 'wepy';
 import { GetMyJobs } from 'api/api';
 import JobList from '@/components/job-list';
+import { getStore } from 'wepy-redux';
 export default class Dash extends wepy.page {
   components = {
     list: JobList
@@ -36,8 +37,11 @@ export default class Dash extends wepy.page {
   // 方法
   methods = {
     detail(item) {
+      const store = getStore();
+      store.dispatch({ type: 'JOB', model: item.id });
+      this.$preload('model', item);
       wx.navigateTo({
-        url: '../dash/task?id=' + item.id
+        url: '../dash/jobdetail'
       });
     }
   };

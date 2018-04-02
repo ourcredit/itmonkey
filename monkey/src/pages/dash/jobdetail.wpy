@@ -18,7 +18,7 @@
     </view>
   </view>
   <jobchat wx:if="{{model.state || model.creatorId==user.customerId}}"></jobchat>
-  <view wx:if="{{model.state==null && model.creatorId != user.customerId}}" class="weui-btn-area">
+  <view wx:if="{{model.vilidateState == null && model.creatorId != user.customerId}}" class="weui-btn-area">
     <view class="weui-flex__item">
       <button class="weui-btn" type="primary" @tap="join">报名</button>
     </view>

@@ -57,11 +57,7 @@ export default class Dash extends wepy.page {
       customerId: null
     }
   };
-  computed = {
-    now() {
-      return +new Date();
-    }
-  };
+  computed = {};
   // 方法
   methods = {
     detail(item) {
@@ -112,7 +108,5 @@ export default class Dash extends wepy.page {
   onShow() {
     this.$broadcast('init');
   }
-  onReachBottom() {}
-  onPullDownRefresh() {}
 }
 </script>
