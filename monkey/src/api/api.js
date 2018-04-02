@@ -28,6 +28,7 @@ const ModifyExperience = params => PostAsync(params, baseUrl + "services/app/Cus
 const GetMessage = params => PostAsync(params, baseUrl + "")
 const GetMyJobs = params => GetAsync(params, baseUrl + "services/app/Job/GetMyJobs")
 const GetMyCreateJobs = params => GetAsync(params, baseUrl + "services/app/Job/GetMyCreateJobs")
+const GetFamilyChildsAsync = params => GetAsync(params, baseUrl + "services/app/Customer/GetFamilyChildsAsync")
 module.exports = {
   getShufflings,
   getJobs,
@@ -38,5 +39,6 @@ module.exports = {
   ModifyExperience,
   GetMessage,
   GetMyJobs,
-  GetMyCreateJobs
+  GetMyCreateJobs,
+  GetFamilyChildsAsync
 }

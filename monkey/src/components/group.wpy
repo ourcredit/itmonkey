@@ -144,16 +144,16 @@
         </view>
         <view id="key_{{b.id}}"  wx:for="{{a.children}}" wx:if="{{a.children.length>0}}" wx:for-item="b" wx:key="b" class="strt-part">
           <span  wx:if="{{model.children.length>1}}" class="line-h line-h-r{{b.id<9?'-left':b.id==9?'': '-right'}}"></span>
-          <view class="line-v">
+          <view wx:if="{{a.children.length>1}}" class="line-v">
             <span></span>
           </view>
           <span @tap="gochat({{b}})" class="strt-name{{b.self?'-my':'-other'}}">{{b.id}}.{{b.name}}</span>
-          <view class="line-v">
+          <view wx:if="{{a.children.length>1}}" class="line-v">
             <span></span>
           </view>
           <view id="key_{{c.id}}" wx:for="{{b.children}}" wx:if="{{b.children.length>0}}" wx:for-item="c" wx:key="c" class="strt-part">
             <span  wx:if="{{a.children.length>1}}" class="line-h line-h-r{{c.id<27?'-left':c.id==27?'': '-right'}}"></span>
-            <view class="line-v">
+            <view wx:if="{{a.children.length>1}}" class="line-v">
               <span></span>
             </view>
             <span @tap="gochat({{c}})"  class="strt-name{{c.self?'-my':'-other'}}">{{c.id}}.{{c.name}}</span>
@@ -166,15 +166,20 @@
 
 <script>
 import wepy from 'wepy';
+import { GetFamilyChildsAsync } from 'api/api';
+import { connect } from 'wepy-redux';
+
+@connect({
+  user(state) {
+    return state.userState.user;
+  },
+  hasRegister(state) {
+    return state.userState.hasRegister;
+  }
+})
 export default class Family extends wepy.component {
   data = {
-    current: 'key_27'
-  };
-  props = {
-    model: {
-      type: Object,
-      required: true
-    }
+    model: null
   };
   computed = {
     now() {
@@ -191,232 +196,237 @@ export default class Family extends wepy.component {
   events = {};
   // 加载函数
   async onLoad() {
-    this.model = {
-      id: 1,
-      name: '族长',
-      self: false,
-      children: [
-        {
-          id: 2,
-          name: 'A',
-          self: false,
-          children: [
-            {
-              id: 5,
-              name: 'A.A',
-              self: false,
-              children: [
-                {
-                  id: 14,
-                  name: 'A.A.A',
-                  self: false
-                },
-                {
-                  id: 23,
-                  name: 'A.A.B',
-                  self: false
-                },
-                {
-                  id: 32,
-                  name: 'A.A.C',
-                  self: false
-                }
-              ]
-            },
-            {
-              id: 8,
-              name: 'A.B',
-              self: false,
-              children: [
-                {
-                  id: 17,
-                  name: 'A.B.A',
-                  self: false
-                },
-                {
-                  id: 26,
-                  name: 'A.B.B',
-                  self: true
-                },
-                {
-                  id: 35,
-                  name: 'A.B.C',
-                  self: false
-                }
-              ]
-            },
-            {
-              id: 11,
-              name: 'A.C',
-              self: false,
-              children: [
-                {
-                  id: 20,
-                  name: 'A.C.A',
-                  self: false
-                },
-                {
-                  id: 29,
-                  name: 'A.C.B',
-                  self: false
-                },
-                {
-                  id: 38,
-                  name: 'A.C.C',
-                  self: false
-                }
-              ]
-            }
-          ]
-        },
-        {
-          id: 3,
-          name: 'B',
-          self: false,
-          children: [
-            {
-              id: 6,
-              name: 'B.A',
-              self: false,
-              children: [
-                {
-                  id: 15,
-                  name: 'B.A.A',
-                  self: false
-                },
-                {
-                  id: 24,
-                  name: 'B.A.B',
-                  self: false
-                },
-                {
-                  id: 33,
-                  name: 'B.A.C',
-                  self: false
-                }
-              ]
-            },
-            {
-              id: 9,
-              name: 'B.B',
-              self: false,
-              children: [
-                {
-                  id: 18,
-                  name: 'B.B.A',
-                  self: false
-                },
-                {
-                  id: 27,
-                  name: 'B.B.B',
-                  self: false
-                },
-                {
-                  id: 36,
-                  name: 'B.B.C',
-                  self: false
-                }
-              ]
-            },
-            {
-              id: 12,
-              name: 'B.C',
-              self: false,
-              children: [
-                {
-                  id: 21,
-                  name: 'B.C.A',
-                  self: false
-                },
-                {
-                  id: 30,
-                  name: 'B.C.B',
-                  self: false
-                },
-                {
-                  id: 39,
-                  name: 'B.C.C',
-                  self: false
-                }
-              ]
-            }
-          ]
-        },
-        {
-          id: 4,
-          name: 'C',
-          self: false,
-          children: [
-            {
-              id: 7,
-              name: 'C.A',
-              self: false,
-              children: [
-                {
-                  id: 16,
-                  name: 'C.A.A',
-                  self: false
-                },
-                {
-                  id: 25,
-                  name: 'C.A.B',
-                  self: false
-                },
-                {
-                  id: 34,
-                  name: 'C.A.C',
-                  self: false
-                }
-              ]
-            },
-            {
-              id: 10,
-              name: 'C.B',
-              self: false,
-              children: [
-                {
-                  id: 19,
-                  name: 'C.B.A',
-                  self: false
-                },
-                {
-                  id: 28,
-                  name: 'C.B.B',
-                  self: false
-                },
-                {
-                  id: 37,
-                  name: 'C.B.C',
-                  self: false
-                }
-              ]
-            },
-            {
-              id: 13,
-              name: 'C.C',
-              self: false,
-              children: [
-                {
-                  id: 22,
-                  name: 'C.C.A',
-                  self: false
-                },
-                {
-                  id: 31,
-                  name: 'C.C.B',
-                  self: false
-                },
-                {
-                  id: 40,
-                  name: 'C.C.C',
-                  self: false
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    };
+    var res = await GetFamilyChildsAsync({ id: this.user.customerId });
+    if (res.success) {
+      this.model = res.result;
+      this.$apply();
+    }
+    // this.model = {
+    //   id: 1,
+    //   name: '族长',
+    //   self: false,
+    //   children: [
+    //     {
+    //       id: 2,
+    //       name: 'A',
+    //       self: false,
+    //       children: [
+    //         {
+    //           id: 5,
+    //           name: 'A.A',
+    //           self: false,
+    //           children: [
+    //             {
+    //               id: 14,
+    //               name: 'A.A.A',
+    //               self: false
+    //             },
+    //             {
+    //               id: 23,
+    //               name: 'A.A.B',
+    //               self: false
+    //             },
+    //             {
+    //               id: 32,
+    //               name: 'A.A.C',
+    //               self: false
+    //             }
+    //           ]
+    //         },
+    //         {
+    //           id: 8,
+    //           name: 'A.B',
+    //           self: false,
+    //           children: [
+    //             {
+    //               id: 17,
+    //               name: 'A.B.A',
+    //               self: false
+    //             },
+    //             {
+    //               id: 26,
+    //               name: 'A.B.B',
+    //               self: true
+    //             },
+    //             {
+    //               id: 35,
+    //               name: 'A.B.C',
+    //               self: false
+    //             }
+    //           ]
+    //         },
+    //         {
+    //           id: 11,
+    //           name: 'A.C',
+    //           self: false,
+    //           children: [
+    //             {
+    //               id: 20,
+    //               name: 'A.C.A',
+    //               self: false
+    //             },
+    //             {
+    //               id: 29,
+    //               name: 'A.C.B',
+    //               self: false
+    //             },
+    //             {
+    //               id: 38,
+    //               name: 'A.C.C',
+    //               self: false
+    //             }
+    //           ]
+    //         }
+    //       ]
+    //     },
+    //     {
+    //       id: 3,
+    //       name: 'B',
+    //       self: false,
+    //       children: [
+    //         {
+    //           id: 6,
+    //           name: 'B.A',
+    //           self: false,
+    //           children: [
+    //             {
+    //               id: 15,
+    //               name: 'B.A.A',
+    //               self: false
+    //             },
+    //             {
+    //               id: 24,
+    //               name: 'B.A.B',
+    //               self: false
+    //             },
+    //             {
+    //               id: 33,
+    //               name: 'B.A.C',
+    //               self: false
+    //             }
+    //           ]
+    //         },
+    //         {
+    //           id: 9,
+    //           name: 'B.B',
+    //           self: false,
+    //           children: [
+    //             {
+    //               id: 18,
+    //               name: 'B.B.A',
+    //               self: false
+    //             },
+    //             {
+    //               id: 27,
+    //               name: 'B.B.B',
+    //               self: false
+    //             },
+    //             {
+    //               id: 36,
+    //               name: 'B.B.C',
+    //               self: false
+    //             }
+    //           ]
+    //         },
+    //         {
+    //           id: 12,
+    //           name: 'B.C',
+    //           self: false,
+    //           children: [
+    //             {
+    //               id: 21,
+    //               name: 'B.C.A',
+    //               self: false
+    //             },
+    //             {
+    //               id: 30,
+    //               name: 'B.C.B',
+    //               self: false
+    //             },
+    //             {
+    //               id: 39,
+    //               name: 'B.C.C',
+    //               self: false
+    //             }
+    //           ]
+    //         }
+    //       ]
+    //     },
+    //     {
+    //       id: 4,
+    //       name: 'C',
+    //       self: false,
+    //       children: [
+    //         {
+    //           id: 7,
+    //           name: 'C.A',
+    //           self: false,
+    //           children: [
+    //             {
+    //               id: 16,
+    //               name: 'C.A.A',
+    //               self: false
+    //             },
+    //             {
+    //               id: 25,
+    //               name: 'C.A.B',
+    //               self: false
+    //             },
+    //             {
+    //               id: 34,
+    //               name: 'C.A.C',
+    //               self: false
+    //             }
+    //           ]
+    //         },
+    //         {
+    //           id: 10,
+    //           name: 'C.B',
+    //           self: false,
+    //           children: [
+    //             {
+    //               id: 19,
+    //               name: 'C.B.A',
+    //               self: false
+    //             },
+    //             {
+    //               id: 28,
+    //               name: 'C.B.B',
+    //               self: false
+    //             },
+    //             {
+    //               id: 37,
+    //               name: 'C.B.C',
+    //               self: false
+    //             }
+    //           ]
+    //         },
+    //         {
+    //           id: 13,
+    //           name: 'C.C',
+    //           self: false,
+    //           children: [
+    //             {
+    //               id: 22,
+    //               name: 'C.C.A',
+    //               self: false
+    //             },
+    //             {
+    //               id: 31,
+    //               name: 'C.C.B',
+    //               self: false
+    //             },
+    //             {
+    //               id: 40,
+    //               name: 'C.C.C',
+    //               self: false
+    //             }
+    //           ]
+    //         }
+    //       ]
+    //     }
+    //   ]
+    // };
   }
 }
 </script>

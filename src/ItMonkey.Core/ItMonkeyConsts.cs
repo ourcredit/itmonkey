@@ -68,7 +68,7 @@ namespace ItMonkey
         /// <returns></returns>
         public static string GetTitle(int level)
         {
-            if (level <= 1) return "组长";
+            if (level <= 1) return "族长";
             if (level <= 4) return "三级族员";
             if (level <= 13) return "二级族员";
             return "一级族员";
