@@ -132,7 +132,7 @@ namespace ItMonkey.Jobs
         /// <returns></returns>
         public async Task<PagedResultDto<JobListDto>> GetMyJobs(GetMyJobsInput input)
         {
-            var query = _myJobRepository.GetAllIncluding(c=>c.Customer);
+            var query = _myJobRepository.GetAllIncluding(c=>c.Job);
             query = query.Where(c => c.CustomerId == input.CustomerId &&
             c.VilidateState.HasValue && c.VilidateState.Value);
             var jobCount = await query.CountAsync();
