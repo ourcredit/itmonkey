@@ -55,5 +55,9 @@ namespace ItMonkey.Jobs.Dtos
         /// 报名人数
         /// </summary>
         public int JoinCount { get; set; }
+        /// <summary>
+        /// 当前用户参与状态
+        /// </summary>
+        public bool JoinState { get; set; }
     }
 }

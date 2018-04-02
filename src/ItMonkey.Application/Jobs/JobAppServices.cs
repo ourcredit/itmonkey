@@ -53,12 +53,20 @@ namespace ItMonkey.Jobs
                 .OrderBy(input.Sorting)
                 .PageBy(input)
                 .ToListAsync();
-
+            var　result=new List<JobListDto>();
+            var cj = await _myJobRepository.GetAllListAsync(c => c.CustomerId == input.CustomerId);
+            foreach (var job in jobs)
+            {
+                var model = job.MapTo<JobListDto>();
+                model.JoinState = cj.Count(w => w.JobId == job.Id&&
+                (!w.VilidateState.HasValue||w.VilidateState.Value)) > 0;
+                result.Add(model);
+            }
             //var jobListDtos = ObjectMapper.Map<List <JobListDto>>(jobs);
-            var jobListDtos = jobs.MapTo<List<JobListDto>>();
+          //  var jobListDtos = jobs.MapTo<List<JobListDto>>();
             return new PagedResultDto<JobListDto>(
                 jobCount,
-                jobListDtos
+                result
                 );
         }
         /// <summary>
@@ -70,9 +78,15 @@ namespace ItMonkey.Jobs
         {
             var job = await _jobRepository.FirstOrDefaultAsync(c => c.Id == input.JobId);
             if (job == null) throw new UserFriendlyException("该工作不存在");
-            var model=new CustomerJob()
+            var count = await _myJobRepository.CountAsync(c =>
+                c.CustomerId == input.CustomerId && c.JobId == input.JobId);
+            if(count>0) throw new UserFriendlyException("已报名该工作不可重复报名");
+            var model = new CustomerJob()
             {
-                CustomerId=input.CustomerId,JobId=input.JobId,VilidateState = false,CreatorId=job.CreatorId
+                CustomerId = input.CustomerId,
+                JobId = input.JobId,
+                VilidateState = false,
+                CreatorId = job.CreatorId
             };
             await _myJobRepository.InsertAsync(model);
         }
@@ -138,7 +152,7 @@ namespace ItMonkey.Jobs
         public async Task<PagedResultDto<JobListDto>> GetMyJobs(GetMyJobsInput input)
         {
             var query = _myJobRepository.GetAll();
-            query = query.Where(c => c.CustomerId == input.CustomerId && c.VilidateState.HasValue&&c.VilidateState.Value);
+            query = query.Where(c => c.CustomerId == input.CustomerId && c.VilidateState.HasValue && c.VilidateState.Value);
             var jobCount = await query.CountAsync();
             var jobs = await query
                 .OrderBy(input.Sorting)

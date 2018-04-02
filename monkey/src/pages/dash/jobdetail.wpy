@@ -20,12 +20,14 @@
   <jobchat wx:if="{{model.state || model.creatorId==user.customerId}}"></jobchat>
   <view wx:if="{{model.state==null && model.creatorId != user.customerId}}" class="weui-btn-area">
     <view class="weui-flex__item">
-      <button class="weui-btn" type="primary" @tap="gopayfor">报名</button>
+      <button class="weui-btn" type="primary" @tap="join">报名</button>
     </view>
   </view>
 </template>
 <script>
 import wepy from 'wepy';
+import { JoinJob } from 'api/api';
+import tip from 'tools/tip';
 import jobChat from '@/components/jobChat'; // alias example
 
 import { connect } from 'wepy-redux';
@@ -38,7 +40,19 @@ export default class JobDetail extends wepy.page {
   data = {
     model: null
   };
-  methods = {};
+  methods = {
+    async join() {
+      var res = await JoinJob({
+        jobId: this.model.id,
+        customerId: this.user.customerId
+      });
+      if (res.success) {
+        this.$switch('index');
+      } else {
+        tip.error(res.error.message);
+      }
+    }
+  };
   components = {
     jobchat: jobChat
   };
