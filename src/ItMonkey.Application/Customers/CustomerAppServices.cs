@@ -142,11 +142,11 @@ namespace ItMonkey.Customers
                         r2f.Children.Add(l2);
                     }
                 }
-              
+              rootf.Children.Add(r2f);
             }
             if (r3 != null)
             {
-                var r2f = new FamilyChildsDto(r2.Id, r2.Name, r2.Title, r2.Id == current);
+                var r3f = new FamilyChildsDto(r3.Id, r3.Name, r3.Title, r3.Id == current);
                 var rt = r.Where(c => c.Id.IsIn(6,9,12));
                 foreach (var tempFamily in rt)
                 {
@@ -157,13 +157,14 @@ namespace ItMonkey.Customers
                         var t1 = list.Where(
                             c => c.FamilyCode.HasValue && tempFamily.Childs.Contains(c.FamilyCode.Value));
                         l2.Children.AddRange(t1.Select(w => new FamilyChildsDto(w.Id, w.Name, w.Title, w.Id == current)));
-                        r2f.Children.Add(l2);
+                        r3f.Children.Add(l2);
                     }
                 }
+                rootf.Children.Add(r3f);
             }
             if (r4 != null)
             {
-                var r2f = new FamilyChildsDto(r2.Id, r2.Name, r2.Title, r2.Id == current);
+                var r4f = new FamilyChildsDto(r4.Id, r4.Name, r4.Title, r4.Id == current);
                 var rt = r.Where(c => c.Id.IsIn(7,10,13));
                 foreach (var tempFamily in rt)
                 {
@@ -174,9 +175,10 @@ namespace ItMonkey.Customers
                         var t1 = list.Where(
                             c => c.FamilyCode.HasValue && tempFamily.Childs.Contains(c.FamilyCode.Value));
                         l2.Children.AddRange(t1.Select(w => new FamilyChildsDto(w.Id, w.Name, w.Title, w.Id == current)));
-                        r2f.Children.Add(l2);
+                        r4f.Children.Add(l2);
                     }
                 }
+                rootf.Children.Add(r4f);
             }
 
 
