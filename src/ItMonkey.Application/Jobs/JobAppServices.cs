@@ -176,7 +176,8 @@ namespace ItMonkey.Jobs
         public async Task<PagedResultDto<JobListDto>> GetMyJobs(GetMyJobsInput input)
         {
             var query = _myJobRepository.GetAll();
-            query = query.Where(c => c.CustomerId == input.CustomerId && c.VilidateState.HasValue && c.VilidateState.Value);
+            query = query.Where(c => c.CustomerId == input.CustomerId &&
+            c.VilidateState.HasValue && c.VilidateState.Value);
             var jobCount = await query.CountAsync();
             var jobs = await query
                 .OrderBy(input.Sorting)
@@ -212,18 +213,23 @@ namespace ItMonkey.Jobs
             var cj = _myJobRepository.GetAll();
             var t = from c in jobs
                     join d in await cj.ToListAsync() on c.Id equals d.JobId
-                    into h
-                    group c by c
                 into hh
                     from tt in hh.DefaultIfEmpty()
                     select new
                     {
-                        hh.Key,
-                        Count = hh.Count()
+                        c,
+                         tt
                     };
-
+            var ttt = from c in t
+                group c by c.c
+                into h
+                select new
+                {
+                    h.Key,
+                    Count = h.Count()
+                };
             var result = new List<JobListDto>();
-            foreach (var c in t)
+            foreach (var c in ttt)
             {
                 var model = c.Key.MapTo<JobListDto>();
                 model.JoinCount = c.Count;

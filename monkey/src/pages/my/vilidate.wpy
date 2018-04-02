@@ -2,15 +2,18 @@
 
 </style>
 <template>
-  <view class="container">
-    <view wx:if="{{data.length>0}}" wx:for="{{data}}" wx:key="index" >
-         <view  class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-          <view class="weui-cell__bd">{{item.name}}</view>
-            <view class="weui-cell__ft weui-cell__ft_in-access">
-          </view>
+  <scroll-view class="list" style="height:{{1208}}rpx" scroll-y="true">
+    <view wx:if="{{list}}" wx:for="{{list}}" wx:key="index">
+      <view class="weui-cell weui-cell_switch">
+        <view class="weui-cell__bd">{{item.id}}{{item.name}}{{item.skill}} {{item.childSkill}}{{item.title}}</view>
+        <view class="weui-cell__ft">
+          <switch checked="{{item.vilidateState}}"></switch>
         </view>
+      </view>
+
     </view>
-  </view>
+  </scroll-view>
+
 </template>
 <script>
 import wepy from 'wepy';
@@ -19,7 +22,7 @@ export default class Dash extends wepy.page {
   components = {};
   data = {
     jobId: null,
-    data: []
+    list: []
   };
   computed = {
     now() {
@@ -35,10 +38,11 @@ export default class Dash extends wepy.page {
     var res = await GetJobCustomers({
       id: this.jobId
     });
+    console.log(res);
     if (res.success) {
-      this.data = res.result.items;
+      this.list = res.result.items;
+      this.$apply();
     }
   }
 }
 </script>
-
