@@ -95,7 +95,7 @@ namespace ItMonkey.Jobs
         /// <returns></returns>
         public async Task<ListResultDto<CustomerListDto>> GetJobCustomersTask(EntityDto input)
         {
-            var query = _myJobRepository.GetAll();
+            var query = _myJobRepository.GetAllIncluding(c=>c.Customer);
             query = query.Where(c => c.JobId == input.Id);
             var cusomters = await query
                 .ToListAsync();
