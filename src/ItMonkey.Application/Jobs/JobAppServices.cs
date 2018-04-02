@@ -83,7 +83,6 @@ namespace ItMonkey.Jobs
             {
                 CustomerId = input.CustomerId,
                 JobId = input.JobId,
-                VilidateState = false,
                 CreatorId = job.CreatorId
             };
             await _myJobRepository.InsertAsync(model);
@@ -118,7 +117,7 @@ namespace ItMonkey.Jobs
             var jobs = await _myJobRepository.GetAllListAsync(c => c.Id == input.JobId);
             foreach (var jober in input.Vilidates)
             {
-                var model = jobs.FirstOrDefault(c => c.Id == jober.Id);
+                var model = jobs.FirstOrDefault(c => c.CustomerId == jober.Id);
                 if (model != null)
                 {
                     model.VilidateState = jober.State;

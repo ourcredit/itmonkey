@@ -31,6 +31,7 @@ const GetMyCreateJobs = params => GetAsync(params, baseUrl + "services/app/Job/G
 const GetFamilyChildsAsync = params => GetAsync(params, baseUrl + "services/app/Customer/GetFamilyChildsAsync")
 const JoinJob = params => PostAsync(params, baseUrl + "services/app/Job/JoinJob")
 const GetJobCustomers = params => GetAsync(params, baseUrl + "services/app/Job/GetJobCustomersTask")
+const VilidateJober = params => PostAsync(params, baseUrl + "services/app/Job/VilidateJober")
 module.exports = {
   getShufflings,
   getJobs,
@@ -44,5 +45,6 @@ module.exports = {
   GetMyCreateJobs,
   GetFamilyChildsAsync,
   JoinJob,
-  GetJobCustomers
+  GetJobCustomers,
+  VilidateJober
 }

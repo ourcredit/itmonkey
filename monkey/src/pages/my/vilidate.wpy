@@ -7,22 +7,26 @@
       <view class="weui-cell weui-cell_switch">
         <view class="weui-cell__bd">{{item.id}}{{item.name}}{{item.skill}} {{item.childSkill}}{{item.title}}</view>
         <view class="weui-cell__ft">
-          <switch checked="{{item.vilidateState}}"></switch>
+          <switch   disabled="{{item.vilidateState!=null}}" bindchange="change({{item}})" checked="{{item.vilidateState}}"></switch>
         </view>
       </view>
 
+    </view>
+      <view class="weui-flex__item">
+      <button class="weui-btn" type="primary" @tap="submit">提交</button>
     </view>
   </scroll-view>
 
 </template>
 <script>
 import wepy from 'wepy';
-import { GetJobCustomers } from 'api/api';
+import { GetJobCustomers, VilidateJober } from 'api/api';
 export default class Dash extends wepy.page {
   components = {};
   data = {
     jobId: null,
-    list: []
+    list: [],
+    joinmodel: []
   };
   computed = {
     now() {
@@ -31,7 +35,24 @@ export default class Dash extends wepy.page {
   };
   // 方法
   methods = {
-    submit(item) {}
+    async submit() {
+      console.log(this.joinmodel);
+      const params = { jobId: this.jobId, vilidates: this.joinmodel };
+      var res = await VilidateJober(params);
+      if (res.success) {
+        this.$navigate('myjobs');
+      }
+    },
+    change(item, e) {
+      item.vilidateState = e.detail.value;
+      let model = this.joinmodel.find(w => w.id == item.id);
+      if (model) {
+        model.state = e.detail.value;
+      } else {
+        this.joinmodel.push({ id: item.id, state: e.detail.value });
+      }
+      this.$apply();
+    }
   };
   async onLoad(option) {
     this.jobId = option.jobId;
