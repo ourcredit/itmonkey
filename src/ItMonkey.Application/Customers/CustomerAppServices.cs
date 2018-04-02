@@ -9,12 +9,14 @@ using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 
 using System.Linq.Dynamic.Core;
+using Abp.Extensions;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 
 using ItMonkey.Customers.Dtos;
 using ItMonkey.Dto;
 using ItMonkey.Models;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ItMonkey.Customers
 {
@@ -29,7 +31,6 @@ namespace ItMonkey.Customers
         private readonly IRepository<Customer, long> _customerRepository;
         private readonly IRepository<Family> _familyRepository;
         private readonly IRepository<CustomerJob> _myJobRepository;
-
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -81,14 +82,106 @@ namespace ItMonkey.Customers
         /// </summary>
         public async Task<CustomerListDto> GetCustomerByKeyAsync(EntityDto<string> input)
         {
-            var entity = await _customerRepository.FirstOrDefaultAsync(c=>c.Key.Equals(input.Id));
+            var entity = await _customerRepository.FirstOrDefaultAsync(c => c.Key.Equals(input.Id));
             if (entity == null) return null;
-            var model= entity.MapTo<CustomerListDto>();
-            var count =await _myJobRepository.CountAsync(c => c.CustomerId == entity.Id);
+            var model = entity.MapTo<CustomerListDto>();
+            var count = await _myJobRepository.CountAsync(c => c.CustomerId == entity.Id);
             model.JobsCount = count;
             return model;
         }
+        /// <summary>
+        /// 获取家族成员树
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public async Task<FamilyChildsDto> GetFamilyChildsAsync(EntityDto<long> input)
+        {
+            var family = await _customerRepository.FirstOrDefaultAsync(c => c.Id == input.Id);
+            //所有人员 
+            var fulls = await _customerRepository.GetAllListAsync(c => c.Family == family.Family);
+            return GenderFamily(fulls, family.Id);
+        }
+        /// <summary>
+        /// 拼接家族书
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="current"></param>
+        /// <returns></returns>
+        private FamilyChildsDto GenderFamily(List<Customer> list, long current)
+        {
+            var r=new List<TempFamily>()
+            {
+                new TempFamily(5, 14, 23, 32),
+                new TempFamily(8, 17, 26, 35),
+                new TempFamily(11, 20,29,38),
+                new TempFamily(6, 15, 24, 33),
+                new TempFamily(9, 18, 27, 36),
+                new TempFamily(12, 21, 30, 39),
+                new TempFamily(7, 16, 25, 34),
+                new TempFamily(10,19, 28, 37),
+                new TempFamily(13, 22, 31, 40)
+            };
+            var root = list.First(c => c.FamilyCode.HasValue && c.FamilyCode.Value == 1);
+            var rootf = new FamilyChildsDto(root.Id, root.Name, root.Title, root.Id == current);
+            var r2 = list.FirstOrDefault(c => c.FamilyCode.HasValue && c.FamilyCode.Value == 2);
+            var r3 = list.FirstOrDefault(c => c.FamilyCode.HasValue && c.FamilyCode.Value == 3);
+            var r4 = list.FirstOrDefault(c => c.FamilyCode.HasValue && c.FamilyCode.Value == 4);
+            if (r2 != null)
+            {
+                var r2f=new FamilyChildsDto(r2.Id,r2.Name,r2.Title,r2.Id==current);
+                var rt = r.Where(c => c.Id.IsIn(5, 8, 11));
+                foreach (var tempFamily in rt)
+                {
+                    var temp = list.FirstOrDefault(c => c.FamilyCode.HasValue && c.FamilyCode.Value == tempFamily.Id);
+                    if (temp != null)
+                    {
+                       var l2=new FamilyChildsDto(temp.Id,temp.Name,temp.Title,temp.Id==current);
+                        var t1 = list.Where(
+                            c => c.FamilyCode.HasValue && tempFamily.Childs.Contains(c.FamilyCode.Value));
+                        l2.Children.AddRange(t1.Select(w => new FamilyChildsDto(w.Id, w.Name, w.Title, w.Id == current)));
+                        r2f.Children.Add(l2);
+                    }
+                }
+              
+            }
+            if (r3 != null)
+            {
+                var r2f = new FamilyChildsDto(r2.Id, r2.Name, r2.Title, r2.Id == current);
+                var rt = r.Where(c => c.Id.IsIn(6,9,12));
+                foreach (var tempFamily in rt)
+                {
+                    var temp = list.FirstOrDefault(c => c.FamilyCode.HasValue && c.FamilyCode.Value == tempFamily.Id);
+                    if (temp != null)
+                    {
+                        var l2 = new FamilyChildsDto(temp.Id, temp.Name, temp.Title, temp.Id == current);
+                        var t1 = list.Where(
+                            c => c.FamilyCode.HasValue && tempFamily.Childs.Contains(c.FamilyCode.Value));
+                        l2.Children.AddRange(t1.Select(w => new FamilyChildsDto(w.Id, w.Name, w.Title, w.Id == current)));
+                        r2f.Children.Add(l2);
+                    }
+                }
+            }
+            if (r4 != null)
+            {
+                var r2f = new FamilyChildsDto(r2.Id, r2.Name, r2.Title, r2.Id == current);
+                var rt = r.Where(c => c.Id.IsIn(7,10,13));
+                foreach (var tempFamily in rt)
+                {
+                    var temp = list.FirstOrDefault(c => c.FamilyCode.HasValue && c.FamilyCode.Value == tempFamily.Id);
+                    if (temp != null)
+                    {
+                        var l2 = new FamilyChildsDto(temp.Id, temp.Name, temp.Title, temp.Id == current);
+                        var t1 = list.Where(
+                            c => c.FamilyCode.HasValue && tempFamily.Childs.Contains(c.FamilyCode.Value));
+                        l2.Children.AddRange(t1.Select(w => new FamilyChildsDto(w.Id, w.Name, w.Title, w.Id == current)));
+                        r2f.Children.Add(l2);
+                    }
+                }
+            }
 
+
+            return rootf;
+        }
         /// <summary>
         /// MPA版本才会用到的方法
         /// </summary>
@@ -144,7 +237,7 @@ namespace ItMonkey.Customers
             var temp = await _customerRepository.CountAsync(c => c.Key == input.Key);
             if (temp > 0) throw new UserFriendlyException("该用户已经注册");
             var entity = ObjectMapper.Map<Customer>(input);
-            var family =await _familyRepository.FirstOrDefaultAsync(c=>!c.IsSecret);
+            var family = await _familyRepository.FirstOrDefaultAsync(c => !c.IsSecret);
             if (family == null)
             {
                 var code = Guid.NewGuid().ToString("D").Split('-').Last();
@@ -176,7 +269,7 @@ namespace ItMonkey.Customers
             // ObjectMapper.Map(input, entity);
             await _customerRepository.UpdateAsync(entity);
         }
-       
+
 
         /// <summary>
         /// 删除Customer信息的方法

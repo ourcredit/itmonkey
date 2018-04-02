@@ -27,6 +27,13 @@ namespace ItMonkey.Customers
         /// 通过指定id获取CustomerListDto信息
         /// </summary>
         Task<CustomerListDto> GetCustomerByKeyAsync(EntityDto<string> input);
+
+        /// <summary>
+        /// 获取家族成员树
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<FamilyChildsDto> GetFamilyChildsAsync(EntityDto<long> input);
         /// <summary>
         /// 导出Customer为excel表
         /// </summary>
