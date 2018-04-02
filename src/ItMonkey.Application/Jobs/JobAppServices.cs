@@ -114,7 +114,7 @@ namespace ItMonkey.Jobs
         /// <returns></returns>
         public async Task VilidateJober(VilidateJoberInput input)
         {
-            var jobs = await _myJobRepository.GetAllListAsync(c => c.Id == input.JobId);
+            var jobs = await _myJobRepository.GetAllListAsync(c => c.JobId == input.JobId);
             foreach (var jober in input.Vilidates)
             {
                 var model = jobs.FirstOrDefault(c => c.CustomerId == jober.Id);
@@ -124,49 +124,7 @@ namespace ItMonkey.Jobs
                 }
             }
         }
-        /// <summary>
-        /// 获取Job的分页列表信息
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        public async Task<PagedResultDto<JobListDto>> GetPagedStateJobs(GetJobsInput input)
-        {
-            var query = _jobRepository.GetAll();
-            query = query.WhereIf(!input.Filter.IsNullOrWhiteSpace(), c => c.Name.Contains(input.Filter));
-            var jobCount = await query.CountAsync();
-
-            var myjobs = _myJobRepository.GetAll().WhereIf(input.CustomerId.HasValue, c => c.CustomerId == input.CustomerId);
-            var jobs = await query
-                .OrderBy(input.Sorting)
-                .PageBy(input)
-                .ToListAsync();
-
-            var res = from c in jobs
-                      join d in await myjobs.ToListAsync() on c.Id equals d.JobId
-                          into temp
-                      from tt in temp.DefaultIfEmpty()
-                      select new
-                      {
-                          c,
-                          tt,
-                          Count = temp.Count()
-                      };
-            var result = new List<JobListDto>();
-            foreach (var re in res)
-            {
-
-                var model = re.c.MapTo<JobListDto>();
-                model.State = re.tt?.State;
-                model.JoinCount = re.Count;
-                result.Add(model);
-            }
-            //var jobListDtos = ObjectMapper.Map<List <JobListDto>>(jobs);
-            return new PagedResultDto<JobListDto>(
-                jobCount,
-                result
-            );
-        }
-
+        
         /// <summary>
         /// 获取当前用户的工作列表
         /// </summary>
@@ -174,7 +132,7 @@ namespace ItMonkey.Jobs
         /// <returns></returns>
         public async Task<PagedResultDto<JobListDto>> GetMyJobs(GetMyJobsInput input)
         {
-            var query = _myJobRepository.GetAll();
+            var query = _myJobRepository.GetAllIncluding(c=>c.Customer);
             query = query.Where(c => c.CustomerId == input.CustomerId &&
             c.VilidateState.HasValue && c.VilidateState.Value);
             var jobCount = await query.CountAsync();

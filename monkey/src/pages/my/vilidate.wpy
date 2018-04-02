@@ -36,11 +36,12 @@ export default class Dash extends wepy.page {
   // 方法
   methods = {
     async submit() {
-      console.log(this.joinmodel);
       const params = { jobId: this.jobId, vilidates: this.joinmodel };
       var res = await VilidateJober(params);
       if (res.success) {
-        this.$navigate('myjobs');
+        wx.navigateBack({
+          delta: 1
+        });
       }
     },
     change(item, e) {
