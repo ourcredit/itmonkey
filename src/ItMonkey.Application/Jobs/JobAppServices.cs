@@ -145,6 +145,7 @@ namespace ItMonkey.Jobs
             {
                 var model = c.Job.MapTo<JobListDto>();
                 model.State = c.State;
+                model.VilidateState = c.VilidateState;
                 result.Add(model);
             }
             //var jobListDtos = ObjectMapper.Map<List <JobListDto>>(jobs);

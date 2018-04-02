@@ -52,6 +52,10 @@ namespace ItMonkey.Jobs.Dtos
         /// </summary>
         public int? State { get; set; }
         /// <summary>
+        /// 审核状态
+        /// </summary>
+        public bool? VilidateState { get; set; }
+        /// <summary>
         /// 报名人数
         /// </summary>
         public int JoinCount { get; set; }

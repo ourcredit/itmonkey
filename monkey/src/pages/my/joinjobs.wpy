@@ -4,9 +4,9 @@
 <template>
   <view class="container">
     <list :searchApi="searchApi" :params="jobparams" :hasAction="hasAction">
-      <view class="price" @tap="vilidate({{item}})" slot="go">
+      <view wx:if="{{item.VilidateState}}" class="price" @tap="detail({{item}})" slot="go">
         <i class="iconfont icon-chakan"></i>
-        人数:{{item.joinCount}}</view>
+        状态:{{item.state}}</view>
     </list>
   </view>
 </template>
