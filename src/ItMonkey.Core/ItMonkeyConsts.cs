@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 
@@ -17,39 +18,7 @@ namespace ItMonkey
     /// </summary>
     public class FamilyConsts
     {
-        /// <summary>
-        /// 家族树构成
-        /// </summary>
-        public static List<int> Array => new List<int>()
-        {
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            18,
-            19,
-            20,
-            21,
-            22,
-            23,
-            24,
-            25,
-            26,
-            27
-        };
+       
         /// <summary>
         /// 获取适当位置
         /// </summary>
@@ -57,7 +26,12 @@ namespace ItMonkey
         /// <returns></returns>
         public static int Getsuit(List<int> arra)
         {
-            var temp = Array.Except(arra).ToList();
+            var list=new List<int>();
+            for (int i = 1; i <= 40; i++)
+            {
+                list.Add(i);
+            }
+            var temp = list.Except(arra).ToList();
             temp.Sort();
             return temp.First();
         }
