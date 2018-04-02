@@ -49,7 +49,7 @@ namespace ItMonkey.Jobs
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<PagedResultDto<CustomerListDto>> GetJobCustomersTask(GetMyJobsInput input);
+        Task<ListResultDto<CustomerListDto>> GetJobCustomersTask(EntityDto input);
        
         /// <summary>
         /// 获取我创建的工作列表i

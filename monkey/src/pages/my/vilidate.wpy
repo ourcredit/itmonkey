@@ -33,9 +33,7 @@ export default class Dash extends wepy.page {
   async onLoad(option) {
     this.jobId = option.jobId;
     var res = await GetJobCustomers({
-      id: this.jobId,
-      skipCount: 0,
-      MaxResultCount: 99
+      id: this.jobId
     });
     if (res.success) {
       this.data = res.result.items;

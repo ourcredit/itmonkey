@@ -93,23 +93,20 @@ namespace ItMonkey.Jobs
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<PagedResultDto<CustomerListDto>> GetJobCustomersTask(GetMyJobsInput input)
+        public async Task<ListResultDto<CustomerListDto>> GetJobCustomersTask(EntityDto input)
         {
             var query = _myJobRepository.GetAll();
-            query = query.Where(c => c.JobId == input.CustomerId);
-            var jobCount = await query.CountAsync();
-            var cusomter = await query
-                .OrderBy(input.Sorting)
-                .PageBy(input)
+            query = query.Where(c => c.JobId == input.Id);
+            var cusomters = await query
                 .ToListAsync();
            var result=new List<CustomerListDto>();
-            foreach (var customerJob in cusomter)
+            foreach (var customerJob in cusomters)
             {
                 var model = customerJob.Customer.MapTo<CustomerListDto>();
                 model.VilidateState = customerJob.VilidateState;
                 result.Add(model);
             }
-            return  new PagedResultDto<CustomerListDto>(jobCount,result);
+            return  new ListResultDto<CustomerListDto>(result);
         }
         /// <summary>
         /// 审核用户报名
