@@ -51,8 +51,7 @@ namespace ItMonkey.Customers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        Task<List<MessageListDto>> GetMessageAsync(GetMessageInput input);
-        //todo:缺少Dto的生成GetCustomerForEditOutput
+        Task<PagedResultDto<MessageListDto>> GetMessageAsync(GetMessageInput input);
         /// <summary>
         /// 添加或者修改Customer的公共方法
         /// </summary>

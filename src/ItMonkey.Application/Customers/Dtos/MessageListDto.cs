@@ -7,6 +7,7 @@ namespace ItMonkey.Customers.Dtos
 {
    public class MessageListDto
     {
+        public Guid Id { get; set; }
         public long SenderId { get; set; }
         public string SenderName { get; set; }
         public long ReceiverId { get; set; }

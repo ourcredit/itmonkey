@@ -223,19 +223,30 @@ namespace ItMonkey.Customers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task<List<MessageListDto>> GetMessageAsync(GetMessageInput input)
+        public async Task<PagedResultDto<MessageListDto>> GetMessageAsync(GetMessageInput input)
         {
             var customer = await _customerRepository.FirstOrDefaultAsync(input.Id);
             if(customer==null) throw new UserFriendlyException("当前用户不存在");
             var list= await _cacheManager.GetCache(CacheConsts.MessageCache)
                 .GetAsync(input.Id.ToString(), StoreCacheMessage);
-            if (!list.Any()) return list;
+            if (!list.Any()) return new PagedResultDto<MessageListDto>(0,list);
             var jobs = await _myJobRepository.GetAllListAsync(c =>
                 c.CustomerId == input.Id && c.VilidateState.HasValue && c.VilidateState.Value);
+            var ids = jobs.Select(c => c.JobId);
             var family = await _familyRepository.FirstOrDefaultAsync(c => c.Key == customer.Family);
-            var t = list.Where(c => c.ReceiverId == input.Id || jobs.Any(w => w.JobId == c.ReceiverId) ||
-                                    family.Id == c.ReceiverId);
-            return t.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+            var t = list.Where(c=>!c.State).Where(c => c.Type == MessageType.P2P && c.ReceiverId == input.Id)
+                .Where(c => c.Type == MessageType.P2P && ids.Any(w => w == c.ReceiverId))
+                .Where(c => c.Type == MessageType.Group && family.Id == c.ReceiverId);
+            var count = t.Count();
+            var result= t.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
+            var sql = $@"UPDATE s_message_store 
+SET State = 1 
+WHERE
+	( Type = 1 AND ReceiverId = {customer.Id} ) 
+	OR ( Type = 2 AND ReceiverId IN ( {string.Join(",", ids)} ) ) 
+	OR ( Type = 3 AND ReceiverId = {family.Id} )";
+              await  DapperHelper.ExecuteAsync(sql);
+            return new PagedResultDto<MessageListDto>(count,result);
         }
         /// <summary>
         /// 消息存储至缓存

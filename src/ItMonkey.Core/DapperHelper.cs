@@ -25,5 +25,12 @@ namespace ItMonkey
                  conn.Execute(sql);
             }
         }
-   }
+       public static async Task ExecuteAsync(string sql)
+       {
+           using (MySqlConnection conn = new MySqlConnection(Host))
+           {
+             await  conn.ExecuteAsync(sql);
+           }
+       }
+    }
 }

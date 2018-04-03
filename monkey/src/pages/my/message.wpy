@@ -3,17 +3,11 @@
 </style>
 <template>
   <scroll-view class="list" style="height:{{1208}}rpx" scroll-y="true">
-    <view wx:if="{{list}}" wx:for="{{list}}" wx:key="index">
-      <view class="weui-cell weui-cell_switch">
-        <view class="weui-cell__bd">{{item.id}}{{item.name}}{{item.skill}} {{item.childSkill}}{{item.title}}</view>
-        <view class="weui-cell__ft">
-          <switch   disabled="{{item.vilidateState!=null}}" bindchange="change({{item}})" checked="{{item.vilidateState}}"></switch>
-        </view>
-      </view>
-
-    </view>
-      <view class="weui-flex__item">
-      <button class="weui-btn" type="primary" @tap="submit">提交</button>
+    <view  class="weui-cells weui-cells_after-title">
+      <navigator wx:key="index" wx:for="{{list}}"  url="../work/chat" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <view class="weui-cell__bd">{{item.senderName}}</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access">{{item.content}}</view>
+      </navigator>
     </view>
   </scroll-view>
 
@@ -21,12 +15,24 @@
 <script>
 import wepy from 'wepy';
 import { GetMessageAsync } from 'api/api';
+import { connect } from 'wepy-redux';
+@connect({
+  user(state) {
+    return state.userState.user;
+  }
+})
 export default class Dash extends wepy.page {
   components = {};
+  config = {
+    navigationBarTitleText: '留言信息'
+  };
   data = {
-    jobId: null,
     list: [],
-    joinmodel: []
+    params: {
+      skipCount: 0,
+      maxResultCount: 10,
+      id: 1
+    }
   };
   computed = {
     now() {
@@ -34,35 +40,12 @@ export default class Dash extends wepy.page {
     }
   };
   // 方法
-  methods = {
-    async submit() {
-      const params = { jobId: this.jobId, vilidates: this.joinmodel };
-      var res = await VilidateJober(params);
-      if (res.success) {
-        wx.navigateBack({
-          delta: 1
-        });
-      }
-    },
-    change(item, e) {
-      item.vilidateState = e.detail.value;
-      let model = this.joinmodel.find(w => w.id == item.id);
-      if (model) {
-        model.state = e.detail.value;
-      } else {
-        this.joinmodel.push({ id: item.id, state: e.detail.value });
-      }
-      this.$apply();
-    }
-  };
+  methods = {};
   async onLoad(option) {
-    this.jobId = option.jobId;
-    var res = await GetJobCustomers({
-      id: this.jobId
-    });
+    var res = await GetMessageAsync(this.params);
     console.log(res);
     if (res.success) {
-      this.list = res.result.items;
+      this.list = res.result;
       this.$apply();
     }
   }
