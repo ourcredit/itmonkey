@@ -233,10 +233,8 @@ namespace ItMonkey.Customers
             var jobs = await _myJobRepository.GetAllListAsync(c =>
                 c.CustomerId == input.Id && c.VilidateState.HasValue && c.VilidateState.Value);
             var family = await _familyRepository.FirstOrDefaultAsync(c => c.Key == customer.Family);
-            var t = list.WhereIf(input.Type == MessageType.P2P, c => c.SenderId == input.Id || c.ReceiverId == input.Id)
-                .WhereIf(input.Type == MessageType.Job,
-                    c => c.SenderId == input.Id || jobs.Any(w => w.JobId == c.ReceiverId))
-                .WhereIf(input.Type == MessageType.Group, c => c.SenderId == input.Id || family.Id == c.ReceiverId);
+            var t = list.Where(c => c.ReceiverId == input.Id || jobs.Any(w => w.JobId == c.ReceiverId) ||
+                                    family.Id == c.ReceiverId);
             return t.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
         }
         /// <summary>

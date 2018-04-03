@@ -20,7 +20,7 @@
 </template>
 <script>
 import wepy from 'wepy';
-import { GetJobCustomers, VilidateJober } from 'api/api';
+import { GetMessageAsync } from 'api/api';
 export default class Dash extends wepy.page {
   components = {};
   data = {
