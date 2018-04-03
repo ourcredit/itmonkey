@@ -258,13 +258,14 @@ namespace ItMonkey.Web.Host.Socket
         public static void SaveToDb(List<Message> list)
         {
             var sql = @"INSERT INTO `itmonkey`.`s_message_store`
-(`Content`, `CreationTime`,`ReceiverId`, `SenderId`, `State`, `Type` )
+(`Id`,`Content`, `CreationTime`,`ReceiverId`, `SenderId`, `State`, `Type` )
 VALUES
 	";
             list.ForEach(c =>
             {
+                var guid = Guid.NewGuid();
                 var time = c.ReciveTime.ToString("yyyy/MM/dd HH:mm:ss");
-                sql += $"('{c.Content}', '{time}', {c.ReceiverId}, {c.SenderId}, 0,{(int)c.Type}),";
+                sql += $"('{guid}','{c.Content}', '{time}', {c.ReceiverId}, {c.SenderId}, 0,{(int)c.Type}),";
             });
             DapperHelper.Execute(sql.TrimEnd(','));
         }

@@ -245,7 +245,7 @@ namespace ItMonkey.Customers
         /// <returns></returns>
         private async Task<List<MessageListDto>> StoreCacheMessage()
         {
-            var messages = _messageRepository.GetAll().OrderByDescending(c => c.CreationTime).Take(1000);
+            var messages =await _messageRepository.GetAll().OrderByDescending(c => c.CreationTime).Take(1000).ToListAsync();
             var customers = await _customerRepository.GetAllListAsync();
             var jobs = await _jobRepository.GetAllListAsync();
             var family = await _familyRepository.GetAllListAsync();
