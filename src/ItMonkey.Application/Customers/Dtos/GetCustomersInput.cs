@@ -25,4 +25,10 @@ namespace ItMonkey.Customers.Dtos
         }
 
     }
+
+    public class GetMessageInput : PagedAndSortedInputDto
+    {
+        public long Id { get; set; }
+        public MessageType Type { get; set; }
+    }
 }

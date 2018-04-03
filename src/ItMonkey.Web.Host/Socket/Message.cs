@@ -1,4 +1,5 @@
-﻿using ItMonkey.Models;
+﻿using System;
+using ItMonkey.Models;
 
 namespace ItMonkey.Web.Host.Socket
 {
@@ -23,6 +24,10 @@ namespace ItMonkey.Web.Host.Socket
         /// 内容
         /// </summary>
         public string Content { get; set; }
+        /// <summary>
+        /// 接受时间
+        /// </summary>
+        public DateTime ReciveTime { get; set; }
     }
 
   

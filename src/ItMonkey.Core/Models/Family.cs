@@ -23,10 +23,10 @@ namespace ItMonkey.Models
     /// 消息记录存储
     /// </summary>
     [Table("s_message_store")]
-    public class MessageStore:CreationAuditedEntity<long>
+    public class MessageStore:CreationAuditedEntity<Guid>
     {
-        public int SenderId { get; set; }
-        public int ReceiverId { get; set; }
+        public long SenderId { get; set; }
+        public long ReceiverId { get; set; }
         public string Content { get; set; }
         public MessageType Type { get; set; }
         public bool State { get; set; }

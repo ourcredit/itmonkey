@@ -76,7 +76,6 @@
             <text class="color-green">3</text>
           </view>
         </navigator>
-
         <navigator url="/pages/my/orders" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
           <view class="weui-cell__bd">订单信息</view>
           <view class="weui-cell__ft weui-cell__ft_in-access">

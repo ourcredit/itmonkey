@@ -144,16 +144,16 @@
         </view>
         <view id="key_{{b.id}}"  wx:for="{{a.children}}" wx:if="{{a.children.length>0}}" wx:for-item="b" wx:key="b" class="strt-part">
           <span  wx:if="{{model.children.length>1}}" class="line-h line-h-r{{b.id<9?'-left':b.id==9?'': '-right'}}"></span>
-          <view wx:if="{{a.children.length>1}}" class="line-v">
+          <view  class="line-v">
             <span></span>
           </view>
           <span @tap="gochat({{b}})" class="strt-name{{b.self?'-my':'-other'}}">{{b.id}}.{{b.name}}</span>
-          <view wx:if="{{a.children.length>1}}" class="line-v">
+          <view wx:if="{{b.children.length>0}}" class="line-v">
             <span></span>
           </view>
           <view id="key_{{c.id}}" wx:for="{{b.children}}" wx:if="{{b.children.length>0}}" wx:for-item="c" wx:key="c" class="strt-part">
-            <span  wx:if="{{a.children.length>1}}" class="line-h line-h-r{{c.id<27?'-left':c.id==27?'': '-right'}}"></span>
-            <view wx:if="{{a.children.length>1}}" class="line-v">
+            <span  wx:if="{{c.children.length>1}}" class="line-h line-h-r{{c.id<27?'-left':c.id==27?'': '-right'}}"></span>
+            <view wx:if="{{c.children.length>0}}" class="line-v">
               <span></span>
             </view>
             <span @tap="gochat({{c}})"  class="strt-name{{c.self?'-my':'-other'}}">{{c.id}}.{{c.name}}</span>

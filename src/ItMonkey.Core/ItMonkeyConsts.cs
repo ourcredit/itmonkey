@@ -13,6 +13,11 @@ namespace ItMonkey
 
         public const bool MultiTenancyEnabled = false;
     }
+
+    public class CacheConsts
+    {
+        public const string MessageCache = "MessageCache";
+    }
     /// <summary>
     /// 家族静态帮助类
     /// </summary>

@@ -46,6 +46,12 @@ namespace ItMonkey.Customers
         /// <returns></returns>
         Task<GetCustomerForEditOutput> GetCustomerForEdit(NullableIdDto<long> input);
 
+        /// <summary>
+        /// 从缓存获取消息记录
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task<List<MessageListDto>> GetMessageAsync(GetMessageInput input);
         //todo:缺少Dto的生成GetCustomerForEditOutput
         /// <summary>
         /// 添加或者修改Customer的公共方法

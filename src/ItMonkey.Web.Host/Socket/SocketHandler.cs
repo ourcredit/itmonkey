@@ -239,17 +239,17 @@ namespace ItMonkey.Web.Host.Socket
         /// <param name="data"></param>
         public static void SaveHistoricalMessg(Message data)
         {
-            var size = 200;
+            var size = 5;
             lock (LockSaveMsg)
             {
+                data.ReciveTime=DateTime.Now;
                 HistoricalMessg.Add(data);
             }
             if (HistoricalMessg.Count >= size)
             {
-
-                SaveToDb(HistoricalMessg);
                 lock (LockSaveMsg)
                 {
+                    SaveToDb(HistoricalMessg);
                     HistoricalMessg.Clear();
                 }
             }
@@ -263,10 +263,10 @@ VALUES
 	";
             list.ForEach(c =>
             {
-                var time = DateTime.Now.ToString("yyyy/MM/DD HH:mm:ss");
-                sql += $"('{c.Content}', '{time}', {c.ReceiverId}, {c.SenderId}, b'0',{c.Type} );";
+                var time = c.ReciveTime.ToString("yyyy/MM/dd HH:mm:ss");
+                sql += $"('{c.Content}', '{time}', {c.ReceiverId}, {c.SenderId}, 0,{(int)c.Type}),";
             });
-            MySqlHelper.ExecuteSql(sql);
+            DapperHelper.Execute(sql.TrimEnd(','));
         }
         #region
         /// <summary>
