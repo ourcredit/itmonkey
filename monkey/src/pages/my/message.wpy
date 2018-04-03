@@ -45,7 +45,7 @@ export default class Dash extends wepy.page {
     var res = await GetMessageAsync(this.params);
     console.log(res);
     if (res.success) {
-      this.list = res.result;
+      this.list = res.result.items;
       this.$apply();
     }
   }

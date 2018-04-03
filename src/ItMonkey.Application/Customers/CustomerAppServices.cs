@@ -234,9 +234,11 @@ namespace ItMonkey.Customers
                 c.CustomerId == input.Id && c.VilidateState.HasValue && c.VilidateState.Value);
             var ids = jobs.Select(c => c.JobId);
             var family = await _familyRepository.FirstOrDefaultAsync(c => c.Key == customer.Family);
-            var t = list.Where(c=>!c.State).Where(c => c.Type == MessageType.P2P && c.ReceiverId == input.Id)
-                .Where(c => c.Type == MessageType.P2P && ids.Any(w => w == c.ReceiverId))
-                .Where(c => c.Type == MessageType.Group && family.Id == c.ReceiverId);
+            var t = list.Where(c => !c.State)
+                .Where(c => c.Type == MessageType.P2P && c.ReceiverId == input.Id ||
+                                                         c.Type == MessageType.P2P &&
+                                                          ids.Any(w => w == c.ReceiverId) ||
+                                                          c.Type == MessageType.Group && family.Id == c.ReceiverId);
             var count = t.Count();
             var result= t.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
             var sql = $@"UPDATE s_message_store 
