@@ -28,7 +28,6 @@ namespace ItMonkey
 
             // Enable this line to create a multi-tenant application.
             Configuration.MultiTenancy.IsEnabled = ItMonkeyConsts.MultiTenancyEnabled;
-
             // Configure roles
             AppRoleConfig.Configure(Configuration.Modules.Zero().RoleManagement);
 
