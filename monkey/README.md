@@ -16,9 +16,12 @@ cd itmonkey
 
 npm install wepy-cli -g
 npm install
-wepy build --watch
-```
 
+npm install --global --production windows-build-tools
+  如果安装报错 可以尝试安装系统修复工具 
+wepy build --watch
+
+```
 
 
 
