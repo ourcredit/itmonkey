@@ -71,7 +71,6 @@
     // 方法
     methods = {
       info(e) {
-        console.log(e);
         this.$root.$parent.getUserInfo(e);
       },
       detail(item) {

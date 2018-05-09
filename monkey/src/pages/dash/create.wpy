@@ -1,20 +1,22 @@
 <style lang="less">
-.placeholder {
-  margin: 5px;
-  padding: 0 10px;
-  text-align: center;
-  background-color: #ebebeb;
-  height: 10em;
-  width: 5em;
-  line-height: 2.3em;
-  color: #cfcfcf;
-}
-.small-btn {
-  display: inline-block;
-  line-height: 2.3;
-  font-size: 13px;
-  padding: 0 0.5em;
-}
+  .placeholder {
+    margin: 5px;
+    padding: 0 10px;
+    text-align: center;
+    background-color: #ebebeb;
+    height: 10em;
+    width: 5em;
+    line-height: 2.3em;
+    color: #cfcfcf;
+  }
+
+  .small-btn {
+    display: inline-block;
+    line-height: 2.3;
+    font-size: 13px;
+    padding: 0 0.5em;
+  }
+
 </style>
 <template>
   <view class="page">
@@ -44,7 +46,8 @@
       <view class="weui-cells weui-cells_after-title">
         <view class="weui-cell">
           <view class="weui-cell__bd">
-            <textarea class="weui-textarea" value="{{model.content}}" data-index="content"  bindinput="bindInput" maxlength="1000" placeholder="请输入文本" style="height: 10em" />
+            <textarea class="weui-textarea" value="{{model.content}}" data-index="content" bindinput="bindInput" maxlength="1000" placeholder="请输入文本"
+              style="height: 10em" />
             <view class="weui-textarea-counter">{{length}}/1000</view>
           </view>
         </view>
@@ -56,7 +59,8 @@
               <view class="weui-label">支付酬劳</view>
             </view>
             <view class="weui-cell__bd">
-              <input class="weui-input" value="{{model.price}}" data-index="price"  bindinput="bindInput" type="number" placeholder="￥" />
+              <input class="weui-input" value="{{model.price}}" data-index="price" bindinput="bindInput" type="number" placeholder="￥"
+              />
             </view>
           </view>
           <view class="weui-cell weui-cell_input">
@@ -64,7 +68,8 @@
               <view class="weui-label">一级奖励</view>
             </view>
             <view class="weui-cell__bd">
-              <input class="weui-input" value="{{model.firstGrade}}" data-index="firstGrade" bindinput="bindInput" type="number" placeholder="￥" />
+              <input class="weui-input" value="{{model.firstGrade}}" data-index="firstGrade" bindinput="bindInput" type="number" placeholder="￥"
+              />
             </view>
           </view>
           <view class="weui-cell weui-cell_input">
@@ -72,7 +77,8 @@
               <view class="weui-label">二级奖励</view>
             </view>
             <view class="weui-cell__bd">
-              <input class="weui-input" value="{{model.secondGrade}}" data-index="secondGrade" bindinput="bindInput" type="number" placeholder="￥" />
+              <input class="weui-input" value="{{model.secondGrade}}" data-index="secondGrade" bindinput="bindInput" type="number" placeholder="￥"
+              />
             </view>
           </view>
           <view class="weui-cell weui-cell_input">
@@ -80,16 +86,19 @@
               <view class="weui-label">三级奖励</view>
             </view>
             <view class="weui-cell__bd">
-              <input class="weui-input" value="{{model.thirdGrade}}" data-index="thirdGrade" bindinput="bindInput" type="number" placeholder="￥" />
+              <input class="weui-input" value="{{model.thirdGrade}}" data-index="thirdGrade" bindinput="bindInput" type="number" placeholder="￥"
+              />
             </view>
           </view>
         </view>
         <view>
-          <view class="placeholder"><p>描述</p></view>
+          <view class="placeholder">
+            <p>描述</p>
+          </view>
         </view>
       </view>
 
-    <checkbox-group style=" align-self: right;" @change="bindAgreeChange">
+      <checkbox-group style=" align-self: right;" @change="bindAgreeChange">
         <label class="weui-agree" for="weuiAgree">
           <view class="weui-agree__text">
             <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}" />
@@ -119,93 +128,123 @@
 </template>
 
 <script>
-import wepy from 'wepy';
-import { CreateJob } from 'api/api';
-import tip from 'tools/tip';
-export default class CreateTask extends wepy.page {
-  data = {
-    id: null,
-    cates: [
-      { id: 1, name: '设计' },
-      { id: 2, name: '研发' },
-      { id: 3, name: '文案' },
-      { id: 4, name: '新媒体' },
-      { id: 5, name: '兼职务工' },
-      { id: 6, name: '其他' }
-    ],
-    model: {
-      name: '',
-      content: '',
-      isSecert: false,
-      creatorId: 1,
-      category: '设计',
-      price: null,
-      firstGrade: null,
-      secondGrade: null,
-      thirdGrade: null
-    },
-    cateIndex: 0,
-    isAgree: false,
-    length: 0
-  };
+  import wepy from 'wepy';
+  import {
+    CreateJob
+  } from 'api/api';
+  import tip from 'tools/tip';
+  import {
+    connect
+  } from 'wepy-redux';
+  @connect({
+    user(state) {
+      return state.userState.user;
+    }
+  })
+  export default class CreateTask extends wepy.page {
+    data = {
+      id: null,
+      cates: [{
+          id: 1,
+          name: '设计'
+        },
+        {
+          id: 2,
+          name: '研发'
+        },
+        {
+          id: 3,
+          name: '文案'
+        },
+        {
+          id: 4,
+          name: '新媒体'
+        },
+        {
+          id: 5,
+          name: '兼职务工'
+        },
+        {
+          id: 6,
+          name: '其他'
+        }
+      ],
+      model: {
+        name: '',
+        content: '',
+        isSecert: false,
+        creatorId: null,
+        category: '设计',
+        price: null,
+        firstGrade: null,
+        secondGrade: null,
+        thirdGrade: null
+      },
+      cateIndex: 0,
+      isAgree: false,
+      length: 0
+    };
 
-  computed = {
-    now() {
-      return +new Date();
-    }
-  };
-  // 方法
-  methods = {
-    bindCateChange(e) {
-      this.cateIndex = e.detail.value;
-      this.model.category = this.cates[this.cateIndex].name;
-    },
-    bindInput(e) {
-      let name = e.currentTarget.dataset.index;
-      let value = e.detail.value;
-      if (name == 'content') {
-        this.length = value.length;
+    computed = {
+      now() {
+        return +new Date();
       }
-      this.model[name] = value;
-    },
-    bindAgreeChange(e) {
-      this.isAgree = !!e.detail.value.length;
-    },
-    goBack() {
-      this.$switch('index');
-    },
-    async secertCreate() {
-      if (!this.isAgree) {
-        tip.alert('请阅读相关协议并同意');
-        return;
+    };
+    // 方法
+    methods = {
+      bindCateChange(e) {
+        this.cateIndex = e.detail.value;
+        this.model.category = this.cates[this.cateIndex].name;
+      },
+      bindInput(e) {
+        let name = e.currentTarget.dataset.index;
+        let value = e.detail.value;
+        if (name == 'content') {
+          this.length = value.length;
+        }
+        this.model[name] = value;
+      },
+      bindAgreeChange(e) {
+        this.isAgree = !!e.detail.value.length;
+      },
+      goBack() {
+        this.$switch('index');
+      },
+      async secertCreate() {
+        if (!this.isAgree) {
+          tip.alert('请阅读相关协议并同意');
+          return;
+        }
+        if (!this.model.name || !this.model.content || !this.model.price) {
+          tip.alert('请完善表单信息');
+          return;
+        }
+        this.model.creatorId=this.user.customerId;
+        var r = await CreateJob(this.model);
+        if (r.success) {
+          this.$preload('model', r.result);
+          this.$navigate('../orders/payfor');
+        }
+      },
+      async publicCreate() {
+        if (!this.isAgree) {
+          tip.alert('请阅读相关协议并同意');
+          return;
+        }
+        if (!this.model.name || !this.model.content || !this.model.price) {
+          tip.alert('请完善表单信息');
+          return;
+        }
+          this.model.creatorId=this.user.customerId;
+        var r = await CreateJob(this.model);
+        if (r.success) {
+          this.$switch('../dash/index');
+        }
       }
-      if (!this.model.name || !this.model.content || !this.model.price) {
-        tip.alert('请完善表单信息');
-        return;
-      }
-      var r = await CreateJob(this.model);
-      if (r.success) {
-        this.$preload('model', r.result);
-        this.$navigate('../orders/payfor');
-      }
-    },
-    async publicCreate() {
-      if (!this.isAgree) {
-        tip.alert('请阅读相关协议并同意');
-        return;
-      }
-      if (!this.model.name || !this.model.content || !this.model.price) {
-        tip.alert('请完善表单信息');
-        return;
-      }
-      var r = await CreateJob(this.model);
-      if (r.success) {
-        this.$switch('../dash/index');
-      }
-    }
-  };
-  onLoad(option) {}
-  onReachBottom() {}
-  onPullDownRefresh() {}
-}
+    };
+    onLoad(option) {}
+    onReachBottom() {}
+    onPullDownRefresh() {}
+  }
+
 </script>

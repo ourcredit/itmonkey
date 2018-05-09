@@ -90,6 +90,7 @@ const items = [
 ];
 import { connect } from 'wepy-redux';
 import { getStore } from 'wepy-redux';
+  const store = getStore();
 @connect({
   user(state) {
     console.log(state);
@@ -201,6 +202,7 @@ export default class Input extends wepy.page {
       };
       var res = await CreateCustomer(params);
       if (res.success) {
+         store.dispatch({ type: 'REGISTER', model: true });
         this.$root.$parent.getUserInfo();
         this.$switch('../dash/index');
       }

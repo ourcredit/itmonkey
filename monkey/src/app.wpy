@@ -162,10 +162,11 @@ export default class extends wepy.app {
         rawData: JSON.stringify(JSON.parse(p.detail.rawData)),
         signature: p.detail.signature
       };
-      console.log(JSON.stringify(params));
-     debugger;
       var res = await api.GetAuthInfo(params);
       if (res.success) {
+        if(!res.result.name){
+      res.result.name=p.detail.userInfo.name;
+        }
         store.dispatch({ type: 'UPDATE', model: res.result });
         store.dispatch({ type: 'REGISTER', model: res.result.hasRegister });
       } else {
