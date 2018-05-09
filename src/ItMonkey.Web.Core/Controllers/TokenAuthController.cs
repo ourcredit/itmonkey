@@ -68,7 +68,7 @@ namespace ItMonkey.Controllers
         [HttpPost]
         public async Task<WechatUserInfo> WeChatAuthenticate([FromBody] WechatLoginInfo model)
         {
-            var c = new WeChatAppDecrypt("wxd91baf88184a42bb", "795eb3f4d6b227217cedf7e61070842c");
+            var c = new WeChatAppDecrypt("wx3462f1fc533ebe71", "a3f39a8d450d822d232eb9ae2c43fc78");
             var r = c.Decrypt(model);
             if (r == null)
             {
