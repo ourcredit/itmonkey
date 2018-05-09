@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
+using Abp.Logging;
 using Newtonsoft.Json;
 
 namespace ItMonkey.Models
@@ -147,7 +148,7 @@ namespace ItMonkey.Models
             if (String.IsNullOrEmpty(loginInfo?.code))
                 return null;
             OpenIdAndSessionKey oiask = DecodeOpenIdAndSessionKey(loginInfo);
-
+                LogHelper.Logger.Error(JsonConvert.SerializeObject(oiask));
             if (oiask == null)
                 return null;
 
