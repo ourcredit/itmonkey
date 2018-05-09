@@ -166,7 +166,8 @@ namespace ItMonkey.Web.Host.Socket
                     //建立连接，阻塞等待接收消息
                     var incoming = await socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
                     //如果主动退出，则移除
-                    if (incoming.MessageType == WebSocketMessageType.Close)//incoming.CloseStatus == WebSocketCloseStatus.EndpointUnavailable WebSocketCloseStatus.NormalClosure)
+                    if (incoming.MessageType == WebSocketMessageType.Close)
+                        //incoming.CloseStatus == WebSocketCloseStatus.EndpointUnavailable WebSocketCloseStatus.NormalClosure)
                     {
                         lock (ObjLock)
                         {

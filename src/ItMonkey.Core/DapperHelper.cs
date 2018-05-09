@@ -13,7 +13,7 @@ namespace ItMonkey
    public static class DapperHelper
    {
        public static string Host { get; } =
-           "Data Source=103.45.102.47;port=3306;Initial Catalog=itmonkey;uid=root;password=Dizhu2017;Charset=utf8;";
+           "Data Source=103.45.8.198;port=3306;Initial Catalog=itmonkey;uid=dizhu;password=Dizhu20!&;Charset=utf8;";
         /// <summary>
         /// 执行命令
         /// </summary>
