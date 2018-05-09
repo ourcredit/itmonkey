@@ -184,7 +184,7 @@ namespace ItMonkey.Web.Host.Socket
                 }
                 catch (Exception ex) //因为 nginx 没有数据传输 会自动断开 然后就会异常。
                 {
-                    LogHelper.Logger.Error(ex.Message);
+                    LogHelper.Logger.Error("nginx---抛错"+ ex.Message);
                     Points.TryTake(out point);//移除  
                     //【注意】：：这里很重要 （如果不发送关闭会一直循环，且不能直接break。）
                     await socket.CloseAsync(WebSocketCloseStatus.PolicyViolation, "未知异常 ...", CancellationToken.None);
