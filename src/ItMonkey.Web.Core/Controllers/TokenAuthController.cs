@@ -72,7 +72,7 @@ namespace ItMonkey.Controllers
             var r = c.Decrypt(model);
             if (r == null)
             {
-                return null;
+                throw new UserFriendlyException("微信认证失败");
             }
             var customer = await _customerAppService.GetCustomerByKeyAsync(new EntityDto<string>(r.openId));
 
