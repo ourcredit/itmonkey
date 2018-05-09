@@ -250,6 +250,7 @@ WHERE
 	( Type = 1 AND ReceiverId = {customer.Id} ) 
 	OR ( Type = 2 AND ReceiverId IN ( {string.Join(",", ids)} ) ) 
 	OR ( Type = 3 AND ReceiverId = {family.Id} )";
+            Logger.Error("sql语句====="+sql);
               await  DapperHelper.ExecuteAsync(sql);
             return new PagedResultDto<MessageListDto>(count,result);
         }

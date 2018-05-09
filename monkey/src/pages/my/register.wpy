@@ -176,8 +176,6 @@ export default class Input extends wepy.page {
         tip.alert('请阅读相关协议并同意');
         return;
       }
-      debugger;
-
       if (!this.a || !this.b) {
         tip.alert('请选择擅长技能');
         return;
@@ -186,7 +184,7 @@ export default class Input extends wepy.page {
       debugger;
       if (this.hasRegister) {
         tip.alert('当前用户已注册,即将跳去主页');
-        this.$redirect('../dash/index');
+        this.$switch('../dash/index');
       }
       if (!user.openId) {
         tip.alert('用户认证失败,请重新登陆');
@@ -204,11 +202,11 @@ export default class Input extends wepy.page {
       var res = await CreateCustomer(params);
       if (res.success) {
         this.$root.$parent.getUserInfo();
-        this.$redirect('../dash/index');
+        this.$switch('../dash/index');
       }
     },
     goback() {
-      this.$redirect('../dash/index');
+      this.$switch('../dash/index');
     },
     bindChange(e) {
       var temp = e.detail.value;

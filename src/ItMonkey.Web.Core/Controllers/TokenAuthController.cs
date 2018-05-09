@@ -75,7 +75,6 @@ namespace ItMonkey.Controllers
                 throw new UserFriendlyException("微信认证失败");
             }
             var customer = await _customerAppService.GetCustomerByKeyAsync(new EntityDto<string>(r.openId));
-
             if (customer == null) return r;
             r.hasRegister = true;
             r.CustomerId = customer.Id;

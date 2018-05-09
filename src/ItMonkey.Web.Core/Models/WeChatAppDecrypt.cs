@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
+using Abp.Extensions;
 using Abp.Logging;
 using Newtonsoft.Json;
 
@@ -149,15 +150,18 @@ namespace ItMonkey.Models
                 return null;
             OpenIdAndSessionKey oiask = DecodeOpenIdAndSessionKey(loginInfo);
 
-                LogHelper.Logger.Error(JsonConvert.SerializeObject(oiask));
+            LogHelper.Logger.Error(JsonConvert.SerializeObject(oiask));
             if (oiask == null)
                 return null;
-          
+
+            var userinfo=new WechatUserInfo();
             if (!VaildateUserInfo(loginInfo, oiask))
-                return null;
-
+            {
+                if (oiask.openid.IsNullOrWhiteSpace()) return null;
+                userinfo.openId = oiask.openid;
+                return userinfo;
+            }
             WechatUserInfo userInfo = Decrypt(loginInfo.encryptedData, loginInfo.iv, oiask.session_key);
-
             return userInfo;
         }
 
