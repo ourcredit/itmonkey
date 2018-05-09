@@ -1,181 +1,188 @@
-<style lang="less">
-.placeholder {
-  margin: 5px;
-  padding: 0 10px;
-  height: 2em;
-  line-height: 2em;
-  color: #000000;
-}
+<template>
+  <view>
+    <!--  按钮 -->
+    <view wx:if="{{hasAction}}" class="weui-flex">
+      <view class="weui-flex__item">
+        <view @tap="change('creationTime')" class="placeholder">发布时间</view>
+      </view>
+      <view class="weui-flex__item">
+        <view @tap="change('price')" class="placeholder">任务金额</view>
+      </view>
+      <view class="weui-flex__item">
+        <view @tap="change('category')" class="placeholder">任务分类</view>
+      </view>
+    </view>
 
-.panel {
-  width: 100%;
-  margin-top: 10rpx;
-  text-align: left;
-  font-size: 12px;
-  padding-top: 10rpx;
-  padding-left: 50rpx;
-  padding-bottom: 20rpx;
-  border: 1px solid #ccc;
-  .title {
-    padding-bottom: 20rpx;
-    font-size: 14px;
-    font-weight: bold;
+    <!-- list -->
+    <scroll-view class="list" style="height:{{height}}rpx" scroll-y="true" bindscrolltolower="loadMore">
+      <view wx:for="{{list}}" wx:key="index" class="panel">
+
+        <view class="weui-flex">
+          <view class="weui-flex__item">
+            <view class="placeholder">
+              <view class="title">{{item.category}} :{{item.name}}</view>
+            </view>
+          </view>
+          <view class="weui-flex__item">
+            <view class="price">
+              <i class="iconfont icon-CombinedShape"></i>{{item.price}}
+            </view>
+          </view>
+        </view>
+        <view class="weui-flex">
+          <view class="weui-flex__item">
+            <view class="info">{{item.content}}</view>
+          </view>
+          <slot class="price" name="go">
+          </slot>
+
+        </view>
+      </view>
+      <view wx:if="{{loading}}" class="weui-loadmore">
+        <view class="weui-loading"></view>
+        <view class="weui-loadmore__tips">正在加载</view>
+      </view>
+    </scroll-view>
+  </view>
+
+
+</template>
+<script>
+  import wepy from 'wepy';
+  import {
+    getStore
+  } from 'wepy-redux';
+  const store = getStore();
+
+  export default class List extends wepy.component {
+    props = {
+      searchApi: {
+        type: Function,
+        required: true
+      },
+      hasAction: {
+        type: Boolean,
+        default: true
+      },
+      params: {
+        type: Object,
+        required: false,
+        default: {
+          skipCount: 0,
+          maxResultCount: 10
+        }
+      }
+    };
+    data = {
+      loading: false,
+      list: [],
+      total: 0,
+      index: 1,
+      height: 1208,
+      sorting: '',
+      desc: false
+    };
+    methods = {
+      async change(type) {
+        this.desc = !this.desc;
+        if (this.desc) {
+          type = type + ' desc';
+        }
+        this.sorting = type;
+        this.params.skipCount = 0;
+        this.params.maxResultCount = 10;
+        var result = await this.search();
+        this.gender(result, true);
+      },
+      async loadMore() {
+        this.loading = true;
+        this.$apply();
+        this.index++;
+        this.params.skipCount = (this.index - 1) * this.params.maxResultCount;
+        if (this.total == 0 || this.total > this.params.skipCount) {
+          var result = await this.search();
+          this.gender(result);
+        }
+        this.loading = false;
+        this.$apply();
+      }
+    };
+    async search() {
+      const state = store.getState();
+      var params = {};
+      if (!state.userState.user || !state.userState.user.customerId) {
+        params = Object.assign(this.params, {
+          sorting: this.sorting
+        });
+        delete params['customerId'];
+      } else {
+        params = Object.assign(this.params, {
+          sorting: this.sorting,
+          customerId: state.userState.user.customerId
+        });
+      }
+
+      var result = await this.searchApi(params);
+      return result.result;
+    }
+    gender(result, init = false) {
+      if (init) {
+        this.list = result.items;
+      } else {
+        this.list.push(...result.items);
+      }
+      this.total = result.totalCount;
+      this.$apply();
+    }
+    async onLoad() {
+      var result = await this.search();
+      this.gender(result, true);
+    }
+    events = {
+      init: async $event => {
+        this.params.skipCount = 0;
+        var result = await this.search();
+        this.gender(result, true);
+      }
+    };
   }
-  .info {
-    padding: 15rpx;
-  }
-  .price {
-    margin: 5rpx;
-    margin-right: 70rpx;
+
+</script>
+<style lang="less">
+  .placeholder {
+    margin: 5px;
     padding: 0 10px;
     height: 2em;
     line-height: 2em;
     color: #000000;
-    text-align: right;
   }
-}
+
+  .panel {
+    width: 100%;
+    margin-top: 10rpx;
+    text-align: left;
+    font-size: 12px;
+    padding-top: 10rpx;
+    padding-left: 50rpx;
+    padding-bottom: 20rpx;
+    border: 1px solid #ccc;
+    .title {
+      padding-bottom: 20rpx;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .info {
+      padding: 15rpx;
+    }
+    .price {
+      margin: 5rpx;
+      margin-right: 70rpx;
+      padding: 0 10px;
+      height: 2em;
+      line-height: 2em;
+      color: #000000;
+      text-align: right;
+    }
+  }
+
 </style>
-<template>
-  <!--  按钮 -->
-  <view wx:if="{{hasAction}}" class="weui-flex">
-    <view class="weui-flex__item">
-      <view @tap="change('creationTime')" class="placeholder">发布时间</view>
-    </view>
-    <view class="weui-flex__item">
-      <view @tap="change('price')" class="placeholder">任务金额</view>
-    </view>
-    <view class="weui-flex__item">
-      <view @tap="change('category')" class="placeholder">任务分类</view>
-    </view>
-  </view>
-
-  <!-- list -->
-  <scroll-view class="list" style="height:{{height}}rpx" scroll-y="true" bindscrolltolower="loadMore">
-    <view wx:for="{{list}}" wx:key="index" class="panel">
-
-      <view class="weui-flex">
-        <view class="weui-flex__item">
-          <view class="placeholder">
-            <view class="title">{{item.category}} :{{item.name}}</view>
-          </view>
-        </view>
-        <view class="weui-flex__item">
-          <view class="price">
-            <i class="iconfont icon-CombinedShape"></i>{{item.price}}
-          </view>
-        </view>
-      </view>
-      <view class="weui-flex">
-        <view class="weui-flex__item">
-          <view class="info">{{item.content}}</view>
-        </view>
-        <slot class="price" name="go">
-        </slot>
-
-      </view>
-    </view>
-    <view wx:if="{{loading}}" class="weui-loadmore">
-      <view class="weui-loading"></view>
-      <view class="weui-loadmore__tips">正在加载</view>
-    </view>
-  </scroll-view>
-
-</template>
-<script>
-import wepy from 'wepy';
-import { getStore } from 'wepy-redux';
-const store = getStore();
-
-export default class List extends wepy.component {
-  props = {
-    searchApi: {
-      type: Function,
-      required: true
-    },
-    hasAction: {
-      type: Boolean,
-      default: true
-    },
-    params: {
-      type: Object,
-      required: false,
-      default: {
-        skipCount: 0,
-        maxResultCount: 10
-      }
-    }
-  };
-  data = {
-    loading: false,
-    list: [],
-    total: 0,
-    index: 1,
-    height: 1208,
-    sorting: '',
-    desc: false
-  };
-  methods = {
-    async change(type) {
-      this.desc = !this.desc;
-      if (this.desc) {
-        type = type + ' desc';
-      }
-      this.sorting = type;
-      this.params.skipCount = 0;
-      this.params.maxResultCount = 10;
-      var result = await this.search();
-      this.gender(result, true);
-    },
-    async loadMore() {
-      this.loading = true;
-      this.$apply();
-      this.index++;
-      this.params.skipCount = (this.index - 1) * this.params.maxResultCount;
-      if (this.total == 0 || this.total > this.params.skipCount) {
-        var result = await this.search();
-        this.gender(result);
-      }
-      this.loading = false;
-      this.$apply();
-    }
-  };
-  async search() {
-    const state = store.getState();
-    var params = {};
-    if (!state.userState.user || !state.userState.user.customerId) {
-      params = Object.assign(this.params, {
-        sorting: this.sorting
-      });
-      delete params['customerId'];
-    } else {
-      params = Object.assign(this.params, {
-        sorting: this.sorting,
-        customerId: state.userState.user.customerId
-      });
-    }
-
-    var result = await this.searchApi(params);
-    return result.result;
-  }
-  gender(result, init = false) {
-    if (init) {
-      this.list = result.items;
-    } else {
-      this.list.push(...result.items);
-    }
-    this.total = result.totalCount;
-    this.$apply();
-  }
-  async onLoad() {
-    var result = await this.search();
-    this.gender(result, true);
-  }
-  events = {
-    init: async $event => {
-      this.params.skipCount = 0;
-      var result = await this.search();
-      this.gender(result, true);
-    }
-  };
-}
-</script>

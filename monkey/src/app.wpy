@@ -1,4 +1,4 @@
-<style lang="less">
+<style lang='less'>
 @import './style/weui.less';
 @import './style/icon.less';
 page {
@@ -78,7 +78,6 @@ export default class extends wepy.app {
       navigationBarTitleText: '猿人超市',
       // 导航栏标题颜色，仅支持 black/white
       navigationBarTextStyle: 'white',
-      // 导航栏背景颜色，如"#000000"
       navigationBarBackgroundColor: '#049BFF',
       // 窗口的背景色
       backgroundColor: '#eaeaea',
@@ -101,7 +100,6 @@ export default class extends wepy.app {
       // tabbar上边框的颜色， 仅支持 black/white
       borderStyle: 'white',
       // 可选值 bottom、top
-      // position:"",
       // tab 的列表，详见 list 属性说明，最少2个、最多5个 tab,
       list: [
         {
@@ -152,29 +150,27 @@ export default class extends wepy.app {
   }
 
   onLaunch() {
-    this.getUserInfo();
+   // this.getUserInfo();
   }
-  async getUserInfo() {
+  async getUserInfo(p) {
     const that = this;
-    const t = await wepy.login();
-    const r = await wepy.getUserInfo();
-    if (r) {
-      const params = {
+     const t = await wepy.login();
+     const params = {
         code: t.code,
-        encryptedData: r.encryptedData,
-        iv: r.iv,
-        rawData: JSON.stringify(JSON.parse(r.rawData)),
-        signature: r.signature
+        encryptedData: p.detail.encryptedData,
+        iv: p.detail.iv,
+        rawData: JSON.stringify(JSON.parse(p.detail.rawData)),
+        signature: p.detail.signature
       };
+      debugger;
       var res = await api.GetAuthInfo(params);
       if (res.success) {
         store.dispatch({ type: 'UPDATE', model: res.result });
         store.dispatch({ type: 'REGISTER', model: res.result.hasRegister });
       } else {
-        store.dispatch({ type: 'UPDATE', model: r.userInfo });
+        store.dispatch({ type: 'UPDATE', model: p.detail.userInfo });
         store.dispatch({ type: 'REGISTER', model: false });
       }
-    }
   }
 }
 </script>

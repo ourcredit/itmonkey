@@ -70,7 +70,10 @@ namespace ItMonkey.Controllers
         {
             var c = new WeChatAppDecrypt("wxd91baf88184a42bb", "795eb3f4d6b227217cedf7e61070842c");
             var r = c.Decrypt(model);
-
+            if (r == null)
+            {
+                return null;
+            }
             var customer = await _customerAppService.GetCustomerByKeyAsync(new EntityDto<string>(r.openId));
 
             if (customer == null) return r;

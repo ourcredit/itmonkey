@@ -6,7 +6,7 @@ import {
 } from '../utils/wxRequest';
 
 let env = "-test" //-dev 或者 -test
-const baseUrl = 'https://point.leftins.com/api/'
+const baseUrl = 'https://monkey.leftins.com/api/'
 /**
  * 获取轮播图列表接口
  * @param  {[type]} params [description]

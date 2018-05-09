@@ -2,7 +2,9 @@
 
 </style>
 <template>
+
   <view class="container">
+  <button  open-type="getUserInfo" bindgetuserinfo="info">获取授权</button>
     <!-- 搜索插件 -->
     <search :searchApi="searchApi" :params="jobparams">
       <view slot="action" class="weui-search-bar__cancel-btn" @tap="create">
@@ -13,7 +15,6 @@
     <view>
       <swiper :list.sync="shufflings"></swiper>
     </view>
-
     <list :searchApi="searchApi" :params="jobparams" :hasAction="hasAction">
       <view class="price"  @tap="detail({{item}})" slot="go"> <i class="iconfont icon-chakan" ></i>
      {{!item.state?(item.creatorId==user.customerId?'查':'报'):(item.state==0?'执':'完')}}</view>
@@ -60,6 +61,10 @@ export default class Dash extends wepy.page {
   computed = {};
   // 方法
   methods = {
+    info(e){
+      console.log(e);
+      this.$root.$parent.getUserInfo(e);
+    },
     detail(item) {
       if (!this.hasRegister) {
         wx.showToast({

@@ -17,6 +17,8 @@
   "author": "zhaohejing2017 <zhaohejing@zhj125.cn>",
   "license": "MIT",
   "dependencies": {
+    "less-loader": "^4.1.0",
+    "lodash": "^4.17.10",
     "promise-polyfill": "^7.1.0",
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",

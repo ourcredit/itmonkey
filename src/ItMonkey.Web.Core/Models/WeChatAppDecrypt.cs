@@ -50,8 +50,7 @@ namespace ItMonkey.Models
         public OpenIdAndSessionKey DecodeOpenIdAndSessionKey(WechatLoginInfo loginInfo)
         {
             OpenIdAndSessionKey oiask = JsonConvert.DeserializeObject<OpenIdAndSessionKey>(GetOpenIdAndSessionKeyString(loginInfo.code));
-            if (!String.IsNullOrEmpty(oiask.errcode))
-                return null;
+           
             return oiask;
         }
 
