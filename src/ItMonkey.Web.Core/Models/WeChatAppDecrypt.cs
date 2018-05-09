@@ -148,10 +148,11 @@ namespace ItMonkey.Models
             if (String.IsNullOrEmpty(loginInfo?.code))
                 return null;
             OpenIdAndSessionKey oiask = DecodeOpenIdAndSessionKey(loginInfo);
+
                 LogHelper.Logger.Error(JsonConvert.SerializeObject(oiask));
             if (oiask == null)
                 return null;
-
+          
             if (!VaildateUserInfo(loginInfo, oiask))
                 return null;
 

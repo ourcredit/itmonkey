@@ -200,6 +200,7 @@ export default class JobChat extends wepy.component {
     if (typeof msg === 'object') {
       // 只能发送string
       msg = JSON.stringify(msg);
+      console.log(msg);
     }
     if (this.socketOpened) {
       // socketOpened变量在wx.onSocketOpen时设置为true
@@ -240,7 +241,7 @@ export default class JobChat extends wepy.component {
   }
   connect() {
     var props = {
-      url: `wss://point.leftins.com/point?user=${this.from}&job=${this.job}`,
+      url: `wss://monkey.leftins.com/point?user=${this.from}&job=${this.job}`,
       // url: 'wss://monkey.leftins.com/ws',
       header: {
         contenttype: 'application/json'

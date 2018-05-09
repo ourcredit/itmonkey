@@ -134,7 +134,6 @@ namespace ItMonkey.Web.Host.Socket
         {
             if (!httpContext.WebSockets.IsWebSocketRequest)
                 return;
-
             //建立一个WebSocket连接请求
             var socket = await httpContext.WebSockets.AcceptWebSocketAsync();
             string user = httpContext.Request.Query["user"].ToString();
@@ -160,7 +159,6 @@ namespace ItMonkey.Web.Host.Socket
             };
             await DealSocketType(job,group, point);
             var buffer = new byte[BufferSize];
-            Message msg;
             while (true)
             {
                 try
@@ -181,8 +179,7 @@ namespace ItMonkey.Web.Host.Socket
                     var chatDataStr = await ArraySegmentToStringAsync(new ArraySegment<byte>(buffer, 0, incoming.Count));
                     if (chatDataStr == "@heart")//如果是心跳检查，则直接跳过
                         continue;
-                    msg = JsonConvert.DeserializeObject<Message>(chatDataStr);
-                
+                    var msg = JsonConvert.DeserializeObject<Message>(chatDataStr);
                     await SendToWebSocketsAsync( msg);
                 }
                 catch (Exception ex) //因为 nginx 没有数据传输 会自动断开 然后就会异常。

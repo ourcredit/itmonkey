@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <view>
     <scroll-view scroll-y="1" class="chartboard{{focus ? ' fixed' : ''}}">
       <block wx:for="{{message}}" wx:key="index" wx:for-index="index" wx:for-item="item">
         <view class="msgarea{{item.senderid == from ? ' fromme' : ' other'}}">
@@ -19,7 +19,7 @@
           @type="input" />
       </view>
     </view>
-  </div>
+  </view>
 
 </template>
 <script>
@@ -129,7 +129,7 @@
     }
     connect() {
       var props = {
-        url: `wss://point.leftins.com/point?user=${this.from}&group=${
+        url: `wss://monkey.leftins.com/point?user=${this.from}&group=${
         this.family
       }`,
 
