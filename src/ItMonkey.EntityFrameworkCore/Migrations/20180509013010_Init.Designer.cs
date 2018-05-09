@@ -17,8 +17,8 @@ using System;
 namespace ItMonkey.Migrations
 {
     [DbContext(typeof(ItMonkeyDbContext))]
-    [Migration("20180329023003_init")]
-    partial class init
+    [Migration("20180509013010_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1123,7 +1123,7 @@ namespace ItMonkey.Migrations
 
             modelBuilder.Entity("ItMonkey.Models.MessageStore", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Content");
@@ -1132,9 +1132,9 @@ namespace ItMonkey.Migrations
 
                     b.Property<long?>("CreatorUserId");
 
-                    b.Property<int>("ReceiverId");
+                    b.Property<long>("ReceiverId");
 
-                    b.Property<int>("SenderId");
+                    b.Property<long>("SenderId");
 
                     b.Property<bool>("State");
 

@@ -40,7 +40,10 @@ namespace ItMonkey.Customers
         /// 构造函数
         /// </summary>
         public CustomerAppService(IRepository<Customer, long> customerRepository, IRepository<Family> familyRepository,
-            IRepository<CustomerJob> myJobRepository, IRepository<MessageStore, Guid> messageRepository, ICacheManager cacheManager, IRepository<Job> jobRepository)
+            IRepository<CustomerJob> myJobRepository,
+            IRepository<MessageStore, Guid> messageRepository,
+            ICacheManager cacheManager, 
+            IRepository<Job> jobRepository)
         {
             _customerRepository = customerRepository;
             _familyRepository = familyRepository;

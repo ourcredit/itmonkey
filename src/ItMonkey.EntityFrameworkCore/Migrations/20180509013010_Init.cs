@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ItMonkey.Migrations
 {
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -469,13 +469,12 @@ namespace ItMonkey.Migrations
                 name: "s_message_store",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     Content = table.Column<string>(nullable: true),
                     CreationTime = table.Column<DateTime>(nullable: false),
                     CreatorUserId = table.Column<long>(nullable: true),
-                    ReceiverId = table.Column<int>(nullable: false),
-                    SenderId = table.Column<int>(nullable: false),
+                    ReceiverId = table.Column<long>(nullable: false),
+                    SenderId = table.Column<long>(nullable: false),
                     State = table.Column<bool>(nullable: false),
                     Type = table.Column<int>(nullable: false)
                 },
