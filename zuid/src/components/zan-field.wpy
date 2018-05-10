@@ -60,7 +60,7 @@
       class="zan-cell__hd zan-field__title">{{ options.title }}</view>
     <textarea
       wx:if="{{ options.type === 'textarea' }}"
-      auto-height
+      auto-height   disabled="{{options.disabled}}"
       name="{{ options.name || componentId || '' }}"
       value="{{ options.value }}"
       placeholder="{{ options.placeholder }}"
@@ -74,7 +74,7 @@
       wx:else
       type="{{ options.inputType || 'text' }}"
       name="{{ options.name || componentId || '' }}"
-      value="{{ options.value }}"
+      value="{{ options.value }}"  disabled="{{options.disabled}}"
       placeholder="{{ options.placeholder }}"
       class="zan-field__input zan-cell__bd {{ options.right ? 'zan-field__input--right' : '' }}"
       placeholder-class="zan-field__placeholder"
@@ -100,7 +100,8 @@ export default class zanField extends wepy.component {
         mode: 'wrapped',
         title: '消费总额',
         inputType: 'number',
-        placeholder: '询问收银员后输入'
+        placeholder: '询问收银员后输入',
+        disabled:false
       }
     },
     componentId: String

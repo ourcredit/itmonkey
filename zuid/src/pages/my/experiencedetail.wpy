@@ -1,35 +1,19 @@
-<style lang="less">
-
+<style lang="css">
+  @import '/zanui/index.wxss';
 
 </style>
 <template>
   <view>
-    <view class="weui-cells__title">工作经验名称</view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell weui-cell_input">
-        <view class="weui-cell__bd">
-          <input class="weui-input" bindinput="inputTitle" value="{{model.title}}" placeholder="工作经验名称" />
-        </view>
-      </view>
-    </view>
-    <view class="weui-cells__title">工作经验详情</view>
-    <view class="weui-cells weui-cells_after-title">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">
-          <textarea class="weui-textarea" auto-height maxlength="500" bindinput="inputContent" value="{{model.content}}" placeholder="工作经验详情"
-            style="height: 5em" />
-          <view class="weui-textarea-counter">{{length}}/500</view>
-        </view>
-      </view>
-    </view>
-    <view wx:if="{{!model.id}}">添加
-      <icon @tap="modify" type="info_circle" size="20"></icon>
-    </view>
+    <view class="doc-title zan-hairline--bottom">工作经验</view>
+    <title :options.sync="title_field" :value.sync="model.title" componentId="title"></title>
+    <content :options.sync="content_field" :value.sync="model.content" componentId="content"></content>
+    <button wx:if="{{!model.id}}" class="weui-btn mini-btn" size="mini" type="primary" @tap="modify">保存</button>
   </view>
 </template>
 
 <script>
   import wepy from 'wepy';
+  import zanField from '@/components/zan-field'
   import {
     ModifyExperience
   } from 'api/api';
@@ -46,11 +30,21 @@
     }
   })
   export default class WorkDetail extends wepy.page {
-    components = {};
+    components = {
+      title: zanField,
+      content: zanField
+    };
     config = {
       navigationBarTitleText: '我的工作经验'
     };
     data = {
+      title_field: {
+        title: "工作名称"
+      },
+      content_field: {
+        title: "工作内容",
+        type: "textarea"
+      },
       model: {},
       length: 0
     };
@@ -78,7 +72,15 @@
         }
       }
     };
-    events = {};
+    events = {
+      zanFieldChange(e) {
+        const {
+          componentId,
+          detail
+        } = e;
+        this.model[componentId] = detail.value;
+      }
+    }
     // 加载函数
     async onLoad(params, data) {
       let user = this.user;
@@ -88,6 +90,10 @@
         };
       } else {
         this.model = data.preload.model;
+        this.title_field.value = this.model.title;
+        this.title_field.disabled = true;
+        this.content_field.value = this.model.content;
+        this.content_field.disabled =true;
       }
     }
   }

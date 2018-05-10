@@ -1,77 +1,82 @@
-<style lang="less">
-.add-icon {
-  float: right;
-  margin-top: 20rpx;
-  margin-right: 20rpx;
-}
-</style>
 <template>
-  <view class="page-user">
-    <view>工作经验
-      <icon @tap="create" class="add-icon" type="info_circle" size="20"></icon>
-    </view>
-    <view class="weui-panel">
-      <view class="weui-cells weui-cells_after-title">
-        <view @tap="OnClick({{item}})" wx:for="{{lists}}" wx:key="index" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-          <view class="weui-cell__bd">{{item.title}}</view>
-          <view class="weui-cell__ft weui-cell__ft_in-access"></view>
-          </view>
-        </view>
+  <view>
+    <view class="zan-row">
+      <view class="zan-col zan-col-20">
+        <view class="doc-title zan-hairline--bottom">工作经验</view>
+      </view>
+      <view class="zan-col zan-col-4">
+        <view @tap="create" style="font-size:2em" class="zan-icon zan-icon-add"></view>
       </view>
     </view>
+    <view class="zan-row">
+      <view wx:key="index" wx:for="{{lists}}" class="zan-cell zan-cell--access">
+        <view class="zan-cell__bd">{{item.title}}</view>
+        <view @tap="OnClick({{item}})" class="zan-cell__ft"></view>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
-import wepy from 'wepy';
-import { GetPagedExperience } from 'api/api';
-import { connect } from 'wepy-redux';
+  import wepy from 'wepy';
+  import {
+    GetPagedExperience
+  } from 'api/api';
+  import {
+    connect
+  } from 'wepy-redux';
 
-@connect({
-  user(state) {
-    return state.userState.user;
-  },
-  hasRegister(state) {
-    return state.userState.hasRegister;
-  }
-})
-export default class Works extends wepy.page {
-  components = {};
-  config = {
-    navigationBarTitleText: '我的工作经验'
-  };
-  data = {
-    lists: []
-  };
-  computed = {
-    now() {
-      return +new Date();
-    }
-  };
-  // 方法
-  methods = {
-    OnClick(item) {
-      this.$preload('model', item);
-      this.$navigate('experiencedetail');
+  @connect({
+    user(state) {
+      return state.userState.user;
     },
-    create() {
-      this.$navigate('experiencedetail');
+    hasRegister(state) {
+      return state.userState.hasRegister;
     }
-  };
-
-  events = {};
-  // 加载函数
-  async onLoad() {
-    const user = this.user;
-    const params = {
-      SkipCount: 0,
-      MaxResultCount: 99,
-      CustomerId: user.customerId
+  })
+  export default class Works extends wepy.page {
+    components = {};
+    config = {
+      navigationBarTitleText: '我的工作经验'
     };
-    var r = await GetPagedExperience(params);
-    if (r.success) {
-      this.lists = r.result.items;
-      this.$apply();
+    data = {
+      lists: []
+    };
+    computed = {
+      now() {
+        return +new Date();
+      }
+    };
+    // 方法
+    methods = {
+      OnClick(item) {
+        this.$preload('model', item);
+        this.$navigate('experiencedetail');
+      },
+      create() {
+        this.$navigate('experiencedetail');
+      }
+    };
+
+    events = {};
+    // 加载函数
+    async onLoad() {
+      const user = this.user;
+      const params = {
+        SkipCount: 0,
+        MaxResultCount: 99,
+        CustomerId: user.customerId
+      };
+      var r = await GetPagedExperience(params);
+      if (r.success) {
+        this.lists = r.result.items;
+        this.$apply();
+      }
     }
   }
-}
+
 </script>
+<style lang="css">
+  @import '/zanui/index.wxss';
+
+</style>

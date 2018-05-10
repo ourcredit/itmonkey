@@ -10,7 +10,7 @@
     <view class="zan-card">
       <view class="zan-card__thumb">
          <view class="zan-icon zan-icon-{{mapIcons[model.category]}}" style="color: #ff4343;font-size:3em"></view>
-            <view class="zan-panel">
+            <view class="zan-row">
               <view class="zan-tag zan-tag--danger zan-tag--plain">{{model.category}}</view>
             </view>
       </view>
