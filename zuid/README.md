@@ -16,7 +16,7 @@ yarn global add wepy-cli
 ```bash
 git clone https://github.com/brucx/wepy-zanui-demo.git
 ```
-
+try "npm i util --no-save && wepy build --no-cache", it helps for me!
 ### 3. 安装开发依赖
 ```bash
 cd wepy-zanui-demo
