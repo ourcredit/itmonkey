@@ -1,0 +1,39 @@
+
+<template>
+  <view class="container">
+  <family @childFn.user="goChat" >
+  </family>
+  </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import Family from '@/components/group';
+import { getStore } from 'wepy-redux';
+export default class Dash extends wepy.page {
+  data = {};
+  components = {
+    family: Family
+  };
+  computed = {
+    now() {
+      return +new Date();
+    }
+  };
+  // 方法
+  methods = {
+    goChat(item, evt) {
+      const store = getStore();
+      store.dispatch({ type: 'CHATID', model: item.id });
+      this.$navigate('chat');
+    }
+  };
+
+  events = {};
+  // 加载函数
+  async onLoad() {}
+}
+</script>
+<style lang="less">
+
+</style>

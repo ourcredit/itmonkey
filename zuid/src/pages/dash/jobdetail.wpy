@@ -1,0 +1,105 @@
+<style lang="css">
+  @import '/zanui/panel.wxss';
+  @import '/zanui/card.wxss';
+  @import '/zanui/color.wxss';
+  @import '/zanui/icon.wxss';
+
+</style>
+<template>
+  <view>
+    <view class="zan-card">
+      <view class="zan-card__thumb">
+         <view class="zan-icon zan-icon-{{mapIcons[model.category]}}" style="color: #ff4343;font-size:3em"></view>
+            <view class="zan-panel">
+              <view class="zan-tag zan-tag--danger zan-tag--plain">{{model.category}}</view>
+            </view>
+      </view>
+      <view class="zan-card__detail">
+        <view class="zan-card__detail-row">
+          <view class="zan-card__right-col">￥{{model.price}}</view>
+          <view class="zan-card__left-col zan-ellipsis--l2">
+            {{model.name}}
+          </view>
+        </view>
+        <view class="zan-card__detail-row zan-c-gray-darker">
+          <slot name="go" class="zan-card__right-col"></slot>
+          <view class="zan-card__left-col">
+            {{model.content}}
+          </view>
+        </view>
+      </view>
+    </view>
+    <jobchat wx:if="{{model.state || model.creatorId==user.customerId}}"></jobchat>
+    <button wx:if="{{model.vilidateState == null && model.creatorId != user.customerId}}" class="weui-btn" type="primary" @tap="join">报名</button>
+
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import {
+    JoinJob
+  } from 'api/api';
+  import tip from 'tools/tip';
+  import jobChat from '@/components/jobChat'; // alias example
+
+  import {
+    connect
+  } from 'wepy-redux';
+  @connect({
+    user(state) {
+      return state.userState.user;
+    }
+  })
+  export default class JobDetail extends wepy.page {
+    data = {
+      model: null,
+       mapIcons:{
+        "设计":"edit",
+        "研发":"records",
+        "文案":"gift",
+        "兼职务工":"like",
+        "新媒体":"shop",
+        "其他":"photo",
+      }
+    };
+    methods = {
+      async join() {
+        var res = await JoinJob({
+          jobId: this.model.id,
+          customerId: this.user.customerId
+        });
+        if (res.success) {
+          this.$switch('index');
+        } else {
+          tip.error(res.error.message);
+        }
+      }
+    };
+    components = {
+      jobchat: jobChat
+    };
+    onUnload() {
+      this.$broadcast('close');
+    }
+    // 加载函数
+    onLoad(params, data) {
+      if (!data.preload.model) {
+        this.model = {};
+      } else {
+        this.model = data.preload.model;
+      }
+      console.log(this.model);
+    }
+    onShareAppMessage(res) {
+      if (res.from == 'button') {}
+      return {
+        title: '邀请你加入工作',
+        path: '/pages/dash/jobdetail?id=123',
+        success: function (r) {
+          console.log(r);
+        }
+      };
+    }
+  }
+
+</script>

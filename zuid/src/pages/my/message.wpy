@@ -1,0 +1,53 @@
+<style lang="less">
+
+</style>
+<template>
+  <scroll-view class="list" style="height:{{1208}}rpx" scroll-y="true">
+    <view  class="weui-cells weui-cells_after-title">
+      <navigator wx:key="index" wx:for="{{list}}"  url="../work/chat" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <view class="weui-cell__bd">{{item.senderName}}</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access">{{item.content}}</view>
+      </navigator>
+    </view>
+  </scroll-view>
+
+</template>
+<script>
+import wepy from 'wepy';
+import { GetMessageAsync } from 'api/api';
+import { connect } from 'wepy-redux';
+@connect({
+  user(state) {
+    return state.userState.user;
+  }
+})
+export default class Dash extends wepy.page {
+  components = {};
+  config = {
+    navigationBarTitleText: '留言信息'
+  };
+  data = {
+    list: [],
+    params: {
+      skipCount: 0,
+      maxResultCount: 10,
+      id: 1
+    }
+  };
+  computed = {
+    now() {
+      return +new Date();
+    }
+  };
+  // 方法
+  methods = {};
+  async onLoad(option) {
+    var res = await GetMessageAsync(this.params);
+    console.log(res);
+    if (res.success) {
+      this.list = res.result.items;
+      this.$apply();
+    }
+  }
+}
+</script>

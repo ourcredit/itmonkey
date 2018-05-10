@@ -1,0 +1,85 @@
+<style lang="css">
+ @import '/zanui/col.wxss'; @import '/zanui/row.wxss'; @import '/zanui/panel.wxss'; @import '/zanui/btn.wxss';
+.searchbar-result{
+  height: 100px;
+  background-color: gray;
+}
+</style>
+<template>
+ <view>
+   <view class="zan-row">
+     <view class="zan-col zan-col-20">
+     <search :options="searchField" :value="inputVal" componentId="search"></search>
+     </view>
+     <view class="zan-col zan-col-2">
+         <view class="zan-icon zan-icon-search" @tap="search"  style="color: #ff4343;"></view>
+     </view>
+     <view class="zan-col zan-col-2">
+       <slot name="add"></slot>
+       
+     </view>
+   </view>
+   <view  wx:if="{{result.length > 0}}" class="zan-panel">
+    <view wx:for="{{result}}" wx:key="index" class="zan-cell zan-cell--access">
+      <view class="zan-cell__bd">{{item.name}}</view>
+       <slot name="resultgo"></slot>
+    </view>
+   
+  </view>
+   
+ </view>
+</template>
+<script>
+import wepy from 'wepy';
+import zanField from '@/components/zan-field'
+export default class SearchBar extends wepy.component {
+  components={
+    search:zanField
+  }
+  data = {
+    searchField:{
+      placeholder:"全局搜索"
+    },
+    inputVal: '',
+    result: [],
+    params: {
+      skipCount: 0,
+      maxResultCount: 10
+    }
+  };
+  props = {
+    searchApi: {
+      type: Function,
+      required: true
+    }
+  };
+  watch = {
+    inputVal(n, o) {
+      if (n == '') {
+        this.result = [];
+      }
+    }
+  };
+  methods = {
+    async search() {
+      var params = Object.assign(this.params, { filter: this.inputVal });
+      var result = await this.searchApi(params);
+      this.result = result.result.items;
+      this.$apply();
+    }
+  };
+ events = {
+    zanFieldChange(e) {
+      const { componentId, detail } = e
+      this.inputVal=detail.value;
+    },
+    zanFieldFocus(e) {
+      const { componentId, detail } = e
+    },
+    zanFieldBlur(e) {
+      const { componentId, detail } = e
+    }
+  }
+  onLoad() {}
+}
+</script>

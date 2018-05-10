@@ -1,0 +1,129 @@
+<template>
+  <view class="container">
+    <modal class="modal" hidden="{{user!=null}}" no-cancel confirmText=" ">
+      <button open-type="getUserInfo" bindgetuserinfo="info">授权</button>
+    </modal>
+    <!-- 搜索插件 -->
+    <search :searchApi="searchApi" :params="jobparams">
+       <view slot="add" class="zan-icon zan-icon-add" @tap="create"  style="color: #ff4343;"></view>
+       <view slot="resultgo" class="zan-icon zan-icon-records" @tap="detail({{item}})"  style="color: #ff4343;"></view>
+    </search>
+    <!-- 轮播图 -->
+    <view>
+      <swiper :list.sync="shufflings"></swiper>
+    </view>
+    <list :searchApi="searchApi" :params="jobparams" :hasAction="hasAction">
+      <view class="zan-card__right-col zan-c-red" @tap="detail({{item}})" slot="go">
+        <view class="zan-icon zan-icon-clock" style="color: #ff4343;size:20px"></view>
+        {{!item.state?(item.creatorId==user.customerId?'查':'报'):(item.state==0?'执':'完')}}</view>
+    </list>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import {
+    getShufflings,
+    getJobs
+  } from 'api/api';
+  import SearchBar from '@/components/searchbar'; // alias example
+  import Swiper from '@/components/swiper';
+  import JobList from '@/components/job-list';
+  import WechatLogin from '@/components/wechatlogin';
+  import {
+    connect
+  } from 'wepy-redux';
+  import {
+    getStore
+  } from 'wepy-redux';
+  @connect({
+    user(state) {
+      return state.userState.user;
+    },
+    hasRegister(state) {
+      return state.userState.hasRegister;
+    },
+    jobsCount(state) {
+      return state.userState.user ? state.userState.user.jobsCount : 0;
+    }
+  })
+  export default class Dash extends wepy.page {
+    components = {
+      swiper: Swiper,
+      search: SearchBar,
+      list: JobList,
+      login: WechatLogin
+    };
+    data = {
+      shufflings: null,
+      searchApi: getJobs,
+      hasAction: true,
+      jobparams: {
+        skipCount: 0,
+        maxResultCount: 7,
+        filter: '',
+        customerId: null
+      }
+    };
+    computed = {};
+    // 方法
+    methods = {
+      info(e) {
+        this.$root.$parent.getUserInfo(e);
+      },
+      detail(item) {
+        if (!this.hasRegister) {
+          wx.showToast({
+            title: '当前用户还未注册',
+            mask: true,
+            duration: 1000
+          });
+          this.$navigate('../my/register');
+          return;
+        }
+        if (this.jobsCount >= 3) {
+          wx.showToast({
+            title: '已经参与多份工作',
+            mask: true,
+            duration: 1000
+          });
+          return;
+        }
+        var store = getStore();
+        store.dispatch({
+          type: 'JOB',
+          model: item.id
+        });
+        this.$preload('model', item);
+        this.$navigate('jobdetail');
+      },
+      async create() {
+        if (!this.hasRegister) {
+          this.$navigate({
+            url: '/pages/my/register'
+          });
+        } else {
+          this.$navigate({
+            url: 'create'
+          });
+        }
+      }
+    };
+    async initShuffling() {
+      var r = await getShufflings();
+      if (r.success) {
+        this.shufflings = r.result.items;
+      }
+      this.$apply();
+    }
+    async onLoad() {
+      await this.initShuffling();
+    }
+    onShow() {
+      this.$broadcast('init');
+    }
+  }
+</script>
+<style lang="less">
+
+
+</style>

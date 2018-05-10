@@ -1,0 +1,351 @@
+<template>
+  <view>
+    <zanTab :tab.sync="tab" componentId="tab"></zanTab>
+    <view wx:if="{{current=='cion'}}">
+      <childTab :tab.sync="childtab" componentId="childtab"></childTab>
+
+      <view wx:if="{{childcurrent=='buy'||childcurrent=='sale'}}">
+        <view class="zan-panel">
+          <view class="zan-row">
+            <view class="zan-col zan-col-12">
+              <price :options="price_field" :value="value" componentId="price"></price>
+              <count :options="count_field" :value="value" componentId="count"></count>
+              <canSale wx:if="{{childcurrent=='sale'}}" :options="sale_field" :value="value" componentId="sale"></canSale>
+              <button wx:if="{{childcurrent=='buy'}}" class="zan-btn zan-btn--default zan-btn--danger" bindtap="buy">买入</button>
+              <button wx:if="{{childcurrent=='sale'}}" class="zan-btn zan-btn--default zan-btn--danger" bindtap="sale">卖出</button>
+            </view>
+            <view class="zan-col zan-col-12">
+              <scroll-view style="height:300rpx" scroll-y="true">
+                <view wx:for="{{arrs}}" wx:key="index" class="zan-row">
+                  <view class="zan-col zan-col-8">
+                    <view class="numb">{{item.type +" "+ item.count}}</view>
+                  </view>
+                  <view class="zan-col zan-col-8">
+                    <view class="numb">{{item.price}}</view>
+                  </view>
+                  <view class="zan-col zan-col-8">
+                    <view class="numb">{{item.count*item.price}}</view>
+                  </view>
+                </view>
+              </scroll-view>
+            </view>
+
+          </view>
+        </view>
+      </view>
+      <view wx:if="{{childcurrent=='cancel'}}">
+        <!-- list -->
+        <scroll-view class="list" style="height:800rpx" scroll-y="true" bindscrolltolower="loadMore">
+          <view wx:for="{{resources}}" wx:key="index" class="panel" @tap="detail({{item}})">
+            <view class="weui-flex">
+              <view class="weui-flex__item">
+                <view class="placeholder">
+                  <view class="title">{{item.title}}</view>
+                </view>
+              </view>
+              <view class="weui-flex__item">
+                <view class="price">
+                  <icon type="success" size="23"></icon>{{item.price}}</view>
+              </view>
+            </view>
+            <view class="weui-flex">
+              <view class="weui-flex__item">
+                <view class="info">{{item.content}}</view>
+              </view>
+              <view class="price">
+                <icon type="success" size="23"></icon>{{item.state}}</view>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+      <view wx:if="{{childcurrent=='deal'}}">
+        <view wx:for="{{resources}}" wx:key="index" class="panel" @tap="detail({{item}})">
+          <view class="weui-flex">
+            <view class="weui-flex__item">
+              <view class="placeholder">
+                <view class="title">{{item.title}}</view>
+              </view>
+            </view>
+            <view class="weui-flex__item">
+              <view class="price">
+                <icon type="success" size="23"></icon>{{item.price}}</view>
+            </view>
+          </view>
+          <view class="weui-flex">
+            <view class="weui-flex__item">
+              <view class="info">{{item.content}}</view>
+            </view>
+            <view class="price">
+              <icon type="success" size="23"></icon>{{item.state}}</view>
+          </view>
+        </view>
+      </view>
+      <linechart :collection.sync="collection" :labels.sync="labels" onXLabelFilter="enable"></linechart>
+
+    </view>
+
+    <view wx:if="{{current=='order'}}">
+      <!--列表显示2个，绑定数据记得去掉，这里做调试-->
+      <repeat for="{{list}}" key="index" index="index" item="item">
+        <view class="list_box">
+          <swipeDelete :swipeData="item" @delItem.user="handleDelItem">
+            <view class="goods-info">
+              <view class="img-box">
+                <image src="{{item.thumLogo}}" class="img" />
+              </view>
+              <view class="text-box">
+                <view class="goods-title">{{item.name}}</view>
+                <view class="goods-label">{{item.content}}</view>
+                <view class="goods-price">¥ {{item.price}}</view>
+                <view class="buy-num">
+                  <view class="jian-btn {{item.num==1? 'disabled' : ''}}" catchtap="jianBtnTap" data-index="{{index}}" data-id="{{item.id}}">-</view>
+                  <input type="number" value="{{item.num}}" disabled/>
+                  <view class="jia-btn " catchtap="jiaBtnTap" data-index="{{index}}" data-id="{{item.id}}">+</view>
+                </view>
+              </view>
+            </view>
+          </swipeDelete>
+        </view>
+      </repeat>
+
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import Charts from '@/components/line-chart'; // alias example
+  import zanTab from '@/components/zan-tab'; // alias example
+  import zanField from '@/components/zan-field'
+  import swipeDelete from '@/components/wepy-swipe-delete';
+  const sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '确认订单'
+    };
+    components = {
+      linechart: Charts,
+      swipeDelete,
+      zanTab: zanTab,
+      childTab: zanTab,
+      price: zanField,
+      count: zanField,
+      canSale: zanField,
+    };
+    data = {
+      tab: {
+        list: [{
+            id: "cion",
+            title: "猿人币交易"
+          },
+          {
+            id: "order",
+            title: "商品清单"
+          },
+        ]
+      },
+      childtab: {
+        list: [{
+            id: "buy",
+            title: "买入"
+          },
+          {
+            id: "sale",
+            title: "卖出"
+          },
+          {
+            id: "cancel",
+            title: "撤销"
+          },
+          {
+            id: "deal",
+            title: "成交"
+          }
+        ]
+      },
+      price_field: {
+        title: "价格",
+        placeholder: "￥"
+      },
+      count_field: {
+        title: "数量",
+        placeholder: "个"
+      },
+      sale_field: {
+        title: "可卖",
+        placeholder: "个"
+      },
+      current: "cion",
+      childcurrent: "buy",
+      collection: [{
+          name: 'line1',
+          data: [{
+              key: '2016',
+              value: 50
+            },
+            {
+              key: '2017',
+              value: 99
+            },
+            {
+              key: '2018',
+              value: 100
+            },
+            {
+              key: '2019',
+              value: 105
+            },
+            {
+              key: '2020',
+              value: 150
+            }
+          ]
+        },
+        {
+          name: 'line2',
+          data: [{
+              key: '2016',
+              value: 16
+            },
+            {
+              key: '2017',
+              value: 80
+            },
+            {
+              key: '2018',
+              value: 120
+            },
+            {
+              key: '2019',
+              value: 166
+            },
+            {
+              key: '2020',
+              value: 200
+            }
+          ]
+        },
+        {
+          name: 'line3',
+          data: [{
+              key: '2016',
+              value: 66
+            },
+            {
+              key: '2017',
+              value: 88
+            },
+            {
+              key: '2018',
+              value: 140
+            },
+            {
+              key: '2019',
+              value: 125
+            },
+            {
+              key: '2020',
+              value: 256
+            }
+          ]
+        }
+      ],
+      labels: ['2016', '2017', '2018', '2019', '2020'],
+      arrs: [{
+          type: '卖',
+          count: 3,
+          price: 1.04
+        },
+        {
+          type: '卖',
+          count: 2,
+          price: 1.03
+        },
+        {
+          type: '卖',
+          count: 1,
+          price: 1.02
+        },
+        {
+          type: '买',
+          count: 6,
+          price: 1.14
+        },  {
+          type: '卖',
+          count: 2,
+          price: 1.03
+        },
+        {
+          type: '卖',
+          count: 1,
+          price: 1.02
+        },
+        {
+          type: '买',
+          count: 6,
+          price: 1.14
+        },
+        {
+          type: '买',
+          count: 7,
+          price: 1.34
+        },
+        {
+          type: '买',
+          count: 8,
+          price: 1.44
+        }
+      ],
+      list: [{
+          id: 1,
+          name: '猿人币A',
+          content: 'AAAa',
+          num: 1,
+          thumLogo: '../../images/icon_intro.png',
+          price: 1.2
+        },
+        {
+          id: 1,
+          name: '猿人币B',
+          content: 'awdawda',
+          num: 12,
+          thumLogo: '../../images/icon_intro.png',
+          price: 2.3
+        }
+      ]
+    };
+    methods = {
+      tabClick(e) {
+        this.sliderOffset = e.currentTarget.offsetLeft;
+        this.activeIndex = e.currentTarget.id;
+      },
+      handleDelItem(itemData) {
+        this.deleteGoods(itemData);
+      }
+    };
+    onReady() {
+      this.$invoke('linechart', 'draw');
+    }
+    async deleteGoods(itemData) {}
+    async onLoad() {}
+    events = {
+      zanTabChange(selectedId, event) {
+        let {
+          componentId
+        } = event.source
+        this[componentId].selectedId = selectedId;
+        if (componentId == "tab") {
+          this.current = selectedId;
+        } else {
+          this.childcurrent = selectedId;
+        }
+        this.$apply()
+      }
+    };
+  }
+
+</script>
+<style type="css">
+  @import '/zanui/col.wxss'; @import '/zanui/row.wxss'; @import '/zanui/panel.wxss'; @import '/zanui/btn.wxss';
+  .field__title--radius { padding-bottom: 10px; }
+</style>

@@ -1,0 +1,233 @@
+<template>
+
+
+  <view class="page">
+
+    <view class="zan-panel">
+      <name :options="name_field" :value="model.name" componentId="name"></name>
+      <view class="zan-cell zan-field">
+        <view class="zan-cell__hd zan-field__title">分类</view>
+        <picker mode="selector" class="zan-field__input zan-cell__bd" range="{{ cates }}" value="{{ cateIndex }}" range-key="name"
+          bindchange="onCategoryChange">
+          {{ model.category }}
+        </picker>
+      </view>
+      <content :options="content_field" :value="model.content" componentId="content"></content>
+      <view class="zan-row">
+        <view class="zan-col zan-col-12">
+          <price :options="price_field" :value="model.price" componentId="price"></price>
+          <firstGrade :options="o_field" :value="model.firstGrade" componentId="firstGrade"></firstGrade>
+          <secondGrade :options="t_field" :value="model.secondGrade" componentId="secondGrade"></secondGrade>
+          <thirdGrade :options="s_field" :value="model.thirdGrade" componentId="thirdGrade"></thirdGrade>
+        </view>
+        <view class="zan-col zan-col-12">
+          <view class="placeholder">哇大碗大碗大家快来我的骄傲看来我记得了</view>
+        </view>
+      </view>
+      <view class="zan-panel" style="padding-left:1em;padding-bottom:1em;">
+        <view>
+          <checkbox-group bindchange="agreeChange">
+            <label for="weuiAgree">
+              <checkbox value="true" checked="{{isAgree}}" /> 阅读并同意
+              <navigator class="navigator" url="../my/rules">《相关条款》</navigator>
+            </label>
+          </checkbox-group>
+        </view>
+      </view>
+      <view class="zan-row">
+        <view class="zan-col zan-col-7 zan-col-offset-1">
+          <button class="weui-btn mini-btn" size="mini" type="default" @tap="goBack">关闭</button>
+        </view>
+        <view class="zan-col zan-col-8">
+          <button class="weui-btn mini-btn" size="mini" type="primary" @tap="secertCreate">私密邀请</button>
+        </view>
+        <view class="zan-col zan-col-8">
+          <button class="weui-btn mini-btn" size="mini" type="primary" @tap="publicCreate">公开发布</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import {
+    CreateJob
+  } from 'api/api';
+  import tip from 'tools/tip';
+  import zanField from '@/components/zan-field'
+  import {
+    connect
+  } from 'wepy-redux';
+  @connect({
+    user(state) {
+      return state.userState.user;
+    }
+  })
+  export default class CreateTask extends wepy.page {
+    data = {
+      id: null,
+      cates: [{
+          id: 1,
+          name: '设计'
+        },
+        {
+          id: 2,
+          name: '研发'
+        },
+        {
+          id: 3,
+          name: '文案'
+        },
+        {
+          id: 4,
+          name: '新媒体'
+        },
+        {
+          id: 5,
+          name: '兼职务工'
+        },
+        {
+          id: 6,
+          name: '其他'
+        }
+      ],
+      model: {
+        name: '',
+        content: '',
+        isSecert: false,
+        creatorId: null,
+        category: '设计',
+        price: null,
+        firstGrade: null,
+        secondGrade: null,
+        thirdGrade: null
+      },
+      name_field: {
+        title: "工作名"
+      },
+      content_field: {
+        title: "工作内容",
+        type: "textarea"
+      },
+      price_field: {
+        title: "支付酬劳",
+        placeholder: "￥"
+      },
+      o_field: {
+        title: "一级奖励",
+        placeholder: "￥"
+      },
+      t_field: {
+        title: "二级奖励",
+        placeholder: "￥"
+      },
+      s_field: {
+        title: "三级奖励",
+        placeholder: "￥"
+      },
+      cateIndex: 0,
+      isAgree: false,
+      length: 0
+    };
+    components = {
+      name: zanField,
+      content: zanField,
+      description: zanField,
+      firstGrade: zanField,
+      secondGrade: zanField,
+      thirdGrade: zanField,
+      price: zanField,
+    }
+    computed = {
+      now() {
+        return +new Date();
+      }
+    };
+    // 方法
+    methods = {
+      onCategoryChange(e) {
+        this.cateIndex = e.detail.value;
+        this.model.category = this.cates[this.cateIndex].name;
+      },
+      //同意协议
+      agreeChange(e) {
+        debugger
+        this.isAgree = !!e.detail.value.length;
+      },
+      //会跳
+      goBack() {
+        this.$switch('index');
+      },
+      // 私密创建
+      async secertCreate() {
+        if (!this.isAgree) {
+          tip.alert('请阅读相关协议并同意');
+          return;
+        }
+        if (!this.model.name || !this.model.content || !this.model.price) {
+          tip.alert('请完善表单信息');
+          return;
+        }
+        this.model.creatorId = this.user.customerId;
+        var r = await CreateJob(this.model);
+        if (r.success) {
+          this.$preload('model', r.result);
+          this.$navigate('../orders/payfor');
+        }
+      },
+      // 公开创建
+      async publicCreate() {
+        if (!this.isAgree) {
+          tip.alert('请阅读相关协议并同意');
+          return;
+        }
+        if (!this.model.name || !this.model.content || !this.model.price) {
+          tip.alert('请完善表单信息');
+          return;
+        }
+        this.model.creatorId = this.user.customerId;
+        var r = await CreateJob(this.model);
+        if (r.success) {
+          this.$switch('../dash/index');
+        }
+      }
+    };
+    onLoad(option) {}
+    onReachBottom() {}
+    onPullDownRefresh() {}
+    events = {
+      zanFieldChange(e) {
+        const {
+          componentId,
+          detail
+        } = e;
+        this.model[componentId]=detail.value;
+      }
+    }
+  }
+
+</script>
+<style lang="css">
+  @import '/zanui/panel.wxss';
+  @import '/zanui/card.wxss';
+  @import '/zanui/color.wxss';
+  @import '/zanui/icon.wxss';
+  @import '/zanui/btn.wxss';
+  @import '/zanui/col.wxss';
+  @import '/zanui/row.wxss';
+  .placeholder {
+    margin: 5px;
+    padding: 0 10px;
+    text-align: center;
+    background-color: #ebebeb;
+    height: 10em;
+    line-height: 2.3em;
+    color: #cfcfcf;
+  }
+
+  .navigator {
+    color: grey;
+    display: inline;
+  }
+
+</style>

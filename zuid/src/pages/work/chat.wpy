@@ -1,0 +1,28 @@
+<style lang="less">
+
+</style>
+<template>
+<chatboard ></chatboard>
+</template>
+<script>
+import wepy from 'wepy';
+import pointChat from '@/components/pointChat'; // alias example
+export default class Chat extends wepy.page {
+  computed = {
+    now() {
+      return +new Date();
+    }
+  };
+  onUnload() {
+    this.$broadcast('close');
+  }
+  components = {
+    chatboard: pointChat
+  };
+  // 方法
+  methods = {};
+  events = {};
+  // 加载函数
+  async onLoad(params, data) {}
+}
+</script>

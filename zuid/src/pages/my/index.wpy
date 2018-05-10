@@ -1,0 +1,87 @@
+
+<style lang="css">
+@import '/zanui/panel.wxss';
+@import '/zanui/cell.wxss';
+@import '/zanui/icon.wxss';
+
+</style>
+<template>
+  <view class="page-user">
+    <view class="weui-panel">
+      <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell">
+          <view class="weui-cell__bd userinfo clearfix">
+            <image class="userinfo-avatar" src="{{ user.avatarUrl }}" background-size="cover" />
+            <view class="userinfo-info">
+              <view class="userinfo-nickname">{{ user.nickName }}</view>
+              <view class="userinfo-status">￥{{ user.balance }}</view>
+              <view class="userinfo-status">{{ user.title }}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+<view class="zan-panel">
+    <navigator url="/pages/my/experience" class="zan-cell zan-cell--access">
+      <view class="zan-cell__bd">工作经验</view>
+      <view class="zan-cell__ft">2</view>
+    </navigator>
+    <navigator url="/pages/my/myjobs" class="zan-cell zan-cell--access">
+      <view class="zan-cell__bd">我的工作</view>
+      <view class="zan-cell__ft">2</view>
+    </navigator>
+    <navigator  url="/pages/my/joinjobs"  class="zan-cell zan-cell--access">
+      <view class="zan-cell__bd">报名信息</view>
+      <view class="zan-cell__ft">2</view>
+    </navigator>
+    <navigator url="/pages/my/message" class="zan-cell zan-cell--access">
+      <view class="zan-cell__bd">留言</view>
+      <view class="zan-cell__ft">2</view>
+    </navigator>
+    <navigator url="/pages/my/orders" class="zan-cell zan-cell--access">
+      <view class="zan-cell__bd">订单信息</view>
+      <view class="zan-cell__ft">2</view>
+    </navigator>
+    <navigator  url="/pages/user/collect" class="zan-cell zan-cell--access">
+      <view class="zan-cell__bd">提现</view>
+      <view class="zan-cell__ft">2</view>
+    </navigator>
+  </view>
+
+ 
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import { connect } from 'wepy-redux';
+
+@connect({
+  user(state) {
+    return state.userState.user;
+  },
+  hasRegister(state) {
+    return state.userState.hasRegister;
+  }
+})
+export default class Dash extends wepy.page {
+  components = {};
+  config = {
+    navigationBarTitleText: '我'
+  };
+  data = {
+    userInfo: {}
+  };
+  computed = {
+    now() {
+      return +new Date();
+    }
+  };
+  // 方法
+  methods = {};
+
+  events = {};
+  // 加载函数
+  async onLoad() {}
+}
+</script>

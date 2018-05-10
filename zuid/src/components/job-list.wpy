@@ -1,0 +1,191 @@
+<template>
+  <view>
+    <zanTab wx:if="{{hasAction}}" :tab.sync="tab" componentId="tab"></zanTab>
+    <!-- list -->
+    <scroll-view class="list" style="height:{{height}}rpx" scroll-y="true" bindscrolltolower="loadMore">
+
+      <view wx:for="{{list}}" wx:key="index" class="zan-panel">
+        <view class="zan-card">
+          <view style="padding-left:1em" class="zan-card__thumb">
+            <view class="zan-icon zan-icon-{{mapIcons[item.category]}}" style="color: #ff4343;font-size:3em"></view>
+            <view class="zan-panel">
+              <view class="zan-tag zan-tag--danger zan-tag--plain">{{item.category}}</view>
+            </view>
+          </view>
+          <view class="zan-card__detail">
+            <view class="zan-card__detail-row">
+              <view class="zan-card__right-col" >￥{{item.price}}</view>
+              <view class="zan-card__left-col zan-ellipsis--l2">
+                {{item.name}}
+              </view>
+            </view>
+            <view class="zan-card__detail-row zan-c-gray-darker">
+              <slot name="go" class="zan-card__right-col"></slot>
+              <view class="zan-card__left-col">
+                {{item.content}}
+              </view>
+            </view>
+            <view class="zan-card__detail-row zan-c-gray-darker">
+              <slot class="price" name="go">
+              </slot>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{loading}}" class="weui-loadmore">
+        <view class="weui-loading"></view>
+        <view class="weui-loadmore__tips">正在加载</view>
+      </view>
+    </scroll-view>
+  </view>
+
+
+</template>
+<script>
+  import wepy from 'wepy';
+  import zanTab from '../components/zan-tab'
+  import zanCapsule from '../components/zan-capsule'
+  import {
+    getStore
+  } from 'wepy-redux';
+  const store = getStore();
+
+  export default class List extends wepy.component {
+    components = {
+      zanTab: zanTab,
+      zanCapsule:zanCapsule
+    }
+    props = {
+      searchApi: {
+        type: Function,
+        required: true
+      },
+      hasAction: {
+        type: Boolean,
+        default: true
+      },
+      params: {
+        type: Object,
+        required: false,
+        default: {
+          skipCount: 0,
+          maxResultCount: 10
+        }
+      }
+    };
+    data = {
+      tab: {
+        list: [{
+            id: 'creationTime',
+            title: '发布时间'
+          },
+          {
+            id: 'price',
+            title: '任务金额'
+          },
+          {
+            id: 'category',
+            title: '任务分类'
+          }
+        ],
+        selectedId: 'all',
+        scroll: false
+      },
+      loading: false,
+      list: [],
+      total: 0,
+      index: 1,
+      height: 1208,
+      sorting: '',
+      desc: false,
+      mapIcons:{
+        "设计":"edit",
+        "研发":"records",
+        "文案":"gift",
+        "兼职务工":"like",
+        "新媒体":"shop",
+        "其他":"photo",
+      }
+    };
+    methods = {
+      async loadMore() {
+        this.loading = true;
+        this.$apply();
+        this.index++;
+        this.params.skipCount = (this.index - 1) * this.params.maxResultCount;
+        if (this.total == 0 || this.total > this.params.skipCount) {
+          var result = await this.search();
+          this.gender(result);
+        }
+        this.loading = false;
+        this.$apply();
+      }
+    };
+    async search() {
+      const state = store.getState();
+      var params = {};
+      if (!state.userState.user || !state.userState.user.customerId) {
+        params = Object.assign(this.params, {
+          sorting: this.sorting
+        });
+        delete params['customerId'];
+      } else {
+        params = Object.assign(this.params, {
+          sorting: this.sorting,
+          customerId: state.userState.user.customerId
+        });
+      }
+      var result = await this.searchApi(params);
+      return result.result;
+    }
+    gender(result, init = false) {
+      if (init) {
+        this.list = result.items;
+      } else {
+        this.list.push(...result.items);
+      }
+      this.total = result.totalCount;
+      this.$apply();
+    }
+    async filter(type) {
+      this.desc = !this.desc;
+      if (this.desc) {
+        type = type + ' desc';
+      }
+      this.sorting = type;
+      this.params.skipCount = 0;
+      this.params.maxResultCount = 10;
+      var result = await this.search();
+      this.gender(result, true);
+    }
+    async onLoad() {
+      var result = await this.search();
+      this.gender(result, true);
+    }
+    events = {
+      init: async $event => {
+        this.params.skipCount = 0;
+        var result = await this.search();
+        this.gender(result, true);
+      },
+      zanTabChange(selectedId, event) {
+        this.filter(selectedId);
+        let {
+          componentId
+        } = event.source
+        this[componentId].selectedId = selectedId
+        this.$apply()
+      }
+    };
+  }
+
+</script>
+<style lang="css">
+  @import '/zanui/panel.wxss';
+  @import '/zanui/card.wxss';
+  @import '/zanui/color.wxss';
+  @import '/zanui/icon.wxss';
+  @import '/zanui/tag.wxss';
+
+</style>

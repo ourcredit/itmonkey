@@ -1,0 +1,109 @@
+<style lang="less">
+.placeholder {
+  margin: 5px;
+  padding: 0 10px;
+  text-align: center;
+  background-color: #ebebeb;
+  height: 2.3em;
+  line-height: 2.3em;
+  color: #cfcfcf;
+}
+.chart {
+  border: 1rpx;
+}
+</style>
+<template>
+<view>
+    <view class="weui-article">
+    <view class="weui-article__section">
+      <view class="weui-article__title">章标题</view>
+      <view class="weui-article__section">
+        <view class="weui-article__h3">1.1 节标题</view>
+        <view class="weui-article__p">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </view>
+
+      </view>
+
+    </view>
+  </view>
+  <view class="chart">
+    <view class="message" wx:for="{{messages}}" wx:key="index">
+      <view class="weui-flex">
+        <view>
+          <view class="placeholder">{{item.from}}:</view>
+        </view>
+        <view class="weui-flex__item">
+          <view class="placeholder">{{item.content}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+ <!-- 搜索框 -->
+    <view class="weui-search-bar">
+      <view class="weui-search-bar__form">
+        <view class="weui-search-bar__box">
+          <input type="text" class="weui-search-bar__input" placeholder="留言"
+           value="{{inputVal}}" focus="{{inputShowed}}" bindinput="inputTyping"
+          />
+        </view>
+      </view>
+      <view class="weui-search-bar__cancel-btn"  @tap="hideInput">发送</view>
+    </view>
+</view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class Task extends wepy.page {
+  data = {
+    id: null,
+    messages: [
+      {
+        from: '张三',
+        to: '李四',
+        content: 'A'
+      },
+      {
+        from: '李四',
+        to: '张三',
+        content: 'B'
+      },
+      {
+        from: '张三',
+        to: '李四',
+        content: 'C'
+      },
+      {
+        from: '李四',
+        to: '张三',
+        content: 'D'
+      },
+      {
+        from: '张三',
+        to: '李四',
+        content: 'E'
+      },
+      {
+        from: '张三',
+        to: '李四',
+        content: 'F'
+      }
+    ]
+  };
+
+  computed = {
+    now() {
+      return +new Date();
+    }
+  };
+  // 方法
+  methods = {};
+  onLoad(option) {
+    this.id = option.id;
+  }
+  onReachBottom() {}
+  onPullDownRefresh() {}
+}
+</script>

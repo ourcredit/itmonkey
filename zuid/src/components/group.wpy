@@ -1,0 +1,216 @@
+<template>
+  <scroll-view scroll-with-animation="true" scroll-into-view="{{current}}"
+   scroll-x="true" scroll-left="1" style="height: 100%;width: 100% ;white-space: nowrap;">
+    <view id="key_{{model.id}}" class="strt-part">
+      <span @tap="gochat({{item}})" class="strt-name{{model.self?'-my':'-other'}}">{{model.id}}.{{model.name}}</span>
+      <view class="line-v">
+        <span></span>
+      </view>
+      <view id="key_{{a.id}}" wx:for="{{model.children}}" wx:if="{{model.children.length>0}}" wx:for-item="a" wx:key="a" class="strt-part">
+        <span wx:if="{{model.children.length>1}}" class="line-h line-h-r{{a.id<3?'-left':a.id==3?'': '-right'}}"></span>
+        <view class="line-v">
+          <span></span>
+        </view>
+        <span @tap="gochat({{a}})" class="strt-name{{a.self?'-my':'-other'}}">{{a.id}}.{{a.name}}</span>
+        <view class="line-v">
+          <span></span>
+        </view>
+        <view id="key_{{b.id}}" wx:for="{{a.children}}" wx:if="{{a.children.length>0}}" wx:for-item="b" wx:key="b" class="strt-part">
+          <span wx:if="{{model.children.length>1}}" class="line-h line-h-r{{b.id<9?'-left':b.id==9?'': '-right'}}"></span>
+          <view class="line-v">
+            <span></span>
+          </view>
+          <span @tap="gochat({{b}})" class="strt-name{{b.self?'-my':'-other'}}">{{b.id}}.{{b.name}}</span>
+          <view wx:if="{{b.children.length>0}}" class="line-v">
+            <span></span>
+          </view>
+          <view id="key_{{c.id}}" wx:for="{{b.children}}" wx:if="{{b.children.length>0}}" wx:for-item="c" wx:key="c" class="strt-part">
+            <span wx:if="{{c.children.length>1}}" class="line-h line-h-r{{c.id<27?'-left':c.id==27?'': '-right'}}"></span>
+            <view wx:if="{{c.children.length>0}}" class="line-v">
+              <span></span>
+            </view>
+            <span @tap="gochat({{c}})" class="strt-name{{c.self?'-my':'-other'}}">{{c.id}}.{{c.name}}</span>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import {
+    GetFamilyChildsAsync
+  } from 'api/api';
+  import {
+    connect
+  } from 'wepy-redux';
+
+  @connect({
+    user(state) {
+      return state.userState.user;
+    },
+    hasRegister(state) {
+      return state.userState.hasRegister;
+    }
+  })
+  export default class Family extends wepy.component {
+    data = {
+      model: null
+    };
+    computed = {
+      now() {
+        return +new Date();
+      }
+    };
+    // 方法
+    methods = {
+      gochat(item) {
+        this.$emit('childFn', item);
+      }
+    };
+
+    events = {};
+    // 加载函数
+    async onLoad() {
+      var res = await GetFamilyChildsAsync({
+        id: this.user.customerId
+      });
+      if (res.success) {
+        this.model = res.result;
+        this.$apply();
+      }
+    }
+  }
+
+</script>
+<style lang="less">
+  .index {
+    background-color: aqua;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #666;
+    font-family: arial, verdana, tahoma;
+    font-size: 11px;
+    display: inline-block;
+
+    .a {
+      background-color: aqua;
+      border: 1px solid #ccc;
+      padding: 5px 10px;
+      text-decoration: none;
+      color: #666;
+      font-family: arial, verdana, tahoma;
+      font-size: 11px;
+      display: inline-block;
+      background-color: blanchedalmond;
+      .b {
+        background-color: aqua;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        text-decoration: none;
+        color: #666;
+        font-family: arial, verdana, tahoma;
+        font-size: 11px;
+        display: inline-block;
+        background-color: khaki;
+        .c {
+          background-color: aqua;
+          border: 1px solid #ccc;
+          padding: 5px 10px;
+          text-decoration: none;
+          color: #666;
+          font-family: arial, verdana, tahoma;
+          font-size: 11px;
+          background-color: brown;
+        }
+      }
+    }
+  }
+
+  .strt-part {
+    text-align: center;
+    position: relative;
+    display: inline-block;
+  }
+
+  .strt-part .line-v {
+    position: relative;
+    height: 40px;
+    width: 100%;
+  }
+
+  .strt-part .line-v span {
+    display: block;
+    background: #ccc;
+    position: absolute;
+    top: 0;
+    font-size: 0;
+    line-height: 1px;
+    width: 1px;
+    height: 40px;
+    left: 50%;
+  }
+
+  .strt-name-other {
+    display: inline-block;
+    padding: 0 5px;
+    height: 24px;
+    line-height: 24px;
+    border: 1px solid #ccc;
+    margin: 0 10px;
+    border-radius: 3px;
+    background: #f8f8f8;
+  }
+
+  .strt-name-my {
+    display: inline-block;
+    padding: 0 5px;
+    height: 24px;
+    line-height: 24px;
+    border: 1px solid yellowgreen;
+    margin: 0 10px;
+    border-radius: 3px;
+    background: gray;
+    color: blue;
+  }
+
+  .strt-part .line-h {
+    height: 1px;
+    display: block;
+    background: #ccc;
+    position: absolute;
+    top: 0;
+    font-size: 0;
+  }
+
+  .strt-part .line-h-l {
+    width: 50%;
+    left: 0;
+  }
+
+  .strt-part .line-h-c {
+    width: 100%;
+    left: 0;
+  }
+
+  .strt-part .line-h-r {
+    width: 100%;
+  }
+
+  .strt-part .line-h-r-left {
+    width: 100%;
+    margin-left: 50%;
+  }
+
+  .strt-part .line-h-r-right {
+    width: 100%;
+    margin-left: -50%;
+  }
+
+  .strt-block {
+    float: left;
+  }
+
+</style>

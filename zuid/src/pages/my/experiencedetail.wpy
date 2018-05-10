@@ -1,0 +1,95 @@
+<style lang="less">
+
+
+</style>
+<template>
+  <view>
+    <view class="weui-cells__title">工作经验名称</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__bd">
+          <input class="weui-input" bindinput="inputTitle" value="{{model.title}}" placeholder="工作经验名称" />
+        </view>
+      </view>
+    </view>
+    <view class="weui-cells__title">工作经验详情</view>
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">
+          <textarea class="weui-textarea" auto-height maxlength="500" bindinput="inputContent" value="{{model.content}}" placeholder="工作经验详情"
+            style="height: 5em" />
+          <view class="weui-textarea-counter">{{length}}/500</view>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{!model.id}}">添加
+      <icon @tap="modify" type="info_circle" size="20"></icon>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import {
+    ModifyExperience
+  } from 'api/api';
+  import {
+    connect
+  } from 'wepy-redux';
+
+  @connect({
+    user(state) {
+      return state.userState.user;
+    },
+    hasRegister(state) {
+      return state.userState.hasRegister;
+    }
+  })
+  export default class WorkDetail extends wepy.page {
+    components = {};
+    config = {
+      navigationBarTitleText: '我的工作经验'
+    };
+    data = {
+      model: {},
+      length: 0
+    };
+    computed = {
+      now() {
+        return +new Date();
+      }
+    };
+    // 方法
+    methods = {
+      inputTitle(e) {
+        this.model.title = e.detail.value;
+      },
+      inputContent(e) {
+        this.model.content = e.detail.value;
+        this.length = this.model.content.length;
+      },
+      async modify() {
+        const mo = {
+          customerExperience: this.model
+        };
+        var res = await ModifyExperience(mo);
+        if (res.success) {
+          this.$redirect('./experience');
+        }
+      }
+    };
+    events = {};
+    // 加载函数
+    async onLoad(params, data) {
+      let user = this.user;
+      if (!data.preload || !data.preload.model) {
+        this.model = {
+          customerId: user.customerId
+        };
+      } else {
+        this.model = data.preload.model;
+      }
+    }
+  }
+
+</script>
