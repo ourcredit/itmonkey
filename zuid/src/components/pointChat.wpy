@@ -25,7 +25,7 @@
 <script>
   import wepy from 'wepy';
   import {
-    GetMessage
+    GetMessageAsync
   } from 'api/api';
   import {
     connect

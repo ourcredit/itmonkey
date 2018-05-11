@@ -25,7 +25,6 @@ import {
   const CreateJob = params => PostAsync(params, baseUrl + "services/app/Job/CreateJobAsync")
   const GetPagedExperience = params => GetAsync(params, baseUrl + "services/app/CustomerExperience/GetPagedCustomerExperiences")
   const ModifyExperience = params => PostAsync(params, baseUrl + "services/app/CustomerExperience/CreateOrUpdateCustomerExperience")
-  const GetMessage = params => PostAsync(params, baseUrl + "")
   const GetMyJobs = params => GetAsync(params, baseUrl + "services/app/Job/GetMyJobs")
   const GetMyCreateJobs = params => GetAsync(params, baseUrl + "services/app/Job/GetMyCreateJobs")
   const GetFamilyChildsAsync = params => GetAsync(params, baseUrl + "services/app/Customer/GetFamilyChildsAsync")
@@ -42,7 +41,6 @@ import {
     CreateJob,
     GetPagedExperience,
     ModifyExperience,
-    GetMessage,
     GetMyJobs,
     GetMyCreateJobs,
     GetFamilyChildsAsync,

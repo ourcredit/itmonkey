@@ -1,9 +1,9 @@
 <template>
   <view>
-    <scroll-view scroll-y="1"  class="chartboard{{focus ? ' fixed' : ''}}">
+    <scroll-view scroll-y="1" class="chartboard{{focus ? ' fixed' : ''}}">
       <block wx:for="{{message}}" wx:key="index" wx:for-index="index" wx:for-item="item">
         <view class="msgarea{{item.senderid == from ? ' fromme' : ' other'}}">
-          <image class="icon" src="{{item.senderavator}}"/>
+          <image class="icon" src="{{item.senderavator}}" />
           <view class="msg">{{item.content}}</view>
           <view class="clearfix"></view>
         </view>
@@ -11,12 +11,12 @@
     </scroll-view>
     <view class="input">
       <view class="input_layout">
-        <image class="input_icon voice" src="../images/voice.png"/>
-        <image class="input_icon face" src="../images/face.png"/>
-        <image class="input_icon plus" src="../images/plus.png"/>
+        <image class="input_icon voice" src="../images/voice.png" />
+        <image class="input_icon face" src="../images/face.png" />
+        <image class="input_icon plus" src="../images/plus.png" />
         <view class="send{{readyToSend.length == 0 ? ' hidden' : ''}}" @tap="send">发送</view>
         <input @input="input" value="{{readyToSend}}" class="input_text{{focusFlag ? ' focusFlag' : ''}}" @focus="focus" @blur="blur"
-          @type="input"/>
+          @type="input" />
       </view>
     </view>
   </view>
@@ -24,7 +24,7 @@
 <script>
   import wepy from 'wepy';
   import {
-    GetMessage
+    GetMessageAsync
   } from 'api/api';
   import {
     connect
@@ -34,7 +34,7 @@
     from(state) {
       return state.userState.user.customerId + '';
     },
-     avatar(state) {
+    avatar(state) {
       return state.userState.user.avatarUrl + '';
     },
     hasRegister(state) {
@@ -51,7 +51,12 @@
       focusFlag: false,
       socketOpened: false,
       socketMsgQueue: [],
-      readyToSend: ''
+      readyToSend: '',
+      params: {
+        skipCount: 0,
+        maxResultCount: 10,
+        id: null
+      }
     };
     events = {
       close: $event => {
@@ -67,7 +72,7 @@
           const model = {
             senderid: this.from,
             receiverid: this.job,
-            senderAvator:this.avatar,
+            senderAvator: this.avatar,
             type: 3,
             content: this.readyToSend
           };
@@ -108,8 +113,9 @@
         wx.closeSocket();
       }
     }
-    onLoad() {
+   async onLoad() {
       var _self = this;
+    await  this.loadMessage();
       this.connect();
       wx.onSocketOpen(
         function (r) {
@@ -122,9 +128,9 @@
         function (e) {}
       );
       wx.onSocketMessage(function (res) {
-        var avatar=JSON.parse(res.data);
+        var avatar = JSON.parse(res.data);
         var json = JSON.parse(res.data.toLowerCase());
-        json.senderavator=avatar.SenderAvator;
+        json.senderavator = avatar.SenderAvator;
         _self.message.push(json);
         _self.$apply();
       });
@@ -147,6 +153,25 @@
     fixPosition(focus) {
       this.focus = focus;
       this.$apply();
+    }
+   async loadMessage() {
+      this.params.id=this.from;
+      var res = await GetMessageAsync(this.params);
+      console.log(res);
+      if (res.success) {
+        console.log(res.result.items)
+        var r=res.result.items.map(c=>{
+          return {
+             senderid: c.from,
+            receiverid: this.job,
+            senderAvator: this.avatar,
+            type: 3,
+            content: this.readyToSend
+          }
+        })
+        this.message.push(...r);
+        this.$apply();
+      }
     }
   }
 

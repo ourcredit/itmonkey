@@ -228,30 +228,14 @@ namespace ItMonkey.Customers
         /// <returns></returns>
         public async Task<PagedResultDto<MessageListDto>> GetMessageAsync(GetMessageInput input)
         {
-            var customer = await _customerRepository.FirstOrDefaultAsync(input.Id);
+            var customer = await _customerRepository.FirstOrDefaultAsync(input.CustomerId);
             if(customer==null) throw new UserFriendlyException("当前用户不存在");
             var list= await _cacheManager.GetCache(CacheConsts.MessageCache)
-                .GetAsync(input.Id.ToString(), StoreCacheMessage);
+                .GetAsync(CacheConsts.MessageCache, StoreCacheMessage);
             if (!list.Any()) return new PagedResultDto<MessageListDto>(0,list);
-            var jobs = await _myJobRepository.GetAllListAsync(c =>
-                c.CustomerId == input.Id && c.VilidateState.HasValue && c.VilidateState.Value);
-            var ids = jobs.Select(c => c.JobId);
-            var family = await _familyRepository.FirstOrDefaultAsync(c => c.Key == customer.Family);
-            var t = list.Where(c => !c.State)
-                .Where(c => c.Type == MessageType.P2P && c.ReceiverId == input.Id ||
-                                                         c.Type == MessageType.P2P &&
-                                                          ids.Any(w => w == c.ReceiverId) ||
-                                                          c.Type == MessageType.Group && family.Id == c.ReceiverId);
+            var t = list.Where(c => c.Type == input.Type);
             var count = t.Count();
-            var result= t.Skip(input.SkipCount).Take(input.MaxResultCount).ToList();
-            var sql = $@"UPDATE s_message_store 
-SET State = 1 
-WHERE
-	( Type = 1 AND ReceiverId = {customer.Id} ) 
-	OR ( Type = 2 AND ReceiverId IN ( {string.Join(",", ids)} ) ) 
-	OR ( Type = 3 AND ReceiverId = {family.Id} )";
-            Logger.Error("sql语句====="+sql);
-              await  DapperHelper.ExecuteAsync(sql);
+            var result= t.Skip(input.SkipCount).Take(input.MaxResultCount).OrderBy(c=>c.CreationTime).ToList();
             return new PagedResultDto<MessageListDto>(count,result);
         }
         /// <summary>
@@ -275,7 +259,8 @@ WHERE
                     SenderAvator = c.SenderAvator,
                     SenderId = c.SenderId,
                     State = c.State,
-                    Type = c.Type
+                    Type = c.Type,
+                    CreationTime = c.CreationTime
                 };
                 model.SenderName = customers.FirstOrDefault(w => w.Id == model.SenderId)?.Name;
 

@@ -25,10 +25,22 @@ namespace ItMonkey.Customers.Dtos
         }
 
     }
-
+    /// <summary>
+    /// 获取消息input
+    /// </summary>
     public class GetMessageInput : PagedAndSortedInputDto
     {
-        public long Id { get; set; }
+        /// <summary>
+        /// 登陆用户id
+        /// </summary>
+        public long CustomerId { get; set; }
+        /// <summary>
+        /// 对应id
+        /// </summary>
+        public int SouceId { get; set; }
+        /// <summary>
+        /// 对应消息类型
+        /// </summary>
         public MessageType Type { get; set; }
     }
 }

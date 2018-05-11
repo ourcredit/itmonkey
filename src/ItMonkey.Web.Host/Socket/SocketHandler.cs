@@ -263,7 +263,7 @@ VALUES
             {
                 var guid = Guid.NewGuid();
                 var time = c.ReciveTime.ToString("yyyy/MM/dd HH:mm:ss");
-                sql += $"('{guid}','{c.Content}', '{time}', {c.ReceiverId}, {c.SenderId}, 0,{(int)c.Type},'{c.ReceiverAvator}','{c.SenderAvator}'),";
+                sql += $"('{guid}','{c.Content}', '{time}', {c.ReceiverId}, {c.SenderId}, 0,{(int)c.Type},'{c.SenderAvator}','{c.ReceiverAvator}'),";
             });
             DapperHelper.Execute(sql.TrimEnd(','));
         }

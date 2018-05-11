@@ -7,7 +7,6 @@ namespace ItMonkey.Customers.Dtos
 {
    public class MessageListDto
     {
-        public Guid Id { get; set; }
         public long SenderId { get; set; }
         public string SenderName { get; set; }
         public string SenderAvator { get; set; }
@@ -17,5 +16,6 @@ namespace ItMonkey.Customers.Dtos
         public string Content { get; set; }
         public MessageType Type { get; set; }
         public bool State { get; set; }
+        public DateTime CreationTime { get; set; }
     }
 }
