@@ -233,7 +233,7 @@ namespace ItMonkey.Customers
             var list= await _cacheManager.GetCache(CacheConsts.MessageCache)
                 .GetAsync(CacheConsts.MessageCache, StoreCacheMessage);
             if (!list.Any()) return new PagedResultDto<MessageListDto>(0,list);
-            var t = list.Where(c => c.Type == input.Type);
+            var t = list.Where(c => c.Type == input.Type&&c.ReceiverId==input.SouceId);
             var count = t.Count();
             var result= t.Skip(input.SkipCount).Take(input.MaxResultCount).OrderBy(c=>c.CreationTime).ToList();
             return new PagedResultDto<MessageListDto>(count,result);

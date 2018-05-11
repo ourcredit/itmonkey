@@ -55,7 +55,9 @@
       params: {
         skipCount: 0,
         maxResultCount: 10,
-        id: null
+        customerId: null,
+        type:3,
+        souceId:null
       }
     };
     events = {
@@ -113,9 +115,9 @@
         wx.closeSocket();
       }
     }
-   async onLoad() {
+    async onLoad() {
       var _self = this;
-    await  this.loadMessage();
+      await this.loadMessage();
       this.connect();
       wx.onSocketOpen(
         function (r) {
@@ -154,15 +156,16 @@
       this.focus = focus;
       this.$apply();
     }
-   async loadMessage() {
-      this.params.id=this.from;
+    async loadMessage() {
+      this.params.customerId = this.from;
+      this.params.souceId = this.job;
       var res = await GetMessageAsync(this.params);
       console.log(res);
       if (res.success) {
         console.log(res.result.items)
-        var r=res.result.items.map(c=>{
+        var r = res.result.items.map(c => {
           return {
-             senderid: c.from,
+            senderid: c.from,
             receiverid: this.job,
             senderAvator: this.avatar,
             type: 3,
