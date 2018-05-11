@@ -3,7 +3,7 @@
     <scroll-view scroll-y="1"  class="chartboard{{focus ? ' fixed' : ''}}">
       <block wx:for="{{message}}" wx:key="index" wx:for-index="index" wx:for-item="item">
         <view class="msgarea{{item.senderid == from ? ' fromme' : ' other'}}">
-          <image class="icon" src="{{item.icon}}"/>
+          <image class="icon" src="{{item.senderavator}}"/>
           <view class="msg">{{item.content}}</view>
           <view class="clearfix"></view>
         </view>
@@ -33,6 +33,9 @@
   @connect({
     from(state) {
       return state.userState.user.customerId + '';
+    },
+     avatar(state) {
+      return state.userState.user.avatarUrl + '';
     },
     hasRegister(state) {
       return state.userState.hasRegister;
@@ -64,6 +67,7 @@
           const model = {
             senderid: this.from,
             receiverid: this.job,
+            senderAvator:this.avatar,
             type: 3,
             content: this.readyToSend
           };
@@ -118,7 +122,9 @@
         function (e) {}
       );
       wx.onSocketMessage(function (res) {
+        var avatar=JSON.parse(res.data);
         var json = JSON.parse(res.data.toLowerCase());
+        json.senderavator=avatar.SenderAvator;
         _self.message.push(json);
         _self.$apply();
       });
