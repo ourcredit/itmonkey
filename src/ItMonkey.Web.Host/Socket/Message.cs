@@ -13,9 +13,19 @@ namespace ItMonkey.Web.Host.Socket
         /// </summary>
         public string SenderId { get; set; }
         /// <summary>
+        /// 发送人头像
+        /// </summary>
+
+        public string SenderAvator { get; set; }
+        /// <summary>
         /// 接收人
         /// </summary>
         public string ReceiverId { get; set; }
+        /// <summary>
+        /// 接受人头像
+        /// </summary>
+        public string ReceiverAvator { get; set; }
+
         /// <summary>
         /// 类型
         /// </summary>

@@ -271,6 +271,8 @@ WHERE
                 {
                     Content = c.Content,
                     ReceiverId = c.ReceiverId,
+                    ReceiverAvator = c.ReceiverAvator,
+                    SenderAvator = c.SenderAvator,
                     SenderId = c.SenderId,
                     State = c.State,
                     Type = c.Type

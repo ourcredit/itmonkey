@@ -25,6 +25,15 @@ namespace ItMonkey.Models
     [Table("s_message_store")]
     public class MessageStore:CreationAuditedEntity<Guid>
     {
+        /// <summary>
+        /// 发送人头像
+        /// </summary>
+
+        public string SenderAvator { get; set; }
+        /// <summary>
+        /// 接受人头像
+        /// </summary>
+        public string ReceiverAvator { get; set; }
         public long SenderId { get; set; }
         public long ReceiverId { get; set; }
         public string Content { get; set; }
