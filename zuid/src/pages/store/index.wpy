@@ -301,7 +301,7 @@
           name: '猿人币A',
           content: 'AAAa',
           num: 1,
-          thumLogo: '../../images/icon_intro.png',
+          thumLogo: '../../images/face.png',
           price: 1.2
         },
         {
@@ -309,7 +309,7 @@
           name: '猿人币B',
           content: 'awdawda',
           num: 12,
-          thumLogo: '../../images/icon_intro.png',
+          thumLogo: '../../images/plus.png',
           price: 2.3
         }
       ]

@@ -165,11 +165,12 @@
         console.log(res.result.items)
         var r = res.result.items.map(c => {
           return {
-            senderid: c.from,
+            senderid: c.senderId,
             receiverid: this.job,
-            senderAvator: this.avatar,
+            senderavator: c.senderAvator,
+            receiveravator: c.receiverAvator,
             type: 3,
-            content: this.readyToSend
+            content: c.content
           }
         })
         this.message.push(...r);
