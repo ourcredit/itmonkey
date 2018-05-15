@@ -145,17 +145,17 @@ util.setCurrentPath = function (vm, name) {
     });
 
     let currentPathArr = [];
-    if (name === 'point') {
+    if (name === 'users') {
         currentPathArr = [{
-            title: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'point')),
+            title: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'users')),
             path: '',
-            name: 'point'
+            name: 'users'
         }];
-    } else if ((name.indexOf('_index') >= 0 || isOtherRouter) && name !== 'point') {
+    } else if ((name.indexOf('_index') >= 0 || isOtherRouter) && name !== 'users') {
         currentPathArr = [{
-                title: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'point')),
-                path: '/point/mamge',
-                name: 'point'
+                title: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'users')),
+                path: '/customers/users',
+                name: 'users'
             },
             {
                 title: title,
@@ -181,17 +181,17 @@ util.setCurrentPath = function (vm, name) {
             }
         })[0];
 
-        if (currentPathObj.children.length <= 1 && currentPathObj.name === 'point') {
+        if (currentPathObj.children.length <= 1 && currentPathObj.name === 'users') {
             currentPathArr = [{
-                title: "点位管理",
+                title: "用户信息",
                 path: '',
-                name: 'point'
+                name: 'users'
             }];
-        } else if (currentPathObj.children.length <= 1 && currentPathObj.name !== 'point') {
+        } else if (currentPathObj.children.length <= 1 && currentPathObj.name !== 'users') {
             currentPathArr = [{
                     title: "点位管理",
-                    path: '/point/mamge',
-                    name: 'point'
+                    path: '/customers/users',
+                    name: 'users'
                 },
                 {
                     title: currentPathObj.title,

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Abp.Authorization.Users;
 using Abp.Extensions;
 using Abp.Timing;
@@ -19,8 +20,10 @@ namespace ItMonkey.Authorization.Users
         private new bool IsEmailConfirmed { get; set; }
         private new string EmailConfirmationCode { get; set; }
         private new bool IsPhoneNumberConfirmed { get; set; }
-        private new string NormalizedEmailAddress { get; set; }
-        private new string NormalizedUserName { get; set; }
+        [Required(AllowEmptyStrings = true)]
+        public override string NormalizedEmailAddress { get; set; }
+        [Required(AllowEmptyStrings = true)]
+        public override string NormalizedUserName { get; set; }
         #endregion
         //Can add application specific user properties here
         public User()

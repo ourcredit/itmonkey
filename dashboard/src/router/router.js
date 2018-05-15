@@ -61,100 +61,86 @@ export const otherRouter = {
         permission: 'Pages.Device.Manage.Create',
         component: () =>
             import ('@/views/operators/setting.vue')
-    }, {
-        path: 'box',
-        title: '货道管理',
-        name: 'boxs',
-        permission: 'Pages.Operator.Boxs',
-        component: () =>
-            import ('@/views/operators/box.vue')
     }]
 };
 
 // Left menu items
 export const appRouter = [{
-    path: '/point',
+    path: '/customers',
     icon: 'pinpoint',
-    title: '点位信息',
-    name: 'point',
+    title: '用户管理',
+    name: 'customers',
     component: Main,
     children: [{
-        path: 'manage',
-        title: '点位管理',
-        name: 'pointmanage',
-        permission: 'Pages.Point.Manage',
+        path: 'users',
+        title: '用户信息',
+        name: 'users',
+      //  permission: 'Pages.Point.Manage',
         component: () =>
             import ('@/views/points/index.vue')
     }, {
-        path: 'view',
-        title: '点位展示',
-        name: 'pointview',
-        permission: 'Pages.Point.View',
+        path: 'pickup',
+        title: '提现信息',
+        name: 'pickup',
+       // permission: 'Pages.Point.View',
         component: () =>
             import ('@/views/points/view.vue')
     }]
 }, {
-    path: '/device',
+    path: '/monkeycion',
     icon: 'magnet',
-    title: '售货机信息',
-    name: 'device',
+    title: '猿人币信息',
+    name: 'monkeycion',
     component: Main,
     children: [{
-        path: 'manage',
-        title: '售货机管理',
-        name: 'devicemanage',
-        permission: 'Pages.Device.Manage',
+        path: 'works',
+        title: '工作/任务信息',
+        name: 'works',
+       // permission: 'Pages.Device.Manage',
+        component: () =>
+            import ('@/views/devices/index.vue')
+    },{
+        path: 'deallist',
+        title: '交易清单',
+        name: 'deallist',
+       // permission: 'Pages.Device.Manage',
         component: () =>
             import ('@/views/devices/index.vue')
     }]
 }, {
-    path: '/orders',
+    path: '/shops',
     icon: 'record',
-    title: '订单信息',
-    name: 'orders',
+    title: '商城管理',
+    name: 'shops',
     component: Main,
     children: [{
-        path: 'list',
+        path: 'products',
+        title: '商品管理',
+        name: 'products',
+      //  permission: 'Pages.Orders.OrderList',
+        component: () =>
+            import ('@/views/orders/index.vue')
+    },{
+        path: 'orders',
         title: '订单管理',
-        name: 'order',
-        permission: 'Pages.Orders.OrderList',
+        name: 'orders',
+       // permission: 'Pages.Orders.OrderList',
         component: () =>
             import ('@/views/orders/index.vue')
     }]
 }, {
-    path: '/audits',
+    path: '/serial',
     icon: 'android-list',
-    title: '日志管理',
-    name: 'audit',
+    title: '系列管理',
+    name: 'serial',
     component: Main,
     children: [{
-        path: 'logs',
-        title: '日志信息',
-        name: 'logs',
-        permission: 'Pages.AuditLogs.Logs',
+        path: 'category',
+        title: '轮播图管理',
+        name: 'category',
+      //  permission: 'Pages.AuditLogs.Logs',
         component: () =>
             import ('@/views/auditlogs/logs.vue')
-    }, {
-        path: 'warns',
-        title: '报警信息',
-        name: 'warns',
-        permission: 'Pages.AuditLogs.Warns',
-        component: () =>
-            import ('@/views/auditlogs/warns.vue')
-    }]
-}, {
-    path: '/operator',
-    icon: 'icecream',
-    title: '运营商信息',
-    name: 'operator',
-    component: Main,
-    children: [{
-        path: 'manage',
-        title: '机构树',
-        name: 'operatormanage',
-        permission: 'Pages.Operator.Orgs',
-        component: () =>
-            import ('@/views/operators/index.vue')
     }]
 }, {
     path: '/admin',
@@ -166,7 +152,7 @@ export const appRouter = [{
             path: 'users',
             title: '用户',
             name: 'users',
-            permission: 'Pages.Administration.Users',
+          //  permission: 'Pages.Administration.Users',
             component: () =>
                 import ('@/views/admin/users/users.vue')
         },
@@ -174,7 +160,7 @@ export const appRouter = [{
             path: 'roles',
             title: '角色',
             name: 'roles',
-            permission: 'Pages.Administration.Roles',
+           // permission: 'Pages.Administration.Roles',
             component: () =>
                 import ('@/views/admin/roles/roles.vue')
         }

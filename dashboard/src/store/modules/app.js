@@ -16,15 +16,15 @@ const app = {
         themeColor: '',
         initSignalR: false,
         pageOpenedList: [{
-            title: '点位管理',
-            path: '',
-            name: 'pointmanage'
+            title: '人员信息',
+            path: '/customers/users',
+            name: 'users'
         }],
         currentPageName: '',
         currentPath: [{
-            title: '点位管理',
-            path: '/point/pointmanage',
-            name: 'pointmanage'
+            title: '人员信息',
+            path: '/customers/users',
+            name: 'users'
         }],
         menuList: [],
         routers: [
