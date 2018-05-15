@@ -6430,3 +6430,479 @@ INFO  2018-05-11 14:13:15,745 [11   ] ore.Mvc.Internal.ControllerActionInvoker -
 INFO  2018-05-11 14:13:18,823 [6    ] etCore.Mvc.Internal.ObjectResultExecutor - Executing ObjectResult, writing value Microsoft.AspNetCore.Mvc.ControllerContext.
 INFO  2018-05-11 14:13:18,848 [6    ] ore.Mvc.Internal.ControllerActionInvoker - Executed action ItMonkey.Customers.CustomerAppService.GetMessageAsync (ItMonkey.Application) in 4688.9603ms
 INFO  2018-05-11 14:13:18,852 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 4724.728ms 200 application/json; charset=utf-8
+DEBUG 2018-05-15 16:43:27,997 [1    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2018-05-15 16:43:28,227 [1    ] Abp.Modules.AbpModuleManager             - Found 15 ABP modules in total.
+DEBUG 2018-05-15 16:43:28,276 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.Web.Host.Startup.ItMonkeyWebHostModule, ItMonkey.Web.Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:43:28,280 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.ItMonkeyWebCoreModule, ItMonkey.Web.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:43:28,281 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.ItMonkeyApplicationModule, ItMonkey.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:43:28,281 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.ItMonkeyCoreModule, ItMonkey.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:43:28,281 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:43:28,282 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:43:28,282 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:43:28,283 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AutoMapper.AbpAutoMapperModule, Abp.AutoMapper, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:43:28,283 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.EntityFrameworkCore.ItMonkeyEntityFrameworkModule, ItMonkey.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:43:28,283 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:43:28,284 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:43:28,284 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:43:28,284 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.AbpAspNetCoreModule, Abp.AspNetCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:43:28,285 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Web.AbpWebCommonModule, Abp.Web.Common, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:43:28,285 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.SignalR.AbpAspNetCoreSignalRModule, Abp.AspNetCore.SignalR, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:43:28,290 [1    ] Abp.Modules.AbpModuleManager             - 15 modules loaded.
+DEBUG 2018-05-15 16:43:28,419 [1    ] o.Configuration.LanguageManagementConfig - Converted Abp (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2018-05-15 16:43:28,419 [1    ] o.Configuration.LanguageManagementConfig - Converted AbpZero (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2018-05-15 16:43:28,419 [1    ] o.Configuration.LanguageManagementConfig - Converted ItMonkey (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2018-05-15 16:43:28,419 [1    ] o.Configuration.LanguageManagementConfig - Converted AbpWeb (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2018-05-15 16:43:28,989 [1    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: ItMonkey.EntityFrameworkCore.ItMonkeyDbContext, ItMonkey.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:43:30,300 [1    ] Abp.Localization.LocalizationManager     - Initializing 4 localization sources.
+DEBUG 2018-05-15 16:43:30,315 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2018-05-15 16:43:30,321 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2018-05-15 16:43:30,338 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: ItMonkey
+DEBUG 2018-05-15 16:43:30,341 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpWeb
+DEBUG 2018-05-15 16:43:30,559 [1    ] Abp.BackgroundJobs.BackgroundJobManager  - Start background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2018-05-15 16:43:30,618 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - Found 5 classes define auto mapping attributes
+DEBUG 2018-05-15 16:43:30,618 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - ItMonkey.Models.TokenAuth.ExternalLoginProviderInfoModel
+DEBUG 2018-05-15 16:43:30,622 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - ItMonkey.Sessions.Dto.TenantLoginInfoDto
+DEBUG 2018-05-15 16:43:30,622 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - ItMonkey.Sessions.Dto.UserLoginInfoDto
+DEBUG 2018-05-15 16:43:30,622 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - ItMonkey.MultiTenancy.Dto.CreateTenantDto
+DEBUG 2018-05-15 16:43:30,623 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - ItMonkey.MultiTenancy.Dto.TenantDto
+INFO  2018-05-15 16:43:37,438 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/  
+INFO  2018-05-15 16:43:37,438 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 DEBUG http://localhost:21021/  0
+INFO  2018-05-15 16:43:37,458 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 81.0118ms 200 
+INFO  2018-05-15 16:43:42,661 [5    ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method ItMonkey.Web.Host.Controllers.HomeController.Index (ItMonkey.Web.Host) with arguments ((null)) - ModelState is Valid
+INFO  2018-05-15 16:43:42,937 [6    ] Core.Mvc.Internal.RedirectResultExecutor - Executing RedirectResult, redirecting to /swagger.
+INFO  2018-05-15 16:43:42,946 [6    ] ore.Mvc.Internal.ControllerActionInvoker - Executed action ItMonkey.Web.Host.Controllers.HomeController.Index (ItMonkey.Web.Host) in 1441.6161ms
+INFO  2018-05-15 16:43:42,963 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 5586.3957ms 302 
+INFO  2018-05-15 16:43:42,988 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger  
+INFO  2018-05-15 16:43:43,008 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 21.0777ms 301 
+INFO  2018-05-15 16:43:43,019 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/  
+INFO  2018-05-15 16:43:43,039 [9    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/index.html'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,053 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 34.2554ms 200 text/html
+INFO  2018-05-15 16:43:43,133 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/object-assign-pollyfill.js  
+INFO  2018-05-15 16:43:43,139 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/css/reset.css  
+INFO  2018-05-15 16:43:43,167 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/css/typography.css  
+INFO  2018-05-15 16:43:43,192 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/jquery-1.8.0.min.js  
+INFO  2018-05-15 16:43:43,216 [10   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/css/reset.css'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,240 [4    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/css/typography.css'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,242 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/css/screen.css  
+INFO  2018-05-15 16:43:43,274 [5    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/lib/object-assign-pollyfill.js'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,277 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/jquery.slideto.min.js  
+INFO  2018-05-15 16:43:43,281 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 147.0997ms 200 application/javascript
+INFO  2018-05-15 16:43:43,287 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 112.3753ms 200 text/css
+INFO  2018-05-15 16:43:43,339 [9    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/css/screen.css'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,342 [11   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/lib/jquery.slideto.min.js'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,344 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/jquery.ba-bbq.min.js  
+INFO  2018-05-15 16:43:43,347 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 175.9167ms 200 application/javascript
+INFO  2018-05-15 16:43:43,353 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/lodash.min.js  
+INFO  2018-05-15 16:43:43,359 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/handlebars-4.0.5.js  
+INFO  2018-05-15 16:43:43,382 [12   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/lib/jquery-1.8.0.min.js'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,404 [10   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/lib/jquery.ba-bbq.min.js'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,406 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 221.3627ms 200 text/css
+INFO  2018-05-15 16:43:43,432 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 65.9635ms 200 application/javascript
+INFO  2018-05-15 16:43:43,458 [5    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/lib/handlebars-4.0.5.js'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,484 [14   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui.min.js  
+INFO  2018-05-15 16:43:43,509 [11   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/lib/lodash.min.js'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,516 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/backbone-min.js  
+INFO  2018-05-15 16:43:43,519 [14   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger-ui.min.js'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,524 [10   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/lib/backbone-min.js'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,554 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 171.2957ms 200 application/javascript
+INFO  2018-05-15 16:43:43,568 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 102.6134ms 200 text/css
+INFO  2018-05-15 16:43:43,606 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/highlight.9.1.0.pack.js  
+INFO  2018-05-15 16:43:43,610 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 45.6984ms 200 application/javascript
+INFO  2018-05-15 16:43:43,614 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/jquery.wiggle.min.js  
+INFO  2018-05-15 16:43:43,642 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 324.5225ms 200 application/javascript
+INFO  2018-05-15 16:43:43,664 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/jsoneditor.min.js  
+INFO  2018-05-15 16:43:43,669 [14   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 500.6878ms 200 application/javascript
+INFO  2018-05-15 16:43:43,715 [4    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/lib/jquery.wiggle.min.js'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,738 [14   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/marked.js  
+INFO  2018-05-15 16:43:43,744 [10   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/lib/jsoneditor.min.js'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,768 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 132.4137ms 200 application/javascript
+INFO  2018-05-15 16:43:43,795 [14   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/lib/marked.js'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,798 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 236.7203ms 200 application/javascript
+INFO  2018-05-15 16:43:43,823 [11   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/lib/highlight.9.1.0.pack.js'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,849 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 181.2023ms 200 application/javascript
+INFO  2018-05-15 16:43:43,858 [14   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 103.5019ms 200 application/javascript
+INFO  2018-05-15 16:43:43,866 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 248.1941ms 200 application/javascript
+INFO  2018-05-15 16:43:43,872 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/swagger-oauth.js  
+INFO  2018-05-15 16:43:43,876 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/highlight.9.1.0.pack_extended.js  
+INFO  2018-05-15 16:43:43,879 [5    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/lib/highlight.9.1.0.pack_extended.js'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,882 [9    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/lib/swagger-oauth.js'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,885 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 210.0023ms 200 application/javascript
+INFO  2018-05-15 16:43:43,908 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 15.4591ms 200 application/javascript
+INFO  2018-05-15 16:43:43,936 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/css/print.css  
+INFO  2018-05-15 16:43:43,938 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/images/logo_small.png  
+INFO  2018-05-15 16:43:43,941 [10   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/css/print.css'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,943 [4    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/images/logo_small.png'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:43,967 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 33.89ms 200 text/css
+INFO  2018-05-15 16:43:43,970 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 32.4701ms 200 image/png
+INFO  2018-05-15 16:43:44,000 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/v1/swagger.json  
+INFO  2018-05-15 16:43:44,405 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 429.9614ms 200 application/json
+INFO  2018-05-15 16:43:44,897 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/ui/abp.js?_=1526373824869  
+INFO  2018-05-15 16:43:44,900 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/ui/on-complete.js?_=1526373824869  
+INFO  2018-05-15 16:43:44,929 [9    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger/ui/abp.js'. Physical path: 'D:\projects\itmonkey\src\ItMonkey.Web.Host\wwwroot\swagger\ui\abp.js'
+INFO  2018-05-15 16:43:44,932 [10   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger/ui/on-complete.js'. Physical path: 'D:\projects\itmonkey\src\ItMonkey.Web.Host\wwwroot\swagger\ui\on-complete.js'
+INFO  2018-05-15 16:43:44,935 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 58.1851ms 200 application/javascript
+INFO  2018-05-15 16:43:44,942 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 65.267ms 200 application/javascript
+INFO  2018-05-15 16:43:53,555 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/images/throbber.gif  
+INFO  2018-05-15 16:43:53,559 [5    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/images/throbber.gif'. Physical path: 'N/A'
+INFO  2018-05-15 16:43:53,562 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 6.9487ms 200 image/gif
+INFO  2018-05-15 16:44:01,887 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 POST http://localhost:21021/api/TokenAuth/Authenticate application/json-patch+json 89
+INFO  2018-05-15 16:44:01,893 [9    ] pNetCore.Cors.Infrastructure.CorsService - Policy execution successful.
+INFO  2018-05-15 16:44:01,928 [9    ] pNetCore.Cors.Infrastructure.CorsService - Policy execution failed.
+INFO  2018-05-15 16:44:01,930 [9    ] pNetCore.Cors.Infrastructure.CorsService - Request origin http://localhost:21021 does not have permission to access the resource.
+INFO  2018-05-15 16:44:03,953 [9    ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method ItMonkey.Controllers.TokenAuthController.Authenticate (ItMonkey.Web.Core) with arguments (ItMonkey.Models.TokenAuth.AuthenticateModel) - ModelState is Valid
+ERROR 2018-05-15 16:44:11,082 [25   ] Mvc.ExceptionHandling.AbpExceptionFilter - An error occurred while updating the entries. See the inner exception for details.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while updating the entries. See the inner exception for details. ---> MySql.Data.MySqlClient.MySqlException: Column 'NormalizedEmailAddress' cannot be null ---> MySql.Data.MySqlClient.MySqlException: Column 'NormalizedEmailAddress' cannot be null
+   at MySqlConnector.Protocol.PayloadData.ThrowIfError() in C:\projects\mysqlconnector\src\MySqlConnector\Protocol\PayloadData.cs:line 19
+   at MySqlConnector.Core.ServerSession.TryAsyncContinuation(Task`1 task) in C:\projects\mysqlconnector\src\MySqlConnector\Core\ServerSession.cs:line 870
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredValueTaskAwaitable`1.ConfiguredValueTaskAwaiter.GetResult()
+   at MySqlConnector.Core.ResultSet.<ReadResultSetHeaderAsync>d__1.MoveNext() in C:\projects\mysqlconnector\src\MySqlConnector\Core\ResultSet.cs:line 43
+   --- End of inner exception stack trace ---
+   at MySql.Data.MySqlClient.MySqlDataReader.ActivateResultSet(ResultSet resultSet) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 92
+   at MySql.Data.MySqlClient.MySqlDataReader.<ReadFirstResultSetAsync>d__65.MoveNext() in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 297
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at MySql.Data.MySqlClient.MySqlDataReader.<CreateAsync>d__64.MoveNext() in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 287
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at MySqlConnector.Core.TextCommandExecutor.<ExecuteReaderAsync>d__3.MoveNext() in C:\projects\mysqlconnector\src\MySqlConnector\Core\TextCommandExecutor.cs:line 70
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.EntityFrameworkCore.Storage.Internal.MySqlRelationalCommand.<ExecuteAsync>d__3.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.EntityFrameworkCore.Storage.Internal.MySqlRelationalCommand.<ExecuteAsync>d__2.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.<ExecuteAsync>d__32.MoveNext()
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.<ExecuteAsync>d__32.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.EntityFrameworkCore.Update.Internal.MySqlBatchExecutor.<ExecuteAsync>d__1.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.<SaveChangesAsync>d__61.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.<SaveChangesAsync>d__59.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at Microsoft.EntityFrameworkCore.DbContext.<SaveChangesAsync>d__48.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Abp.EntityFrameworkCore.AbpDbContext.<SaveChangesAsync>d__49.MoveNext() in D:\Github\aspnetboilerplate\src\Abp.EntityFrameworkCore\EntityFrameworkCore\AbpDbContext.cs:line 214
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Abp.Zero.EntityFrameworkCore.AbpZeroCommonDbContext`3.<SaveChangesAsync>d__98.MoveNext() in D:\Github\aspnetboilerplate\src\Abp.ZeroCore.EntityFrameworkCore\Zero\EntityFrameworkCore\AbpZeroCommonDbContext.cs:line 165
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Abp.EntityFrameworkCore.Uow.EfCoreUnitOfWork.<SaveChangesInDbContextAsync>d__20.MoveNext() in D:\Github\aspnetboilerplate\src\Abp.EntityFrameworkCore\EntityFrameworkCore\Uow\EfCoreUnitOfWork.cs:line 163
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Abp.EntityFrameworkCore.Uow.EfCoreUnitOfWork.<SaveChangesAsync>d__12.MoveNext() in D:\Github\aspnetboilerplate\src\Abp.EntityFrameworkCore\EntityFrameworkCore\Uow\EfCoreUnitOfWork.cs:line 68
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Abp.Authorization.Users.AbpUserStore`2.<UpdateAsync>d__36.MoveNext() in D:\Github\aspnetboilerplate\src\Abp.ZeroCore\Authorization\Users\AbpUserStore.cs:line 228
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Abp.Authorization.AbpLogInManager`3.<CreateLoginResultAsync>d__38.MoveNext() in D:\Github\aspnetboilerplate\src\Abp.ZeroCore\Authorization\AbpLoginManager.cs:line 224
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Abp.Authorization.AbpLogInManager`3.<LoginAsyncInternal>d__37.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Abp.Authorization.AbpLogInManager`3.<LoginAsync>d__36.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Abp.Threading.InternalAsyncHelper.<AwaitTaskWithPostActionAndFinallyAndGetResult>d__5`1.MoveNext() in D:\Github\aspnetboilerplate\src\Abp\Threading\InternalAsyncHelper.cs:line 120
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ItMonkey.Controllers.TokenAuthController.<GetLoginResultAsync>d__16.MoveNext() in D:\projects\itmonkey\src\ItMonkey.Web.Core\Controllers\TokenAuthController.cs:line 235
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ItMonkey.Controllers.TokenAuthController.<Authenticate>d__10.MoveNext() in D:\projects\itmonkey\src\ItMonkey.Web.Core\Controllers\TokenAuthController.cs:line 98
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.<InvokeActionMethodAsync>d__12.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.<InvokeNextActionFilterAsync>d__10.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.<InvokeInnerFilterAsync>d__14.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.<InvokeNextExceptionFilterAsync>d__23.MoveNext()
+INFO  2018-05-15 16:44:11,838 [25   ] etCore.Mvc.Internal.ObjectResultExecutor - Executing ObjectResult, writing value Microsoft.AspNetCore.Mvc.ControllerContext.
+INFO  2018-05-15 16:44:11,862 [25   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action ItMonkey.Controllers.TokenAuthController.Authenticate (ItMonkey.Web.Core) in 9933.0824ms
+INFO  2018-05-15 16:44:11,870 [25   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 9983.5705ms 500 application/json; charset=utf-8
+DEBUG 2018-05-15 16:50:52,399 [1    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2018-05-15 16:50:52,623 [1    ] Abp.Modules.AbpModuleManager             - Found 15 ABP modules in total.
+DEBUG 2018-05-15 16:50:52,672 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.Web.Host.Startup.ItMonkeyWebHostModule, ItMonkey.Web.Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:50:52,677 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.ItMonkeyWebCoreModule, ItMonkey.Web.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:50:52,678 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.ItMonkeyApplicationModule, ItMonkey.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:50:52,678 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.ItMonkeyCoreModule, ItMonkey.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:50:52,678 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:50:52,679 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:50:52,679 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:50:52,680 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AutoMapper.AbpAutoMapperModule, Abp.AutoMapper, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:50:52,680 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.EntityFrameworkCore.ItMonkeyEntityFrameworkModule, ItMonkey.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:50:52,680 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:50:52,681 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:50:52,682 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:50:52,682 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.AbpAspNetCoreModule, Abp.AspNetCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:50:52,682 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Web.AbpWebCommonModule, Abp.Web.Common, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:50:52,682 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.SignalR.AbpAspNetCoreSignalRModule, Abp.AspNetCore.SignalR, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:50:52,687 [1    ] Abp.Modules.AbpModuleManager             - 15 modules loaded.
+DEBUG 2018-05-15 16:50:52,803 [1    ] o.Configuration.LanguageManagementConfig - Converted Abp (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2018-05-15 16:50:52,803 [1    ] o.Configuration.LanguageManagementConfig - Converted AbpZero (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2018-05-15 16:50:52,803 [1    ] o.Configuration.LanguageManagementConfig - Converted ItMonkey (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2018-05-15 16:50:52,803 [1    ] o.Configuration.LanguageManagementConfig - Converted AbpWeb (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2018-05-15 16:50:53,338 [1    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: ItMonkey.EntityFrameworkCore.ItMonkeyDbContext, ItMonkey.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-15 16:50:54,667 [1    ] Abp.Localization.LocalizationManager     - Initializing 4 localization sources.
+DEBUG 2018-05-15 16:50:54,680 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2018-05-15 16:50:54,691 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2018-05-15 16:50:54,693 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: ItMonkey
+DEBUG 2018-05-15 16:50:54,694 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpWeb
+DEBUG 2018-05-15 16:50:54,899 [1    ] Abp.BackgroundJobs.BackgroundJobManager  - Start background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2018-05-15 16:50:54,958 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - Found 5 classes define auto mapping attributes
+DEBUG 2018-05-15 16:50:54,958 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - ItMonkey.Models.TokenAuth.ExternalLoginProviderInfoModel
+DEBUG 2018-05-15 16:50:54,963 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - ItMonkey.Sessions.Dto.TenantLoginInfoDto
+DEBUG 2018-05-15 16:50:54,963 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - ItMonkey.Sessions.Dto.UserLoginInfoDto
+DEBUG 2018-05-15 16:50:54,963 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - ItMonkey.MultiTenancy.Dto.CreateTenantDto
+DEBUG 2018-05-15 16:50:54,964 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - ItMonkey.MultiTenancy.Dto.TenantDto
+INFO  2018-05-15 16:51:03,653 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/  
+INFO  2018-05-15 16:51:03,653 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 DEBUG http://localhost:21021/  0
+INFO  2018-05-15 16:51:03,675 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 72.5665ms 200 
+INFO  2018-05-15 16:51:07,987 [4    ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method ItMonkey.Web.Host.Controllers.HomeController.Index (ItMonkey.Web.Host) with arguments ((null)) - ModelState is Valid
+INFO  2018-05-15 16:51:08,283 [3    ] Core.Mvc.Internal.RedirectResultExecutor - Executing RedirectResult, redirecting to /swagger.
+INFO  2018-05-15 16:51:08,291 [3    ] ore.Mvc.Internal.ControllerActionInvoker - Executed action ItMonkey.Web.Host.Controllers.HomeController.Index (ItMonkey.Web.Host) in 1341.4363ms
+INFO  2018-05-15 16:51:08,304 [3    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 4702.3365ms 302 
+INFO  2018-05-15 16:51:08,321 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/  
+INFO  2018-05-15 16:51:08,361 [4    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/index.html'. Physical path: 'N/A'
+INFO  2018-05-15 16:51:08,373 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 51.7756ms 200 text/html
+INFO  2018-05-15 16:51:08,417 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/css/typography.css  
+INFO  2018-05-15 16:51:08,420 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/css/reset.css  
+INFO  2018-05-15 16:51:08,447 [4    ] NetCore.StaticFiles.StaticFileMiddleware - The file /css/reset.css was not modified
+INFO  2018-05-15 16:51:08,450 [9    ] NetCore.StaticFiles.StaticFileMiddleware - The file /css/typography.css was not modified
+INFO  2018-05-15 16:51:08,476 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/object-assign-pollyfill.js  
+INFO  2018-05-15 16:51:08,479 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/jquery-1.8.0.min.js  
+INFO  2018-05-15 16:51:08,483 [13   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/css/screen.css  
+INFO  2018-05-15 16:51:08,507 [11   ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/object-assign-pollyfill.js was not modified
+INFO  2018-05-15 16:51:08,510 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 66.0077ms 304 text/css
+INFO  2018-05-15 16:51:08,536 [5    ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/jquery-1.8.0.min.js was not modified
+INFO  2018-05-15 16:51:08,559 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 58.3143ms 304 application/javascript
+INFO  2018-05-15 16:51:08,564 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 106.9701ms 304 application/javascript
+INFO  2018-05-15 16:51:08,572 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/handlebars-4.0.5.js  
+INFO  2018-05-15 16:51:08,596 [11   ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/handlebars-4.0.5.js was not modified
+INFO  2018-05-15 16:51:08,598 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/lodash.min.js  
+INFO  2018-05-15 16:51:08,602 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 30.7946ms 304 application/javascript
+INFO  2018-05-15 16:51:08,653 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/backbone-min.js  
+INFO  2018-05-15 16:51:08,655 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/jquery.slideto.min.js  
+INFO  2018-05-15 16:51:08,658 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/jquery.ba-bbq.min.js  
+INFO  2018-05-15 16:51:08,682 [11   ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/backbone-min.js was not modified
+INFO  2018-05-15 16:51:08,685 [13   ] NetCore.StaticFiles.StaticFileMiddleware - The file /css/screen.css was not modified
+INFO  2018-05-15 16:51:08,708 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 55.7353ms 304 application/javascript
+INFO  2018-05-15 16:51:08,734 [13   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 232.8527ms 304 text/css
+INFO  2018-05-15 16:51:08,737 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 84.2853ms 304 text/css
+INFO  2018-05-15 16:51:08,745 [13   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/highlight.9.1.0.pack.js  
+INFO  2018-05-15 16:51:08,748 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/jquery.wiggle.min.js  
+INFO  2018-05-15 16:51:08,751 [12   ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/jquery.slideto.min.js was not modified
+INFO  2018-05-15 16:51:08,778 [13   ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/highlight.9.1.0.pack.js was not modified
+INFO  2018-05-15 16:51:08,804 [13   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 40.5546ms 304 application/javascript
+INFO  2018-05-15 16:51:08,806 [4    ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/jquery.ba-bbq.min.js was not modified
+INFO  2018-05-15 16:51:08,812 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 178.3961ms 304 application/javascript
+INFO  2018-05-15 16:51:08,835 [13   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/jsoneditor.min.js  
+INFO  2018-05-15 16:51:08,838 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui.min.js  
+INFO  2018-05-15 16:51:08,864 [11   ] NetCore.StaticFiles.StaticFileMiddleware - The file /swagger-ui.min.js was not modified
+INFO  2018-05-15 16:51:08,868 [13   ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/jsoneditor.min.js was not modified
+INFO  2018-05-15 16:51:08,894 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 298.8608ms 304 application/javascript
+INFO  2018-05-15 16:51:08,897 [9    ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/jquery.wiggle.min.js was not modified
+INFO  2018-05-15 16:51:08,924 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/highlight.9.1.0.pack_extended.js  
+INFO  2018-05-15 16:51:08,926 [5    ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/lodash.min.js was not modified
+INFO  2018-05-15 16:51:08,950 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 155.3237ms 304 application/javascript
+INFO  2018-05-15 16:51:08,953 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/marked.js  
+INFO  2018-05-15 16:51:08,977 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 356.4739ms 304 application/javascript
+INFO  2018-05-15 16:51:08,979 [13   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 57.4566ms 304 application/javascript
+INFO  2018-05-15 16:51:09,007 [4    ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/marked.js was not modified
+INFO  2018-05-15 16:51:09,011 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 164.9553ms 304 application/javascript
+INFO  2018-05-15 16:51:09,016 [12   ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/highlight.9.1.0.pack_extended.js was not modified
+INFO  2018-05-15 16:51:09,020 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 116.0696ms 304 application/javascript
+INFO  2018-05-15 16:51:09,027 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/images/logo_small.png  
+INFO  2018-05-15 16:51:09,055 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 83.6761ms 304 application/javascript
+INFO  2018-05-15 16:51:09,058 [12   ] NetCore.StaticFiles.StaticFileMiddleware - The file /images/logo_small.png was not modified
+INFO  2018-05-15 16:51:09,065 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 36.333ms 304 image/png
+INFO  2018-05-15 16:51:09,089 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/swagger-oauth.js  
+INFO  2018-05-15 16:51:09,096 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/css/print.css  
+INFO  2018-05-15 16:51:09,099 [11   ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/swagger-oauth.js was not modified
+INFO  2018-05-15 16:51:09,102 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 37.02ms 304 application/javascript
+INFO  2018-05-15 16:51:09,127 [4    ] NetCore.StaticFiles.StaticFileMiddleware - The file /css/print.css was not modified
+INFO  2018-05-15 16:51:09,133 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 37.8157ms 304 text/css
+INFO  2018-05-15 16:51:09,163 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/v1/swagger.json  
+INFO  2018-05-15 16:51:09,604 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 440.4274ms 200 application/json
+INFO  2018-05-15 16:51:10,107 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/ui/abp.js?_=1526374270077  
+INFO  2018-05-15 16:51:10,112 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/ui/on-complete.js?_=1526374270077  
+INFO  2018-05-15 16:51:10,135 [10   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger/ui/on-complete.js'. Physical path: 'D:\projects\itmonkey\src\ItMonkey.Web.Host\wwwroot\swagger\ui\on-complete.js'
+INFO  2018-05-15 16:51:10,138 [5    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger/ui/abp.js'. Physical path: 'D:\projects\itmonkey\src\ItMonkey.Web.Host\wwwroot\swagger\ui\abp.js'
+INFO  2018-05-15 16:51:10,174 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 68.973ms 200 application/javascript
+INFO  2018-05-15 16:51:10,178 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 68.979ms 200 application/javascript
+INFO  2018-05-15 16:51:27,855 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/  
+INFO  2018-05-15 16:51:27,860 [12   ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/index.html'. Physical path: 'N/A'
+INFO  2018-05-15 16:51:27,865 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 9.44ms 200 text/html
+INFO  2018-05-15 16:51:27,906 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/css/typography.css  
+INFO  2018-05-15 16:51:27,951 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/css/reset.css  
+INFO  2018-05-15 16:51:27,975 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/jquery-1.8.0.min.js  
+INFO  2018-05-15 16:51:27,980 [4    ] NetCore.StaticFiles.StaticFileMiddleware - The file /css/typography.css was not modified
+INFO  2018-05-15 16:51:28,008 [5    ] NetCore.StaticFiles.StaticFileMiddleware - The file /css/reset.css was not modified
+INFO  2018-05-15 16:51:28,012 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/object-assign-pollyfill.js  
+INFO  2018-05-15 16:51:28,034 [10   ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/jquery-1.8.0.min.js was not modified
+INFO  2018-05-15 16:51:28,037 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 105.4254ms 304 text/css
+INFO  2018-05-15 16:51:28,039 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 84.7818ms 304 application/javascript
+INFO  2018-05-15 16:51:28,064 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 80.2386ms 304 text/css
+INFO  2018-05-15 16:51:28,087 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/css/screen.css  
+INFO  2018-05-15 16:51:28,089 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/jquery.wiggle.min.js  
+INFO  2018-05-15 16:51:28,112 [9    ] NetCore.StaticFiles.StaticFileMiddleware - The file /css/screen.css was not modified
+INFO  2018-05-15 16:51:28,114 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/jquery.ba-bbq.min.js  
+INFO  2018-05-15 16:51:28,116 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 197.4366ms 304 text/css
+INFO  2018-05-15 16:51:28,122 [5    ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/jquery.ba-bbq.min.js was not modified
+INFO  2018-05-15 16:51:28,125 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/lodash.min.js  
+INFO  2018-05-15 16:51:28,128 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 59.0376ms 304 application/javascript
+INFO  2018-05-15 16:51:28,131 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/backbone-min.js  
+INFO  2018-05-15 16:51:28,156 [11   ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/object-assign-pollyfill.js was not modified
+INFO  2018-05-15 16:51:28,159 [9    ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/lodash.min.js was not modified
+INFO  2018-05-15 16:51:28,186 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 39.7092ms 304 application/javascript
+INFO  2018-05-15 16:51:28,211 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/handlebars-4.0.5.js  
+INFO  2018-05-15 16:51:28,213 [4    ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/jquery.wiggle.min.js was not modified
+INFO  2018-05-15 16:51:28,216 [5    ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/backbone-min.js was not modified
+INFO  2018-05-15 16:51:28,221 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 127.0112ms 304 application/javascript
+INFO  2018-05-15 16:51:28,246 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 86.3036ms 304 application/javascript
+INFO  2018-05-15 16:51:28,250 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/highlight.9.1.0.pack_extended.js  
+INFO  2018-05-15 16:51:28,252 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/jsoneditor.min.js  
+INFO  2018-05-15 16:51:28,254 [10   ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/handlebars-4.0.5.js was not modified
+INFO  2018-05-15 16:51:28,276 [4    ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/highlight.9.1.0.pack_extended.js was not modified
+INFO  2018-05-15 16:51:28,278 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/jquery.slideto.min.js  
+INFO  2018-05-15 16:51:28,281 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 32.1651ms 304 application/javascript
+INFO  2018-05-15 16:51:28,285 [12   ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/jquery.slideto.min.js was not modified
+INFO  2018-05-15 16:51:28,311 [12   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 369.0487ms 304 application/javascript
+INFO  2018-05-15 16:51:28,335 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/swagger-oauth.js  
+INFO  2018-05-15 16:51:28,342 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/swagger-ui.min.js  
+INFO  2018-05-15 16:51:28,346 [5    ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/jsoneditor.min.js was not modified
+INFO  2018-05-15 16:51:28,370 [9    ] NetCore.StaticFiles.StaticFileMiddleware - The file /swagger-ui.min.js was not modified
+INFO  2018-05-15 16:51:28,372 [4    ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/swagger-oauth.js was not modified
+INFO  2018-05-15 16:51:28,395 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 33.8615ms 304 application/javascript
+INFO  2018-05-15 16:51:28,418 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 95.729ms 304 application/javascript
+INFO  2018-05-15 16:51:28,443 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 98.8196ms 304 application/javascript
+INFO  2018-05-15 16:51:28,449 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/marked.js  
+INFO  2018-05-15 16:51:28,452 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 109.7628ms 304 application/javascript
+INFO  2018-05-15 16:51:28,458 [10   ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/marked.js was not modified
+INFO  2018-05-15 16:51:28,461 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 10.8456ms 304 application/javascript
+INFO  2018-05-15 16:51:28,467 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/images/logo_small.png  
+INFO  2018-05-15 16:51:28,469 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 241.0226ms 304 application/javascript
+INFO  2018-05-15 16:51:28,474 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/lib/highlight.9.1.0.pack.js  
+INFO  2018-05-15 16:51:28,476 [5    ] NetCore.StaticFiles.StaticFileMiddleware - The file /images/logo_small.png was not modified
+INFO  2018-05-15 16:51:28,479 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 11.7736ms 304 image/png
+INFO  2018-05-15 16:51:28,504 [11   ] NetCore.StaticFiles.StaticFileMiddleware - The file /lib/highlight.9.1.0.pack.js was not modified
+INFO  2018-05-15 16:51:28,527 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 32.6427ms 304 application/javascript
+INFO  2018-05-15 16:51:28,530 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/css/print.css  
+INFO  2018-05-15 16:51:28,558 [4    ] NetCore.StaticFiles.StaticFileMiddleware - The file /css/print.css was not modified
+INFO  2018-05-15 16:51:28,587 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 60.4006ms 304 text/css
+INFO  2018-05-15 16:51:28,590 [13   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/v1/swagger.json  
+INFO  2018-05-15 16:51:28,623 [13   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 54.8701ms 200 application/json
+INFO  2018-05-15 16:51:29,149 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/ui/on-complete.js?_=1526374289119  
+INFO  2018-05-15 16:51:29,153 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/ui/abp.js?_=1526374289117  
+INFO  2018-05-15 16:51:29,177 [9    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger/ui/abp.js'. Physical path: 'D:\projects\itmonkey\src\ItMonkey.Web.Host\wwwroot\swagger\ui\abp.js'
+INFO  2018-05-15 16:51:29,182 [5    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/swagger/ui/on-complete.js'. Physical path: 'D:\projects\itmonkey\src\ItMonkey.Web.Host\wwwroot\swagger\ui\on-complete.js'
+INFO  2018-05-15 16:51:29,211 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/images/favicon-32x32.png  
+INFO  2018-05-15 16:51:29,234 [11   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 58.7149ms 200 application/javascript
+INFO  2018-05-15 16:51:29,237 [5    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 58.8796ms 200 application/javascript
+INFO  2018-05-15 16:51:29,269 [4    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/images/favicon-32x32.png'. Physical path: 'N/A'
+INFO  2018-05-15 16:51:29,273 [4    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 87.5038ms 200 image/png
+INFO  2018-05-15 16:51:29,305 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/images/favicon-16x16.png  
+INFO  2018-05-15 16:51:29,309 [9    ] NetCore.StaticFiles.StaticFileMiddleware - Sending file. Request path: '/images/favicon-16x16.png'. Physical path: 'N/A'
+INFO  2018-05-15 16:51:29,313 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 7.5085ms 200 image/png
+INFO  2018-05-15 16:51:32,445 [13   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/swagger/images/throbber.gif  
+INFO  2018-05-15 16:51:32,449 [13   ] NetCore.StaticFiles.StaticFileMiddleware - The file /images/throbber.gif was not modified
+INFO  2018-05-15 16:51:32,452 [13   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 7.053ms 304 image/gif
+INFO  2018-05-15 16:51:40,619 [9    ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 POST http://localhost:21021/api/TokenAuth/Authenticate application/json-patch+json 89
+INFO  2018-05-15 16:51:40,625 [9    ] pNetCore.Cors.Infrastructure.CorsService - Policy execution successful.
+INFO  2018-05-15 16:51:40,655 [9    ] pNetCore.Cors.Infrastructure.CorsService - Policy execution failed.
+INFO  2018-05-15 16:51:40,658 [9    ] pNetCore.Cors.Infrastructure.CorsService - Request origin http://localhost:21021 does not have permission to access the resource.
+INFO  2018-05-15 16:51:42,368 [9    ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method ItMonkey.Controllers.TokenAuthController.Authenticate (ItMonkey.Web.Core) with arguments (ItMonkey.Models.TokenAuth.AuthenticateModel) - ModelState is Valid
+WARN  2018-05-15 16:51:46,105 [24   ] icrosoft.AspNetCore.Identity.UserManager - Invalid password for user 2.
+WARN  2018-05-15 16:51:47,754 [24   ] Mvc.ExceptionHandling.AbpExceptionFilter - Login failed!
+Abp.UI.UserFriendlyException: Login failed!
+   at ItMonkey.Controllers.TokenAuthController.<GetLoginResultAsync>d__16.MoveNext() in D:\projects\itmonkey\src\ItMonkey.Web.Core\Controllers\TokenAuthController.cs:line 242
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at ItMonkey.Controllers.TokenAuthController.<Authenticate>d__10.MoveNext() in D:\projects\itmonkey\src\ItMonkey.Web.Core\Controllers\TokenAuthController.cs:line 98
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.<InvokeActionMethodAsync>d__12.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.<InvokeNextActionFilterAsync>d__10.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.<InvokeInnerFilterAsync>d__14.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.<InvokeNextExceptionFilterAsync>d__23.MoveNext()
+INFO  2018-05-15 16:51:47,771 [24   ] etCore.Mvc.Internal.ObjectResultExecutor - Executing ObjectResult, writing value Microsoft.AspNetCore.Mvc.ControllerContext.
+INFO  2018-05-15 16:51:47,787 [24   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action ItMonkey.Controllers.TokenAuthController.Authenticate (ItMonkey.Web.Core) in 7132.1928ms
+INFO  2018-05-15 16:51:47,794 [24   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 7177.0043ms 500 application/json; charset=utf-8
+INFO  2018-05-15 16:51:52,926 [10   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 POST http://localhost:21021/api/TokenAuth/Authenticate application/json-patch+json 89
+INFO  2018-05-15 16:51:52,929 [10   ] pNetCore.Cors.Infrastructure.CorsService - Policy execution successful.
+INFO  2018-05-15 16:51:52,937 [10   ] pNetCore.Cors.Infrastructure.CorsService - Policy execution failed.
+INFO  2018-05-15 16:51:52,941 [10   ] pNetCore.Cors.Infrastructure.CorsService - Request origin http://localhost:21021 does not have permission to access the resource.
+INFO  2018-05-15 16:51:52,951 [10   ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method ItMonkey.Controllers.TokenAuthController.Authenticate (ItMonkey.Web.Core) with arguments (ItMonkey.Models.TokenAuth.AuthenticateModel) - ModelState is Valid
+INFO  2018-05-15 16:51:54,761 [25   ] etCore.Mvc.Internal.ObjectResultExecutor - Executing ObjectResult, writing value Microsoft.AspNetCore.Mvc.ControllerContext.
+INFO  2018-05-15 16:51:54,769 [25   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action ItMonkey.Controllers.TokenAuthController.Authenticate (ItMonkey.Web.Core) in 1831.397ms
+INFO  2018-05-15 16:51:54,775 [25   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 1848.0856ms 200 application/json; charset=utf-8

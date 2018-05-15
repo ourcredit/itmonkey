@@ -19,7 +19,7 @@ const point = {
         }
     },
     actions: {
-       async getChannels({
+        async getChannels({
             state
         }, payload) {
             let page = {

@@ -11,7 +11,7 @@
     },
     "plugins": [ "html", "standard" ],
     "rules": {
-        "indent": ["error", 4, { "SwitchCase": 1 }],
+        "indent": 0,
         "quotes":0,
         "semi": 0,
         "no-console": ["error"],

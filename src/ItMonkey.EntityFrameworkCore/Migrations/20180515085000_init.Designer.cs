@@ -17,8 +17,8 @@ using System;
 namespace ItMonkey.Migrations
 {
     [DbContext(typeof(ItMonkeyDbContext))]
-    [Migration("20180511053143_wwww")]
-    partial class wwww
+    [Migration("20180515085000_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -896,9 +896,6 @@ namespace ItMonkey.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("AuthenticationSource")
-                        .HasMaxLength(64);
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
@@ -917,6 +914,10 @@ namespace ItMonkey.Migrations
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDeleted");
+
+                    b.Property<bool>("IsLockoutEnabled");
+
+                    b.Property<bool>("IsTwoFactorEnabled");
 
                     b.Property<DateTime?>("LastLoginTime");
 
@@ -952,10 +953,6 @@ namespace ItMonkey.Migrations
                     b.Property<string>("SignInToken");
 
                     b.Property<DateTime?>("SignInTokenExpireTimeUtc");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasMaxLength(32);
 
                     b.Property<int?>("TenantId");
 

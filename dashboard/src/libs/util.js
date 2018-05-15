@@ -6,6 +6,7 @@ import AppConsts from './appconst'
 let util = {
 
 };
+
 util.title = function (title) {
     title = title || 'School';
     window.document.title = this.localize(title);
@@ -13,7 +14,9 @@ util.title = function (title) {
 
 const ajaxUrl = env === 'development' ?
     AppConsts.remoteServiceBaseUrl :
-    env === 'production' ? AppConsts.productionUrl : AppConsts.productionUrl;
+    env === 'production' ?
+    AppConsts.productionUrl :
+    AppConsts.productionUrl;
 
 util.ajax = axios.create({
     baseURL: ajaxUrl,
@@ -150,15 +153,15 @@ util.setCurrentPath = function (vm, name) {
         }];
     } else if ((name.indexOf('_index') >= 0 || isOtherRouter) && name !== 'point') {
         currentPathArr = [{
-            title: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'point')),
-            path: '/point/mamge',
-            name: 'point'
-        },
-        {
-            title: title,
-            path: '',
-            name: name
-        }
+                title: util.handleTitle(vm, util.getRouterObjByName(vm.$store.state.app.routers, 'point')),
+                path: '/point/mamge',
+                name: 'point'
+            },
+            {
+                title: title,
+                path: '',
+                name: name
+            }
         ];
     } else {
         let currentPathObj = vm.$store.state.app.routers.filter(item => {
@@ -186,30 +189,30 @@ util.setCurrentPath = function (vm, name) {
             }];
         } else if (currentPathObj.children.length <= 1 && currentPathObj.name !== 'point') {
             currentPathArr = [{
-                title: "点位管理",
-                path: '/point/mamge',
-                name: 'point'
-            },
-            {
-                title: currentPathObj.title,
-                path: '',
-                name: name
-            }
+                    title: "点位管理",
+                    path: '/point/mamge',
+                    name: 'point'
+                },
+                {
+                    title: currentPathObj.title,
+                    path: '',
+                    name: name
+                }
             ];
         } else {
             let childObj = currentPathObj.children.filter((child) => {
                 return child.name === name;
             })[0];
             currentPathArr = [{
-                title: currentPathObj.title,
-                path: '',
-                name: currentPathObj.name
-            },
-            {
-                title: childObj.title,
-                path: currentPathObj.path + '/' + childObj.path,
-                name: name
-            }
+                    title: currentPathObj.title,
+                    path: '',
+                    name: currentPathObj.name
+                },
+                {
+                    title: childObj.title,
+                    path: currentPathObj.path + '/' + childObj.path,
+                    name: name
+                }
             ];
         }
     }

@@ -73,73 +73,59 @@ export const otherRouter = {
 
 // Left menu items
 export const appRouter = [{
-    path: '/users',
+    path: '/point',
     icon: 'pinpoint',
-    title: '用户管理',
-    name: 'users',
+    title: '点位信息',
+    name: 'point',
     component: Main,
     children: [{
-        path: 'user',
-        title: '用户信息',
+        path: 'manage',
+        title: '点位管理',
         name: 'pointmanage',
-        // permission: '',
+        permission: 'Pages.Point.Manage',
         component: () =>
             import ('@/views/points/index.vue')
     }, {
-        path: 'pickup',
-        title: '提现信息',
+        path: 'view',
+        title: '点位展示',
         name: 'pointview',
-        // permission: 'Pages.Point.View',
+        permission: 'Pages.Point.View',
         component: () =>
             import ('@/views/points/view.vue')
     }]
 }, {
-    path: '/monkeycion',
+    path: '/device',
     icon: 'magnet',
-    title: '猿人币交易',
-    name: 'monkeycion',
+    title: '售货机信息',
+    name: 'device',
     component: Main,
     children: [{
-        path: 'work',
-        title: '工作/任务信息',
-        name: 'work',
-        // permission: 'Pages.Device.Manage',
-        component: () =>
-            import ('@/views/devices/index.vue')
-    }, {
-        path: 'orderlist',
-        title: '交易清单',
-        name: 'orderlist',
-        // permission: 'Pages.Device.Manage',
+        path: 'manage',
+        title: '售货机管理',
+        name: 'devicemanage',
+        permission: 'Pages.Device.Manage',
         component: () =>
             import ('@/views/devices/index.vue')
     }]
 }, {
-    path: '/shop',
+    path: '/orders',
     icon: 'record',
-    title: '商城管理',
-    name: 'shop',
+    title: '订单信息',
+    name: 'orders',
     component: Main,
     children: [{
-        path: 'product',
-        title: '商品管理',
-        name: 'product',
-       // permission: 'Pages.Orders.OrderList',
-        component: () =>
-            import ('@/views/orders/index.vue')
-    },{
-        path: 'storeorder',
-        title: '商城订单',
-        name: 'storeorder',
-       // permission: 'Pages.Orders.OrderList',
+        path: 'list',
+        title: '订单管理',
+        name: 'order',
+        permission: 'Pages.Orders.OrderList',
         component: () =>
             import ('@/views/orders/index.vue')
     }]
 }, {
-    path: '/serial',
+    path: '/audits',
     icon: 'android-list',
-    title: '系列管理',
-    name: 'serial',
+    title: '日志管理',
+    name: 'audit',
     component: Main,
     children: [{
         path: 'logs',
@@ -156,6 +142,43 @@ export const appRouter = [{
         component: () =>
             import ('@/views/auditlogs/warns.vue')
     }]
+}, {
+    path: '/operator',
+    icon: 'icecream',
+    title: '运营商信息',
+    name: 'operator',
+    component: Main,
+    children: [{
+        path: 'manage',
+        title: '机构树',
+        name: 'operatormanage',
+        permission: 'Pages.Operator.Orgs',
+        component: () =>
+            import ('@/views/operators/index.vue')
+    }]
+}, {
+    path: '/admin',
+    icon: 'gear-a',
+    title: '系统管理',
+    name: 'administration',
+    component: Main,
+    children: [{
+            path: 'users',
+            title: '用户',
+            name: 'users',
+            permission: 'Pages.Administration.Users',
+            component: () =>
+                import ('@/views/admin/users/users.vue')
+        },
+        {
+            path: 'roles',
+            title: '角色',
+            name: 'roles',
+            permission: 'Pages.Administration.Roles',
+            component: () =>
+                import ('@/views/admin/roles/roles.vue')
+        }
+    ]
 }];
 // All the routes defined above should be written in the routers below
 export const routers = [

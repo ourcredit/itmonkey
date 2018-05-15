@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ItMonkey.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -323,7 +323,6 @@ namespace ItMonkey.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    AuthenticationSource = table.Column<string>(maxLength: 64, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     CreationTime = table.Column<DateTime>(nullable: false),
                     CreatorUserId = table.Column<long>(nullable: true),
@@ -332,6 +331,8 @@ namespace ItMonkey.Migrations
                     EmailAddress = table.Column<string>(maxLength: 256, nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: false),
+                    IsLockoutEnabled = table.Column<bool>(nullable: false),
+                    IsTwoFactorEnabled = table.Column<bool>(nullable: false),
                     LastLoginTime = table.Column<DateTime>(nullable: true),
                     LastModificationTime = table.Column<DateTime>(nullable: true),
                     LastModifierUserId = table.Column<long>(nullable: true),
@@ -345,7 +346,6 @@ namespace ItMonkey.Migrations
                     SecurityStamp = table.Column<string>(nullable: true),
                     SignInToken = table.Column<string>(nullable: true),
                     SignInTokenExpireTimeUtc = table.Column<DateTime>(nullable: true),
-                    Surname = table.Column<string>(maxLength: 32, nullable: false),
                     TenantId = table.Column<int>(nullable: true),
                     UserName = table.Column<string>(maxLength: 32, nullable: false)
                 },
@@ -473,7 +473,9 @@ namespace ItMonkey.Migrations
                     Content = table.Column<string>(nullable: true),
                     CreationTime = table.Column<DateTime>(nullable: false),
                     CreatorUserId = table.Column<long>(nullable: true),
+                    ReceiverAvator = table.Column<string>(nullable: true),
                     ReceiverId = table.Column<long>(nullable: false),
+                    SenderAvator = table.Column<string>(nullable: true),
                     SenderId = table.Column<long>(nullable: false),
                     State = table.Column<bool>(nullable: false),
                     Type = table.Column<int>(nullable: false)
