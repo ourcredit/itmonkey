@@ -56,11 +56,11 @@ export const otherRouter = {
     component: Main,
     children: [{
         path: 'setting',
-        title: '商品配置',
+        title: '系列设置',
         name: 'settings',
-        permission: 'Pages.Device.Manage.Create',
+      //  permission: 'Pages.Device.Manage.Create',
         component: () =>
-            import ('@/views/operators/setting.vue')
+            import ('@/views/cions/works.vue')
     }]
 };
 
@@ -77,14 +77,14 @@ export const appRouter = [{
         name: 'users',
       //  permission: 'Pages.Point.Manage',
         component: () =>
-            import ('@/views/points/index.vue')
+            import ('@/views/customers/user.vue')
     }, {
         path: 'pickup',
         title: '提现信息',
         name: 'pickup',
        // permission: 'Pages.Point.View',
         component: () =>
-            import ('@/views/points/view.vue')
+            import ('@/views/customers/pickup.vue')
     }]
 }, {
     path: '/monkeycion',
@@ -98,14 +98,14 @@ export const appRouter = [{
         name: 'works',
        // permission: 'Pages.Device.Manage',
         component: () =>
-            import ('@/views/devices/index.vue')
+            import ('@/views/cions/works.vue')
     },{
         path: 'deallist',
         title: '交易清单',
         name: 'deallist',
        // permission: 'Pages.Device.Manage',
         component: () =>
-            import ('@/views/devices/index.vue')
+            import ('@/views/cions/deallist.vue')
     }]
 }, {
     path: '/shops',
@@ -119,14 +119,14 @@ export const appRouter = [{
         name: 'products',
       //  permission: 'Pages.Orders.OrderList',
         component: () =>
-            import ('@/views/orders/index.vue')
+            import ('@/views/shop/products.vue')
     },{
         path: 'orders',
         title: '订单管理',
         name: 'orders',
        // permission: 'Pages.Orders.OrderList',
         component: () =>
-            import ('@/views/orders/index.vue')
+            import ('@/views/shop/orders.vue')
     }]
 }, {
     path: '/serial',
@@ -140,7 +140,7 @@ export const appRouter = [{
         name: 'category',
       //  permission: 'Pages.AuditLogs.Logs',
         component: () =>
-            import ('@/views/auditlogs/logs.vue')
+            import ('@/views/admin/roles/roles.vue')
     }]
 }, {
     path: '/admin',
