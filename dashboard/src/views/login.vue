@@ -24,7 +24,7 @@
               </Input>
             </FormItem>
             <div style="margin-bottom:10px">
-              <Checkbox v-model="form.isAdmin">超管登陆</Checkbox>
+              <Checkbox v-model="form.rememberClient">记住我</Checkbox>
             </div>
             <FormItem>
               <Button @click="handleSubmit" type="primary" long>登入</Button>
@@ -46,7 +46,7 @@
         form: {
           userNameOrEmailAddress: "",
           password: "",
-          isAdmin: false
+          rememberClient: false
         },
         rules: {
           userNameOrEmailAddress: [{
@@ -72,7 +72,7 @@
             });
 
             let self = this;
-            var type = self.form.isAdmin ? "user/superlogin" : "user/login";
+            var type = "user/login";
             await this.$store
               .dispatch({
                 type: type,

@@ -8,8 +8,8 @@ const AppConsts = {
     authorization: {
         encrptedAuthTokenName: 'enc_auth_token'
     },
-    appBaseUrl: "http://vmapi.ishenran.cn",
-    remoteServiceBaseUrl: "http://vmapi.ishenran.cn",
-    productionUrl: "http://vmapi.ishenran.cn"
+    appBaseUrl: "https://monkey.leftins.com",
+    remoteServiceBaseUrl: "https://monkey.leftins.com",
+    productionUrl: "https://monkey.leftins.com"
 }
 export default AppConsts

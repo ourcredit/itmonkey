@@ -1,12 +1,12 @@
 import util from '@/libs/util';
-const session={
+const session = {
     namespaced: true,
-    state:{
-        
+    state: {
+
     },
-    actions:{
-        async isTenantAvailable({state},payload){
-            let rep=await util.ajax.post('/api/services/app/Account/IsTenantAvailable',payload.data);
+    actions: {
+        async isTenantAvailable({state}, payload) {
+            let rep = await util.ajax.post('/api/services/app/Account/IsTenantAvailable', payload.data);
             return rep.data.result;
         }
     }

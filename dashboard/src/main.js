@@ -11,12 +11,8 @@ import App from './app.vue';
 import 'iview/dist/styles/iview.css';
 import util from './libs/util';
 import AppConsts from './libs/appconst'
-import BaiduMap from 'vue-baidu-map'
 util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
     Vue.use(iView);
-    Vue.use(BaiduMap, {
-        ak: "pYjoSR2GThuatLt06MlaKzRgSWy4Zztq"
-    });
     window.abp = $.extend(true, abp, result.data.result);
     Vue.prototype.L = function (text, ...args) {
         let localizedText = window.abp.localization.localize(text, AppConsts.localization.defaultLocalizationSourceName);
@@ -48,7 +44,7 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
             t.treeCode = item.treeCode;
             t.treeLength = item.treeLength;
             t.expand = true;
-            if (item[pidField] == parentId) {
+            if (item[pidField] === parentId) {
                 t.children = converToTreedata(data, item.id, pidField)
                 // data.children = item.children
                 list.push(t)
@@ -83,7 +79,7 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
                     t.expand = false;
                 }
             }
-            if (item[pidField] == parentId) {
+            if (item[pidField] === parentId) {
                 t.children = converToPermissionTree(data, item.name, pidField, range)
                 list.push(t)
             }
@@ -92,7 +88,7 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
     }
     const depthNode = (arrays, node, result = []) => {
         result.push(node.name);
-        let parent = arrays.find(c => c.name == node.parentName);
+        let parent = arrays.find(c => c.name === node.parentName);
         if (parent) {
             result.push(parent.name);
             depthNode(arrays, parent, result);
@@ -127,7 +123,7 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
             this.$store.commit('setOpenedList');
             this.$store.commit('initCachepage');
 
-            //Filtering admin menu
+            // Filtering admin menu
             this.$store.commit('updateMenulist');
         },
         created() {
@@ -139,7 +135,6 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
                     tagsList.push(...item.children);
                 }
             });
-
             this.$store.commit('setTagsList', tagsList);
             abp.message.info = (message, title) => {
                 this.$Modal.info({
@@ -178,7 +173,7 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
                 } else if (titleOrCallback) {
                     userOpts.title = titleOrCallback;
                 };
-                userOpts.onOk = callback || function () {};
+                userOpts.onOk = callback || function () { };
                 this.$Modal.confirm(userOpts);
             }
 
