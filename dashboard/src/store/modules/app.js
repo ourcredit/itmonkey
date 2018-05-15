@@ -3,7 +3,7 @@ import {
     appRouter
 } from '@/router/router';
 import Util from '@/libs/util';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 import Vue from 'vue';
 
 const app = {
@@ -11,7 +11,7 @@ const app = {
         cachePage: [],
         lang: '',
         isFullScreen: false,
-        openedSubmenuArr: ['point'], // 要展开的菜单数组
+        openedSubmenuArr: ['customers'], // 要展开的菜单数组
         menuTheme: 'dark', // 主题
         themeColor: '',
         initSignalR: false,
@@ -21,11 +21,7 @@ const app = {
             name: 'users'
         }],
         currentPageName: '',
-        currentPath: [{
-            title: '人员信息',
-            path: '/customers/users',
-            name: 'users'
-        }],
+        currentPath: [],
         menuList: [],
         routers: [
             otherRouter,

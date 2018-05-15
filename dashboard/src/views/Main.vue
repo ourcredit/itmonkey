@@ -12,7 +12,7 @@
                 :open-names="openedSubmenuArr"
                 :menu-list="menuList">
                 <div slot="top" class="logo-con">
-                  <div v-show="!shrink"> 高校平台</div>
+                  <div v-show="!shrink"> 猿人超市Dashboard</div>
                   <div v-show="shrink"> </div>
                 </div>
             </shrinkable-menu>
