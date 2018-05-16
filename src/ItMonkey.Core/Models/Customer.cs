@@ -20,6 +20,10 @@ namespace ItMonkey.Models
         /// </summary>
         public string Name { get; set; }
         /// <summary>
+        /// 头像
+        /// </summary>
+        public string AvatarUrl { get; set; }
+        /// <summary>
         /// 唯一标识
         /// </summary>
         [Required]

@@ -9,7 +9,10 @@ namespace ItMonkey.Customers.Dtos
         ////ECC/ END CUSTOM CODE SECTION
         public long? Id { get; set; }
         public string Name { get; set; }
-
+        /// <summary>
+        /// 头像
+        /// </summary>
+        public string AvatarUrl { get; set; }
         /// <summary>
         /// 一级技能
         /// </summary>
