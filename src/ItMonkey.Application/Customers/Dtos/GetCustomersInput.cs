@@ -11,7 +11,9 @@ namespace ItMonkey.Customers.Dtos
         /// <summary>
         /// 模糊搜索使用的关键字
         /// </summary>
-        public string Filter { get; set; }
+        public string Name { get; set; }
+        public string Family { get; set; }
+        public int? Level { get; set; }
 
         /// <summary>
         /// 正常化排序使用

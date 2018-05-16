@@ -62,21 +62,20 @@ namespace ItMonkey.Customers
         {
 
             var query = _customerRepository.GetAll();
+            query = query.WhereIf(!input.Name.IsNullOrWhiteSpace(), c => c.Name.Contains(input.Name))
+                .WhereIf(!input.Family.IsNullOrWhiteSpace(), c => c.Family.Contains(input.Family))
+                .WhereIf(input.Level.HasValue, c => c.FamilyCode.Value == input.Level.Value);
             var customerCount = await query.CountAsync();
-
             var customers = await query
                 .OrderBy(input.Sorting)
                 .PageBy(input)
                 .ToListAsync();
-
             //var customerListDtos = ObjectMapper.Map<List <CustomerListDto>>(customers);
             var customerListDtos = customers.MapTo<List<CustomerListDto>>();
-
             return new PagedResultDto<CustomerListDto>(
                 customerCount,
                 customerListDtos
                 );
-
         }
         /// <summary>
         /// 通过指定id获取CustomerListDto信息

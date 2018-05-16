@@ -59,6 +59,10 @@ namespace ItMonkey.EntityFrameworkCore
         /// 收货人地址列表
         /// </summary>
         public virtual  DbSet<CustomerAddress> CustomerAddresses { get; set; }
+        /// <summary>
+        /// 提现信息记录
+        /// </summary>
+        public virtual  DbSet<WithDrawa> WithDrawas { get; set; }
 
         public ItMonkeyDbContext(DbContextOptions<ItMonkeyDbContext> options)
             : base(options)

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ItMonkey.Migrations
 {
-    public partial class init : Migration
+    public partial class wwwww : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -378,6 +378,7 @@ namespace ItMonkey.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    AvatarUrl = table.Column<string>(nullable: true),
                     Balance = table.Column<int>(nullable: false),
                     ChildSkill = table.Column<string>(nullable: true),
                     CreationTime = table.Column<DateTime>(nullable: false),
@@ -394,6 +395,25 @@ namespace ItMonkey.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_m_customer", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "m_customer_address",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Address = table.Column<string>(nullable: true),
+                    Consignee = table.Column<string>(nullable: true),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorUserId = table.Column<long>(nullable: true),
+                    IsDefault = table.Column<bool>(nullable: false),
+                    Mobile = table.Column<string>(nullable: true),
+                    OpenId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_m_customer_address", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -444,6 +464,47 @@ namespace ItMonkey.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_m_monkey_chain", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "m_order",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Buyer = table.Column<string>(nullable: true),
+                    Count = table.Column<int>(nullable: false),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorUserId = table.Column<long>(nullable: true),
+                    OpenId = table.Column<string>(nullable: true),
+                    OrderType = table.Column<string>(nullable: true),
+                    PayState = table.Column<bool>(nullable: true),
+                    PostInfo = table.Column<string>(nullable: true),
+                    Price = table.Column<int>(nullable: false),
+                    State = table.Column<bool>(nullable: true),
+                    WeChatOrder = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_m_order", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "m_product",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorUserId = table.Column<long>(nullable: true),
+                    Price = table.Column<int>(nullable: false),
+                    ProductCount = table.Column<int>(nullable: false),
+                    ProductDescription = table.Column<string>(nullable: true),
+                    ProductImage = table.Column<string>(nullable: true),
+                    ProductName = table.Column<string>(maxLength: 200, nullable: false),
+                    SettlementType = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_m_product", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -794,6 +855,31 @@ namespace ItMonkey.Migrations
                         principalTable: "m_customer",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "m_withdrawa",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    CreationTime = table.Column<DateTime>(nullable: false),
+                    CreatorUserId = table.Column<long>(nullable: true),
+                    CustomerId = table.Column<int>(nullable: false),
+                    CustomerId1 = table.Column<long>(nullable: true),
+                    ServiceFee = table.Column<int>(nullable: false),
+                    State = table.Column<bool>(nullable: true),
+                    TaxesFee = table.Column<int>(nullable: false),
+                    WithDrawaValue = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_m_withdrawa", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_m_withdrawa_m_customer_CustomerId1",
+                        column: x => x.CustomerId1,
+                        principalTable: "m_customer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1225,6 +1311,11 @@ namespace ItMonkey.Migrations
                 name: "IX_m_user_monkey_chain_CustomerId",
                 table: "m_user_monkey_chain",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_m_withdrawa_CustomerId1",
+                table: "m_withdrawa",
+                column: "CustomerId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -1296,6 +1387,9 @@ namespace ItMonkey.Migrations
                 name: "AbpUserTokens");
 
             migrationBuilder.DropTable(
+                name: "m_customer_address");
+
+            migrationBuilder.DropTable(
                 name: "m_customer_experience");
 
             migrationBuilder.DropTable(
@@ -1308,10 +1402,19 @@ namespace ItMonkey.Migrations
                 name: "m_monkey_chain");
 
             migrationBuilder.DropTable(
+                name: "m_order");
+
+            migrationBuilder.DropTable(
+                name: "m_product");
+
+            migrationBuilder.DropTable(
                 name: "m_shuffling");
 
             migrationBuilder.DropTable(
                 name: "m_user_monkey_chain");
+
+            migrationBuilder.DropTable(
+                name: "m_withdrawa");
 
             migrationBuilder.DropTable(
                 name: "s_message_store");

@@ -17,8 +17,8 @@ using System;
 namespace ItMonkey.Migrations
 {
     [DbContext(typeof(ItMonkeyDbContext))]
-    [Migration("20180515085000_init")]
-    partial class init
+    [Migration("20180516075745_wwwww")]
+    partial class wwwww
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -980,6 +980,8 @@ namespace ItMonkey.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("AvatarUrl");
+
                     b.Property<int>("Balance");
 
                     b.Property<string>("ChildSkill");
@@ -1008,6 +1010,30 @@ namespace ItMonkey.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("m_customer");
+                });
+
+            modelBuilder.Entity("ItMonkey.Models.CustomerAddress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Address");
+
+                    b.Property<string>("Consignee");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<bool>("IsDefault");
+
+                    b.Property<string>("Mobile");
+
+                    b.Property<string>("OpenId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("m_customer_address");
                 });
 
             modelBuilder.Entity("ItMonkey.Models.CustomerExperience", b =>
@@ -1186,6 +1212,66 @@ namespace ItMonkey.Migrations
                     b.ToTable("m_monkey_chain");
                 });
 
+            modelBuilder.Entity("ItMonkey.Models.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Buyer");
+
+                    b.Property<int>("Count");
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<string>("OpenId");
+
+                    b.Property<string>("OrderType");
+
+                    b.Property<bool?>("PayState");
+
+                    b.Property<string>("PostInfo");
+
+                    b.Property<int>("Price");
+
+                    b.Property<bool?>("State");
+
+                    b.Property<string>("WeChatOrder");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("m_order");
+                });
+
+            modelBuilder.Entity("ItMonkey.Models.Product", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<int>("Price");
+
+                    b.Property<int>("ProductCount");
+
+                    b.Property<string>("ProductDescription");
+
+                    b.Property<string>("ProductImage");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.Property<int>("SettlementType");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("m_product");
+                });
+
             modelBuilder.Entity("ItMonkey.Models.Shuffling", b =>
                 {
                     b.Property<int>("Id")
@@ -1208,6 +1294,34 @@ namespace ItMonkey.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("m_shuffling");
+                });
+
+            modelBuilder.Entity("ItMonkey.Models.WithDrawa", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<int>("CustomerId");
+
+                    b.Property<long?>("CustomerId1");
+
+                    b.Property<int>("ServiceFee");
+
+                    b.Property<bool?>("State");
+
+                    b.Property<int>("TaxesFee");
+
+                    b.Property<int>("WithDrawaValue");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId1");
+
+                    b.ToTable("m_withdrawa");
                 });
 
             modelBuilder.Entity("ItMonkey.MultiTenancy.Tenant", b =>
@@ -1437,6 +1551,13 @@ namespace ItMonkey.Migrations
                         .WithMany("CustomerMonkeyChains")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ItMonkey.Models.WithDrawa", b =>
+                {
+                    b.HasOne("ItMonkey.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId1");
                 });
 
             modelBuilder.Entity("ItMonkey.MultiTenancy.Tenant", b =>

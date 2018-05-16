@@ -30,7 +30,9 @@ namespace ItMonkey.Jobs
         /// <summary>
         /// 构造函数
         /// </summary>
-        public JobAppService(IRepository<Job, int> jobRepository, IRepository<CustomerJob, int> myJobRepository, IRepository<CustomerMonkeyChain, Guid> bankRepository)
+        public JobAppService(IRepository<Job, int> jobRepository,
+            IRepository<CustomerJob, int> myJobRepository,
+            IRepository<CustomerMonkeyChain, Guid> bankRepository)
         {
             _jobRepository = jobRepository;
             _myJobRepository = myJobRepository;

@@ -1295,6 +1295,34 @@ namespace ItMonkey.Migrations
                     b.ToTable("m_shuffling");
                 });
 
+            modelBuilder.Entity("ItMonkey.Models.WithDrawa", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreationTime");
+
+                    b.Property<long?>("CreatorUserId");
+
+                    b.Property<int>("CustomerId");
+
+                    b.Property<long?>("CustomerId1");
+
+                    b.Property<int>("ServiceFee");
+
+                    b.Property<bool?>("State");
+
+                    b.Property<int>("TaxesFee");
+
+                    b.Property<int>("WithDrawaValue");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId1");
+
+                    b.ToTable("m_withdrawa");
+                });
+
             modelBuilder.Entity("ItMonkey.MultiTenancy.Tenant", b =>
                 {
                     b.Property<int>("Id")
@@ -1522,6 +1550,13 @@ namespace ItMonkey.Migrations
                         .WithMany("CustomerMonkeyChains")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ItMonkey.Models.WithDrawa", b =>
+                {
+                    b.HasOne("ItMonkey.Models.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId1");
                 });
 
             modelBuilder.Entity("ItMonkey.MultiTenancy.Tenant", b =>

@@ -10,6 +10,7 @@ using ItMonkey.Jobs.Dtos;
 using ItMonkey.Models;
 using ItMonkey.Models.MonkeyChain;
 using ItMonkey.Shufflings.Dtos;
+using ItMonkey.WithDrawas.Dtos;
 
 namespace ItMonkey
 {
@@ -34,6 +35,9 @@ namespace ItMonkey
 
             configuration.CreateMap<CustomerAddress, CustomerAddressListDto>();
             configuration.CreateMap<CustomerAddressEditDto, CustomerAddress>();
+
+            configuration.CreateMap<WithDrawa, WithDrawaListDto>();
+            configuration.CreateMap<WithDrawaEditDto, WithDrawa>();
         }
     }
 }
