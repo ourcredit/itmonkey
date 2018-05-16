@@ -10,6 +10,7 @@ import point from './modules/point'
 import device from './modules/device'
 import org from './modules/org'
 import channels from './modules/channels'
+import customer from './modules/customer'
 
 Vue.use(Vuex);
 
@@ -32,7 +33,8 @@ const store = new Vuex.Store({
         point,
         device,
         org,
-        channels
+        channels,
+        customer
     }
 });
 

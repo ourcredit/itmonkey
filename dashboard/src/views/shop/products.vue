@@ -1,18 +1,18 @@
 <template>
   <div>
     <Card>
-      <p slot="title">售货机管理</p>
+      <p slot="title">商品维护</p>
       <Row :gutter="8" slot="extra">
         <i-col span="6">
-          <Input placeholder="售货机名" v-model="params.name">
+          <Input placeholder="商品名" v-model="params.name">
           </Input>
         </i-col>
         <i-col span="6">
-          <Input placeholder="售货机编号" v-model="params.num">
+          <Input placeholder="时间范围" v-model="params.num">
           </Input>
         </i-col>
         <i-col span="6">
-          <Select style="width:140px" v-model="params.cate" placeholder="请选择">
+          <Select style="width:140px" v-model="params.cate" placeholder="商品状态">
               <Option value="格子机">格子机</Option>
               <Option value="无人销售机">无人销售机</Option>
               <Option value="咖啡机">咖啡机</Option>
@@ -30,7 +30,7 @@
       <Page :total="totalCount" class="margin-top-10" @on-change="pageChange" @on-page-size-change="pagesizeChange" :page-size="pageSize"
         :current="currentPage"></Page>
     </Card>
-    <Modal v-model="showEditModal" title="编辑售货机" @on-ok="save" okText="保存" cancelText="关闭">
+    <Modal v-model="showEditModal" title="添加商品" @on-ok="save" okText="保存" cancelText="关闭">
       <div>
         <Form inline ref="roleForm" label-position="top" :rules="rule" :model="device">
           <FormItem label="售货机名称" prop="deviceName">
@@ -135,24 +135,16 @@ export default {
           align: "center"
         },
         {
-          title: "售货机名称",
+          title: "商品名称",
           key: "deviceName"
         },
         {
-          title: "售货机编号",
+          title: "单价",
           key: "deviceNum"
         },
           {
-          title: "机控编号",
+          title: "数量",
           key: "controlNum"
-        },
-        {
-          title: "售货机类型",
-          key: "deviceType"
-        },
-        {
-          title: "所属点位",
-          key: "pointName"
         },
         {
           title: "创建时间",

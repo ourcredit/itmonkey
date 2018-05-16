@@ -27,6 +27,6 @@
         "no-extra-boolean-cast":0,
         "no-unused-expressions":0,
         "space-unary-ops":0,
-        "vue/no-parsing-error":[0, { "x-invalid-end-tag": false }]
+        "vue/no-parsing-error":0
     }
 }

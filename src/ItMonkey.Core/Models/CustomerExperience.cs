@@ -29,4 +29,5 @@ namespace ItMonkey.Models
         [Required,MaxLength(1000)]
         public string Content { get; set; }
     }
+   
 }

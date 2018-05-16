@@ -15,9 +15,9 @@ namespace ItMonkey.Controllers
     /// </summary>
     public class WeChatController:ItMonkeyControllerBase
     {
-        private readonly IRepository<Order,long> _orderRepository;
+        private readonly IRepository<Order,Guid> _orderRepository;
 
-        public WeChatController(IRepository<Order, long> orderRepository)
+        public WeChatController(IRepository<Order, Guid> orderRepository)
         {
             _orderRepository = orderRepository;
         }
@@ -47,10 +47,10 @@ namespace ItMonkey.Controllers
             if (code.ToUpper().Equals("SUCCESS") && rcode.ToUpper().Equals("SUCCESS"))
             {
                 var num = notifyData.GetValue("out_trade_no").ToString();
-                var order = await _orderRepository.FirstOrDefaultAsync(c => c.OrderNum.Equals(num));
+                var order = await _orderRepository.FirstOrDefaultAsync(c => c.Id.ToString().Equals(num));
                 if (order != null)
                 {
-                    if (!order.PayState)
+                    if (!order.PayState.HasValue)
                     {
                         order.WeChatOrder = notifyData.GetValue("transaction_id").ToString();
                         order.PayState = true;
@@ -120,7 +120,6 @@ namespace ItMonkey.Controllers
             {
                 OpenId = input.OpenId,
                 OrderType = "购买",
-                OrderNum = Guid.NewGuid().ToString("N"),
                 PayState = false,
                 Price = input.Price
             };
@@ -131,7 +130,7 @@ namespace ItMonkey.Controllers
                 TotalFee = input.Price
             };
             await _orderRepository.InsertOrUpdateAsync(order);
-            jsApiPay.GetUnifiedOrderResult(order.OrderNum, "猿人币购买", "猿人币购买");
+            jsApiPay.GetUnifiedOrderResult(order.Id.ToString(), "猿人币购买", "猿人币购买");
             var param = jsApiPay.GetJsApiParameters();
             return param;
         }

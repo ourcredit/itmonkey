@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
+using ItMonkey.CustomerAddresss.Dtos;
 using ItMonkey.CustomerExperiences.Dtos;
 using ItMonkey.CustomerMonkeyChains.Dtos;
 using ItMonkey.Customers.Dtos;
@@ -30,6 +31,9 @@ namespace ItMonkey
 
             configuration.CreateMap<CustomerMonkeyChain, CustomerMonkeyChainListDto>();
             configuration.CreateMap<CustomerMonkeyChainEditDto, CustomerMonkeyChain>();
+
+            configuration.CreateMap<CustomerAddress, CustomerAddressListDto>();
+            configuration.CreateMap<CustomerAddressEditDto, CustomerAddress>();
         }
     }
 }
