@@ -6906,3 +6906,43 @@ INFO  2018-05-15 16:51:52,951 [10   ] ore.Mvc.Internal.ControllerActionInvoker -
 INFO  2018-05-15 16:51:54,761 [25   ] etCore.Mvc.Internal.ObjectResultExecutor - Executing ObjectResult, writing value Microsoft.AspNetCore.Mvc.ControllerContext.
 INFO  2018-05-15 16:51:54,769 [25   ] ore.Mvc.Internal.ControllerActionInvoker - Executed action ItMonkey.Controllers.TokenAuthController.Authenticate (ItMonkey.Web.Core) in 1831.397ms
 INFO  2018-05-15 16:51:54,775 [25   ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 1848.0856ms 200 application/json; charset=utf-8
+DEBUG 2018-05-17 15:57:40,052 [1    ] Abp.Modules.AbpModuleManager             - Loading Abp modules...
+DEBUG 2018-05-17 15:57:40,223 [1    ] Abp.Modules.AbpModuleManager             - Found 15 ABP modules in total.
+DEBUG 2018-05-17 15:57:40,279 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.Web.Host.Startup.ItMonkeyWebHostModule, ItMonkey.Web.Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-17 15:57:40,283 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.ItMonkeyWebCoreModule, ItMonkey.Web.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-17 15:57:40,284 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.ItMonkeyApplicationModule, ItMonkey.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-17 15:57:40,284 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.ItMonkeyCoreModule, ItMonkey.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-17 15:57:40,284 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCoreModule, Abp.ZeroCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-17 15:57:40,285 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.AbpZeroCommonModule, Abp.Zero.Common, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-17 15:57:40,285 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AbpKernelModule, Abp, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-17 15:57:40,286 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AutoMapper.AbpAutoMapperModule, Abp.AutoMapper, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-17 15:57:40,286 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: ItMonkey.EntityFrameworkCore.ItMonkeyEntityFrameworkModule, ItMonkey.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-17 15:57:40,287 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Zero.EntityFrameworkCore.AbpZeroCoreEntityFrameworkCoreModule, Abp.ZeroCore.EntityFrameworkCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-17 15:57:40,287 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFrameworkCore.AbpEntityFrameworkCoreModule, Abp.EntityFrameworkCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-17 15:57:40,288 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.EntityFramework.AbpEntityFrameworkCommonModule, Abp.EntityFramework.Common, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-17 15:57:40,288 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.AbpAspNetCoreModule, Abp.AspNetCore, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-17 15:57:40,289 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.Web.AbpWebCommonModule, Abp.Web.Common, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-17 15:57:40,289 [1    ] Abp.Modules.AbpModuleManager             - Loaded module: Abp.AspNetCore.SignalR.AbpAspNetCoreSignalRModule, Abp.AspNetCore.SignalR, Version=3.4.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-17 15:57:40,296 [1    ] Abp.Modules.AbpModuleManager             - 15 modules loaded.
+DEBUG 2018-05-17 15:57:40,403 [1    ] o.Configuration.LanguageManagementConfig - Converted Abp (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2018-05-17 15:57:40,404 [1    ] o.Configuration.LanguageManagementConfig - Converted AbpZero (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2018-05-17 15:57:40,404 [1    ] o.Configuration.LanguageManagementConfig - Converted ItMonkey (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2018-05-17 15:57:40,404 [1    ] o.Configuration.LanguageManagementConfig - Converted AbpWeb (Abp.Localization.Dictionaries.DictionaryBasedLocalizationSource) to MultiTenantLocalizationSource
+DEBUG 2018-05-17 15:57:40,959 [1    ] ameworkCore.AbpEntityFrameworkCoreModule - Registering DbContext: ItMonkey.EntityFrameworkCore.ItMonkeyDbContext, ItMonkey.EntityFrameworkCore, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+DEBUG 2018-05-17 15:57:41,704 [1    ] Abp.Localization.LocalizationManager     - Initializing 4 localization sources.
+DEBUG 2018-05-17 15:57:41,717 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: Abp
+DEBUG 2018-05-17 15:57:41,723 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpZero
+DEBUG 2018-05-17 15:57:41,729 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: ItMonkey
+DEBUG 2018-05-17 15:57:41,731 [1    ] Abp.Localization.LocalizationManager     - Initialized localization source: AbpWeb
+DEBUG 2018-05-17 15:57:41,768 [1    ] Abp.BackgroundJobs.BackgroundJobManager  - Start background worker: Abp.BackgroundJobs.BackgroundJobManager
+DEBUG 2018-05-17 15:57:41,822 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - Found 5 classes define auto mapping attributes
+DEBUG 2018-05-17 15:57:41,823 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - ItMonkey.Models.TokenAuth.ExternalLoginProviderInfoModel
+DEBUG 2018-05-17 15:57:41,827 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - ItMonkey.Sessions.Dto.TenantLoginInfoDto
+DEBUG 2018-05-17 15:57:41,827 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - ItMonkey.Sessions.Dto.UserLoginInfoDto
+DEBUG 2018-05-17 15:57:41,827 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - ItMonkey.MultiTenancy.Dto.CreateTenantDto
+DEBUG 2018-05-17 15:57:41,827 [1    ] Abp.AutoMapper.AbpAutoMapperModule       - ItMonkey.MultiTenancy.Dto.TenantDto
+INFO  2018-05-17 15:57:47,373 [14   ] soft.AspNetCore.Hosting.Internal.WebHost - Request starting HTTP/1.1 GET http://localhost:21021/  
+INFO  2018-05-17 15:57:48,682 [14   ] ore.Mvc.Internal.ControllerActionInvoker - Executing action method ItMonkey.Web.Host.Controllers.HomeController.Index (ItMonkey.Web.Host) with arguments ((null)) - ModelState is Valid
+INFO  2018-05-17 15:57:48,963 [6    ] Core.Mvc.Internal.RedirectResultExecutor - Executing RedirectResult, redirecting to /swagger.
+INFO  2018-05-17 15:57:48,968 [6    ] ore.Mvc.Internal.ControllerActionInvoker - Executed action ItMonkey.Web.Host.Controllers.HomeController.Index (ItMonkey.Web.Host) in 556.6763ms
+INFO  2018-05-17 15:57:48,981 [6    ] soft.AspNetCore.Hosting.Internal.WebHost - Request finished in 1627.8898ms 302 

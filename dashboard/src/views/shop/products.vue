@@ -31,11 +31,10 @@
     <Modal v-model="showEditModal" title="添加商品" @on-ok="save" okText="保存" cancelText="关闭">
       <div>
 
-
         <Form ref="roleForm" label-position="top" :rules="rule" :model="product">
           <Row>
             <Col :span="6">
-            <Upload multiple type="drag" action="//jsonplaceholder.typicode.com/posts/">
+            <Upload :on-success="uploadSuccess" accept="image/*" multiple type="drag" action="https://monkey.leftins.com/api/TokenAuth/ImageUpload">
               <div style="padding: 20px 0">
                 <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
                 <p>上传图片</p>
@@ -60,11 +59,8 @@
             </Row>
             </Col>
           </Row>
-          <FormItem label="结算类型" prop="settlementType">
-            <Switch :model="product.monkeyCionDeal" size="large">
-              <span slot="open">猿人币结算</span>
-              <span slot="close">现金结算</span>
-            </Switch>
+          <FormItem label="结算类型" prop="monkeyCionDeal">
+            <Checkbox :model="product.monkeyCionDeal">是否猿人币结算</Checkbox>
           </FormItem>
           <FormItem label="商品描述" prop="productDescription">
             <Input type="textarea" :row="4" v-model="product.productDescription" :maxlength="500" />
@@ -84,6 +80,12 @@
       create() {
         this.product = {};
         this.showEditModal = true;
+      },
+      uploadSuccess(res, file, fl) {
+        debugger;
+        if (res.success) {
+          this.product.productImage = this.AppConsts.appBaseUrl + res.result.data[0];
+        }
       },
       async save() {
         this.$refs.roleForm.validate(async val => {
@@ -126,7 +128,7 @@
           "productImage": "",
           "price": 0,
           "productDescription": "",
-          "settlementType": 1,
+          "monkeyCionDeal": false,
           "productCount": 0
         },
         showEditModal: false,
@@ -229,6 +231,7 @@
       }
     },
     async created() {
+      console.log(this.AppConsts.appBaseUrl);
       this.getpage();
     }
   };

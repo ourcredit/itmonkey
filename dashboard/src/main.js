@@ -18,22 +18,22 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
         ak: "pYjoSR2GThuatLt06MlaKzRgSWy4Zztq"
     });
     window.abp = $.extend(true, abp, result.data.result);
-    Vue.prototype.L = function (text, ...args) {
-        let localizedText = window.abp.localization.localize(text, AppConsts.localization.defaultLocalizationSourceName);
-        if (!localizedText) {
-            localizedText = text;
-        }
-        if (!args || !args.length) {
-            return localizedText;
-        }
-        args.unshift(localizedText);
-        return abp.utils.formatString.apply(this, args)
-    }
+    // Vue.prototype.L = function (text, ...args) {
+    //     let localizedText = window.abp.localization.localize(text, AppConsts.localization.defaultLocalizationSourceName);
+    //     if (!localizedText) {
+    //         localizedText = text;
+    //     }
+    //     if (!args || !args.length) {
+    //         return localizedText;
+    //     }
+    //     args.unshift(localizedText);
+    //     return abp.utils.formatString.apply(this, args)
+    // }
 
-    Vue.filter('l', function (value) {
-        if (!value) return ''
-        return window.abp.localization.localize(value, AppConsts.localization.defaultLocalizationSourceName);
-    });
+    // Vue.filter('l', function (value) {
+    //     if (!value) return ''
+    //     return window.abp.localization.localize(value, AppConsts.localization.defaultLocalizationSourceName);
+    // });
     /* 列表格式转换成树格式
      * @param data 数组
      * @param parentId 父节点id
@@ -101,7 +101,7 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
     Vue.prototype.$tree = converToTreedata;
     Vue.prototype.$permissions = converToPermissionTree;
     Vue.prototype.$depthNode = depthNode;
-
+    Vue.prototype.AppConsts = AppConsts;
     Vue.prototype.formatter = function (value) {
         if (!value) return ''
         var d = new Date(value);

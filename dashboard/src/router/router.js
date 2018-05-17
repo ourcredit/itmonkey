@@ -74,7 +74,7 @@ export const appRouter = [{
     children: [{
         path: 'users',
         title: '用户信息',
-        name: 'users',
+        name: 'customers',
       //  permission: 'Pages.Point.Manage',
         component: () =>
             import ('@/views/customers/user.vue')
