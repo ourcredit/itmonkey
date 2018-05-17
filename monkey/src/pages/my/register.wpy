@@ -47,16 +47,16 @@
 
       <view class="zan-row">
         <view class="zan-col zan-col-11 zan-col-offset-1">
-          <button class="zan-btn" type="default" @tap="goback">我再想想</button>
+          <button class="zan-btn" size="mini" type="default" @tap="goback">我再想想</button>
         </view>
         <view class="zan-col zan-col-11 zan-col-offset-1">
-          <button class="zan-btn" type="primary" @tap="create">完成注册</button>
+          <button class="zan-btn" size="mini" type="primary" @tap="create">完成注册</button>
         </view>
 
       </view>
       <view class="zan-row">
         <view class="zan-col-24">
-          <button class="zan-btn" type="primary" @tap="gopayfor">创建私密家族并完成注册</button>
+          <button class="zan-btn"  type="primary" @tap="gopayfor">创建私密家族并完成注册</button>
         </view>
       </view>
     </view>
@@ -179,7 +179,6 @@
           return;
         }
         let user = this.user;
-        debugger;
         if (this.hasRegister) {
           tip.alert("当前用户已注册,即将跳去主页");
           this.$switch("../dash/index");

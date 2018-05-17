@@ -85,28 +85,7 @@
     </view>
 
     <view wx:if="{{current=='order'}}">
-      <!--列表显示2个，绑定数据记得去掉，这里做调试-->
-      <repeat for="{{list}}" key="index" index="index" item="item">
-        <view class="list_box">
-          <swipeDelete :swipeData="item" @delItem.user="handleDelItem">
-            <view class="goods-info">
-              <view class="img-box">
-                <image src="{{item.thumLogo}}" class="img" />
-              </view>
-              <view class="text-box">
-                <view class="goods-title">{{item.name}}</view>
-                <view class="goods-label">{{item.content}}</view>
-                <view class="goods-price">¥ {{item.price}}</view>
-                <view class="buy-num">
-                  <view class="jian-btn {{item.num==1? 'disabled' : ''}}" catchtap="jianBtnTap" data-index="{{index}}" data-id="{{item.id}}">-</view>
-                  <input type="number" value="{{item.num}}" disabled/>
-                  <view class="jia-btn " catchtap="jiaBtnTap" data-index="{{index}}" data-id="{{item.id}}">+</view>
-                </view>
-              </view>
-            </view>
-          </swipeDelete>
-        </view>
-      </repeat>
+      <productList :searchApi="searchApi" :params="jobparams"> </productList>
 
     </view>
   </view>
@@ -117,7 +96,11 @@
   import Charts from '@/components/line-chart'; // alias example
   import zanTab from '@/components/zan-tab'; // alias example
   import zanField from '@/components/zan-field'
-  import swipeDelete from '@/components/wepy-swipe-delete';
+  import productList from '@/components/productlist';
+    import {
+    getShufflings,
+    getJobs
+  } from 'api/api';
   const sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
   export default class Index extends wepy.page {
     config = {
@@ -125,7 +108,7 @@
     };
     components = {
       linechart: Charts,
-      swipeDelete,
+      productList,
       zanTab: zanTab,
       childTab: zanTab,
       price: zanField,
@@ -133,6 +116,7 @@
       canSale: zanField,
     };
     data = {
+      searchApi:getJobs,
       tab: {
         list: [{
             id: "cion",

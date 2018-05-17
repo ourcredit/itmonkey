@@ -1,0 +1,153 @@
+<template>
+  <view>
+    <scroll-view class="list" style="height:{{height}}rpx" scroll-y="true" bindscrolltolower="loadMore">
+      <view class="zan-panel">
+        <view wx:for="{{list}}" wx:key="index" class="zan-card">
+          <view class="zan-card__thumb">
+            <image class="zan-card__img" src="https://img.yzcdn.cn/upload_files/2016/11/25/FpqPXlrMRjKwJs8VdTu3ZDJCj4j5.jpeg?imageView2/2/w/200/h/200/q/90/format/jpeg"
+              mode="aspectFit" />
+          </view>
+          <view class="zan-card__detail">
+            <view class="zan-card__detail-row">
+              <view class="zan-card__right-col">¥ 999.99</view>
+              <view class="zan-card__left-col zan-ellipsis--l2">
+                红烧牛肉【虚拟商品】【有库存】【有sku】
+              </view>
+            </view>
+
+            <view class="zan-card__detail-row zan-c-gray-darker">
+              <view class="zan-card__right-col">x2</view>
+              <view class="zan-card__left-col">
+                3000克 50%
+              </view>
+            </view>
+
+            <view class="zan-card__detail-row zan-c-gray-darker">
+              <view class="zan-card__left-col zan-c-red">已发货</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view wx:if="{{loading}}" class="weui-loadmore">
+        <view class="weui-loading"></view>
+        <view class="weui-loadmore__tips">正在加载</view>
+      </view>
+    </scroll-view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy';
+  import zanCapsule from '../components/zan-capsule'
+  import {
+    getStore
+  } from 'wepy-redux';
+  const store = getStore();
+
+  export default class List extends wepy.component {
+    components = {
+      zanCapsule: zanCapsule
+    }
+    props = {
+      searchApi: {
+        type: Function,
+        required: true
+      },
+      hasAction: {
+        type: Boolean,
+        default: true
+      },
+      params: {
+        type: Object,
+        required: false,
+        default: {
+          skipCount: 0,
+          maxResultCount: 10
+        }
+      }
+    };
+    data = {
+      loading: false,
+      list: [],
+      total: 0,
+      index: 1,
+      height: 1208,
+      sorting: '',
+      desc: false,
+    };
+    methods = {
+      async loadMore() {
+        this.loading = true;
+        this.$apply();
+        this.index++;
+        this.params.skipCount = (this.index - 1) * this.params.maxResultCount;
+        if (this.total == 0 || this.total > this.params.skipCount) {
+          var result = await this.search();
+          this.gender(result);
+        }
+        this.loading = false;
+        this.$apply();
+      }
+    };
+    async search() {
+      const state = store.getState();
+      var params = {};
+      if (!state.userState.user || !state.userState.user.customerId) {
+        params = Object.assign(this.params, {
+          sorting: this.sorting
+        });
+        delete params['customerId'];
+      } else {
+        params = Object.assign(this.params, {
+          sorting: this.sorting,
+          customerId: state.userState.user.customerId
+        });
+      }
+      var result = await this.searchApi(params);
+      return result.result;
+    }
+    gender(result, init = false) {
+      if (init) {
+        this.list = result.items;
+      } else {
+        this.list.push(...result.items);
+      }
+      this.total = result.totalCount;
+      this.$apply();
+    }
+    async filter(type) {
+      this.desc = !this.desc;
+      if (this.desc) {
+        type = type + ' desc';
+      }
+      this.sorting = type;
+      this.params.skipCount = 0;
+      this.params.maxResultCount = 10;
+      var result = await this.search();
+      this.gender(result, true);
+    }
+    async onLoad() {
+      var result = await this.search();
+      this.gender(result, true);
+    }
+    events = {
+      init: async $event => {
+        this.params.skipCount = 0;
+        var result = await this.search();
+        this.gender(result, true);
+      },
+      zanTabChange(selectedId, event) {
+        this.filter(selectedId);
+        let {
+          componentId
+        } = event.source
+        this[componentId].selectedId = selectedId
+        this.$apply()
+      }
+    };
+  }
+
+</script>
+<style lang="css">
+  @import '/zanui/index.wxss';
+
+</style>

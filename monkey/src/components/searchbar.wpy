@@ -12,7 +12,7 @@
      <search :options="searchField" :value="inputVal" componentId="search"></search>
      </view>
      <view class="zan-col zan-col-2">
-         <view class="zan-icon zan-icon-search" @tap="search"  style="color: #ff4343;"></view>
+         <view class="zan-icon zan-icon-search" @tap="search"  style="color: #ff4343;padding-top:2px"></view>
      </view>
      <view class="zan-col zan-col-2">
        <slot name="add"></slot>

@@ -36,13 +36,13 @@
       </view>
       <view class="zan-row">
         <view class="zan-col zan-col-7 zan-col-offset-1">
-          <button class="weui-btn mini-btn" size="mini" type="default" @tap="goBack">关闭</button>
+          <button class="zan-btn"  type="default" @tap="goBack">关闭</button>
         </view>
         <view class="zan-col zan-col-8">
-          <button class="weui-btn mini-btn" size="mini" type="primary" @tap="secertCreate">私密邀请</button>
+          <button class="zan-btn"  type="primary" @tap="secertCreate">私密邀请</button>
         </view>
         <view class="zan-col zan-col-8">
-          <button class="weui-btn mini-btn" size="mini" type="primary" @tap="publicCreate">公开发布</button>
+          <button class="zan-btn "  type="primary" @tap="publicCreate">公开发布</button>
         </view>
       </view>
     </view>
@@ -151,7 +151,6 @@
       },
       //同意协议
       agreeChange(e) {
-        debugger
         this.isAgree = !!e.detail.value.length;
       },
       //会跳

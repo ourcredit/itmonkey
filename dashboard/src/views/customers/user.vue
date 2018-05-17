@@ -63,7 +63,10 @@ export default {
         },
         {
           title: "头像",
-          key: "avatarUrl"
+          key: "avatarUrl",
+          render: (h, params) => {
+            return `<image src="${params.row.avatarUrl}" />`;
+          }
         },
         {
           title: "昵称",

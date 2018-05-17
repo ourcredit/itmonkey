@@ -14,6 +14,7 @@ namespace ItMonkey.Customers.Dtos
         /// 一级技能
         /// </summary>
         public string Skill { get; set; }
+      
         /// <summary>
         /// 二级技能
         /// </summary>
