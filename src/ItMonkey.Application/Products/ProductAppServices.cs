@@ -152,6 +152,11 @@ namespace ItMonkey.Products
             // ObjectMapper.Map(input, entity);
             await _productRepository.UpdateAsync(entity);
         }
+        /// <summary>
+        /// 修改商品状态
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public async Task ModifyProductState(EntityDto<Guid> input)
         {
             var product = await _productRepository.FirstOrDefaultAsync(input.Id);
