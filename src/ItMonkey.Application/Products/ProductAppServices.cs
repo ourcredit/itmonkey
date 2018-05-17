@@ -9,6 +9,7 @@ using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 
 using System.Linq.Dynamic.Core;
+using Abp.Extensions;
 using ItMonkey.Authorization;
 using Microsoft.EntityFrameworkCore;
 using ItMonkey.Products.Dtos;
@@ -44,7 +45,10 @@ namespace ItMonkey.Products
         {
 
             var query = _productRepository.GetAll();
-            //TODO:根据传入的参数添加过滤条件
+            query = query.WhereIf(!input.Name.IsNullOrWhiteSpace(), c => c.ProductName.Contains(input.Name))
+                .WhereIf(input.State.HasValue, c => c.IsActive == input.State.Value)
+                .WhereIf(input.Start.HasValue, c => c.CreationTime >= input.Start.Value)
+                .WhereIf(input.End.HasValue, c => c.CreationTime < input.End.Value);
             var productCount = await query.CountAsync();
 
             var products = await query
@@ -54,7 +58,6 @@ namespace ItMonkey.Products
 
             //var productListDtos = ObjectMapper.Map<List <ProductListDto>>(products);
             var productListDtos = products.MapTo<List<ProductListDto>>();
-
             return new PagedResultDto<ProductListDto>(
                 productCount,
                 productListDtos
@@ -68,10 +71,8 @@ namespace ItMonkey.Products
         public async Task<ProductListDto> GetProductByIdAsync(EntityDto<Guid> input)
         {
             var entity = await _productRepository.GetAsync(input.Id);
-
             return entity.MapTo<ProductListDto>();
         }
-
         /// <summary>
         /// 导出Product为excel表
         /// </summary>
@@ -134,9 +135,7 @@ namespace ItMonkey.Products
         [AbpAuthorize(PermissionNames.Pages_Shop_Product_CreateProduct)]
         protected virtual async Task<ProductEditDto> CreateProductAsync(ProductEditDto input)
         {
-            //TODO:新增前的逻辑判断，是否允许新增
             var entity = ObjectMapper.Map<Product>(input);
-
             entity = await _productRepository.InsertAsync(entity);
             return entity.MapTo<ProductEditDto>();
         }
@@ -147,14 +146,20 @@ namespace ItMonkey.Products
         [AbpAuthorize(PermissionNames.Pages_Shop_Product_EditProduct)]
         protected virtual async Task UpdateProductAsync(ProductEditDto input)
         {
-            //TODO:更新前的逻辑判断，是否允许更新
             var entity = await _productRepository.GetAsync(input.Id.Value);
             input.MapTo(entity);
 
             // ObjectMapper.Map(input, entity);
             await _productRepository.UpdateAsync(entity);
         }
-
+        public async Task ModifyProductState(EntityDto<Guid> input)
+        {
+            var product = await _productRepository.FirstOrDefaultAsync(input.Id);
+            if (product != null)
+            {
+                product.IsActive = !product.IsActive;
+            }
+        }
         /// <summary>
         /// 删除Product信息的方法
         /// </summary>
@@ -163,8 +168,6 @@ namespace ItMonkey.Products
         [AbpAuthorize(PermissionNames.Pages_Shop_Product_DeleteProduct)]
         public async Task DeleteProduct(EntityDto<Guid> input)
         {
-
-            //TODO:删除前的逻辑判断，是否允许删除
             await _productRepository.DeleteAsync(input.Id);
         }
 
@@ -174,7 +177,6 @@ namespace ItMonkey.Products
         [AbpAuthorize(PermissionNames.Pages_Shop_Product_BatchDeleteProducts)]
         public async Task BatchDeleteProductsAsync(List<Guid> input)
         {
-            //TODO:批量删除前的逻辑判断，是否允许删除
             await _productRepository.DeleteAsync(s => input.Contains(s.Id));
         }
 

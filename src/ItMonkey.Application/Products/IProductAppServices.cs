@@ -37,6 +37,12 @@ namespace ItMonkey.Products
         /// <returns></returns>
         Task<GetProductForEditOutput> GetProductForEdit(NullableIdDto<Guid> input);
 
+        /// <summary>
+        /// 修改商品状态
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        Task ModifyProductState(EntityDto<Guid> input);
         //todo:缺少Dto的生成GetProductForEditOutput
         /// <summary>
         /// 添加或者修改Product的公共方法

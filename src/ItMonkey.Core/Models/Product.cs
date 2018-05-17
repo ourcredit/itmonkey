@@ -23,6 +23,10 @@ namespace ItMonkey.Models
         /// </summary>
         public string ProductImage { get; set; }
         /// <summary>
+        /// 上架下架
+        /// </summary>
+        public bool IsActive { get; set; }
+        /// <summary>
         /// 价格
         /// </summary>
         public int Price { get; set; }
@@ -31,9 +35,9 @@ namespace ItMonkey.Models
         /// </summary>
         public string ProductDescription { get; set; }
         /// <summary>
-        /// 结算方式枚举
+        /// 是否猿人币结算
         /// </summary>
-        public SettlementType SettlementType { get; set; }
+        public bool MonkeyCionDeal { get; set; }
         /// <summary>
         /// 数量
         /// </summary>
@@ -44,6 +48,6 @@ namespace ItMonkey.Models
     /// </summary>
     public enum SettlementType
     {
-        Cash=1,MonkeyCion=2
+        Cash=1, MonkeyCion=2
     }
 }

@@ -27,7 +27,7 @@ const product = {
                 maxResultCount: state.pageSize,
                 skipCount: (state.currentPage - 1) * state.pageSize
             }
-            let rep = await Util.ajax.get('/api/services/app/User/GetUsers', {
+            let rep = await Util.ajax.get('/api/services/app/Product/GetPagedProducts', {
                 params: page
             });
             state.products = [];
@@ -37,12 +37,17 @@ const product = {
         async delete({
             state
         }, payload) {
-            await Util.ajax.delete('/api/services/app/User/DeleteUser?Id=' + payload.data.id);
+            await Util.ajax.delete('/api/services/app/Product/DeleteProduct?Id=' + payload.data.id);
+        },
+        async batchDelete({
+            state
+        }, payload) {
+            await Util.ajax.delete('/api/services/app/Product/BatchDeleteProductsAsync' , payload.data);
         },
         async createOrUpdate({
             state
         }, payload) {
-            await Util.ajax.post('/api/services/app/User/CreateOrUpdateUser', payload.data);
+            await Util.ajax.post('/api/services/app/Product/CreateOrUpdateProduct', payload.data);
         },
         async getUser({
             state
@@ -51,7 +56,7 @@ const product = {
             if (payload.data) {
                 params = "?Id=" + payload.data;
             }
-            let rep = await Util.ajax.get('/api/services/app/User/GetUserForEdit' + params);
+            let rep = await Util.ajax.get('/api/services/app/Product/GetProductForEdit' + params);
             state.user = null;
             state.user = rep.data.result;
         },

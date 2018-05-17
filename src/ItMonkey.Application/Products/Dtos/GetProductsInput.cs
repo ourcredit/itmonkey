@@ -1,4 +1,5 @@
-﻿using Abp.Runtime.Validation;
+﻿using System;
+using Abp.Runtime.Validation;
 using ItMonkey.Dto;
 using ItMonkey.Models;
 
@@ -11,8 +12,10 @@ namespace ItMonkey.Products.Dtos
         /// <summary>
         /// 模糊搜索使用的关键字
         /// </summary>
-        public string Filter { get; set; }
-
+        public string Name { get; set; }
+        public bool? State { get; set; }
+        public DateTime? Start { get; set; }
+        public DateTime? End { get; set; }
         /// <summary>
         /// 正常化排序使用
         /// </summary>

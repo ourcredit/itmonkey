@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -20,6 +21,9 @@ using ItMonkey.Customers;
 using ItMonkey.Models;
 using ItMonkey.Models.TokenAuth;
 using ItMonkey.MultiTenancy;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 
 namespace ItMonkey.Controllers
@@ -27,6 +31,7 @@ namespace ItMonkey.Controllers
     [Route("api/[controller]/[action]")]
     public class TokenAuthController : ItMonkeyControllerBase
     {
+        private readonly IHostingEnvironment _hostingEnv;
         private readonly LogInManager _logInManager;
         private readonly ICustomerAppService _customerAppService;
         private readonly ITenantCache _tenantCache;
@@ -35,17 +40,18 @@ namespace ItMonkey.Controllers
         private readonly IExternalAuthConfiguration _externalAuthConfiguration;
         private readonly IExternalAuthManager _externalAuthManager;
         private readonly UserRegistrationManager _userRegistrationManager;
-        /// <summary>
-        /// ctor
-        /// </summary>
-        /// <param name="logInManager"></param>
-        /// <param name="tenantCache"></param>
-        /// <param name="abpLoginResultTypeHelper"></param>
-        /// <param name="configuration"></param>
-        /// <param name="externalAuthConfiguration"></param>
-        /// <param name="externalAuthManager"></param>
-        /// <param name="userRegistrationManager"></param>
-        /// <param name="customerAppService"></param>
+       /// <summary>
+       /// ctor
+       /// </summary>
+       /// <param name="logInManager"></param>
+       /// <param name="tenantCache"></param>
+       /// <param name="abpLoginResultTypeHelper"></param>
+       /// <param name="configuration"></param>
+       /// <param name="externalAuthConfiguration"></param>
+       /// <param name="externalAuthManager"></param>
+       /// <param name="userRegistrationManager"></param>
+       /// <param name="customerAppService"></param>
+       /// <param name="hostingEnv"></param>
         public TokenAuthController(
             LogInManager logInManager,
             ITenantCache tenantCache,
@@ -54,7 +60,7 @@ namespace ItMonkey.Controllers
             IExternalAuthConfiguration externalAuthConfiguration,
             IExternalAuthManager externalAuthManager,
             UserRegistrationManager userRegistrationManager,
-            ICustomerAppService customerAppService)
+            ICustomerAppService customerAppService, IHostingEnvironment hostingEnv)
         {
             _logInManager = logInManager;
             _tenantCache = tenantCache;
@@ -64,6 +70,7 @@ namespace ItMonkey.Controllers
             _externalAuthManager = externalAuthManager;
             _userRegistrationManager = userRegistrationManager;
             _customerAppService = customerAppService;
+            this._hostingEnv = hostingEnv;
         }
         [HttpPost]
         public async Task<WechatUserInfo> WeChatAuthenticate([FromBody] WechatLoginInfo model)
@@ -85,8 +92,42 @@ namespace ItMonkey.Controllers
             r.JobsCount = customer.JobsCount;
             return r;
         }
+        [HttpPost]
+        public IActionResult ImageUpload()
+        {
+            var files = Request.Form.Files;
+            long size = files.Sum(f => f.Length);
 
+            //size > 100MB refuse upload !
+            if (size > 104857600)
+            {
+                return Json(new{result=-1,error="文件超过限制大小" });
+            }
+            List<string> filePathResultList = new List<string>();
+            foreach (var file in files)
+            {
+                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim();
+                string filePath = _hostingEnv.WebRootPath + $@"\Images\";
+                if (!Directory.Exists(filePath))
+                {
+                    Directory.CreateDirectory(filePath);
+                }
 
+                fileName = Guid.NewGuid() + "." + fileName.Split(new char[]{'.'}).Last();
+
+                string fileFullName = filePath + fileName;
+
+                using (FileStream fs = System.IO.File.Create(fileFullName))
+                {
+                    file.CopyTo(fs);
+                    fs.Flush();
+                }
+                filePathResultList.Add($"/Images/{fileName}");
+            }
+
+            return Json(new{result=1,data= filePathResultList });
+        }
+      
         /// <summary>
         /// 用户认证
         /// </summary>
