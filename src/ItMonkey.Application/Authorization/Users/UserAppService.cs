@@ -29,7 +29,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ItMonkey.Authorization.Users
 {
-    [AbpAuthorize]
     public class UserAppService : ItMonkeyAppServiceBase, IUserAppService
     {
 
