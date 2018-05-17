@@ -9,6 +9,7 @@ namespace ItMonkey.Customers.Dtos
     {
         public long Id { get; set; }
         public string Name { get; set; }
+        public string AvatarUrl { get; set; }
         /// <summary>
         /// 一级技能
         /// </summary>
@@ -29,13 +30,12 @@ namespace ItMonkey.Customers.Dtos
         /// 职称
         /// </summary>
         public string Title { get; set; }
+
         public int Balance { get; set; }
         /// <summary>
         /// 唯一标识
         /// </summary>
         public string Key { get; set; }
-
-        public bool IsActive { get; set; } = true;
         /// <summary>
         /// 参与工作数
         /// </summary>

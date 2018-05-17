@@ -1,15 +1,16 @@
-<style lang="less">
-.weui-btn {
-  margin-left: 5px;
-  margin-right: 5px;
-}
+<style lang="css">
+  @import "/zanui/index.wxss";
+  .navigator {
+    color: grey;
+    display: inline;
+  }
+
 </style>
 <template>
   <view class="page">
     <view class="page__bd">
       <view class="weui-toptips weui-toptips_warn" wx:if="{{tipsFlag}}">错误提示</view>
-
-      <view class="weui-cells__title">选择主要工作技能</view>
+      <view class="zan-panel-title">选择主要工作技能</view>
       <view>
         <picker-view indicator-style="height: 30rpx;" style="width: 100%; height: 100px;margin-left:10rpx;" value="{{0}}" bindchange="bindChange">
           <picker-view-column>
@@ -20,52 +21,42 @@
           </picker-view-column>
         </picker-view>
       </view>
-      <view class="weui-cells__title">加入家族</view>
-      <view class="weui-cells weui-cells_after-title">
-        <radio-group @change="radioChange">
-          <label class="weui-cell weui-check__label" wx:for="{{radioItems}}" wx:key="value">
-            <radio class="weui-check" value="{{item.value}}" checked="{{item.checked}}" />
-            <view class="weui-cell__bd">{{item.name}}</view>
-            <view class="weui-cell__ft weui-cell__ft_in-radio" wx:if="{{item.checked}}">
-              <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
-            </view>
-          </label>
-        </radio-group>
-      </view>
-      <view wx:if="{{secritJoin}}" class="weui-cell weui-cell_input">
-        <view class="weui-cell__hd">
-          <view class="weui-label">私密家族id</view>
+
+      <view class="zan-panel-title">加入家族</view>
+      <view class="zan-panel">
+        <view>
+          <zanSelect :items="items" :checkedValue.sync="checked_base" componentId="base"></zanSelect>
         </view>
-        <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入私密家族id" />
+      </view>
+
+      <view wx:if="{{checked_base>0}}" class="zan-panel">
+         <zanField :options="base_name" :value="value" componentId="zanField1"></zanField>
+      </view>
+
+      <view class="zan-panel" style="padding-left:1em;padding-bottom:1em;">
+        <view>
+          <checkbox-group bindchange="agreeChange">
+            <label for="weuiAgree">
+              <checkbox value="true" checked="{{isAgree}}" /> 阅读并同意
+              <navigator class="navigator" url="../my/rules">《相关条款》</navigator>
+            </label>
+          </checkbox-group>
         </view>
       </view>
 
 
-      <checkbox-group @change="bindAgreeChange">
-        <label class="weui-agree" for="weuiAgree">
-          <view class="weui-agree__text">
-            <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}" />
-            <view class="weui-agree__checkbox-icon">
-              <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9" wx:if="{{isAgree}}"></icon>
-            </view>
-            阅读并同意
-            <navigator url="rules" class="weui-agree__link">《相关条款》</navigator>
-          </view>
-        </label>
-      </checkbox-group>
+      <view class="zan-row">
+        <view class="zan-col zan-col-11 zan-col-offset-1">
+          <button class="zan-btn" type="default" @tap="goback">我再想想</button>
+        </view>
+        <view class="zan-col zan-col-11 zan-col-offset-1">
+          <button class="zan-btn" type="primary" @tap="create">完成注册</button>
+        </view>
 
-      <view class="weui-flex">
-        <view class="weui-flex__item">
-          <button class="weui-btn" type="default" @tap="goback">我再想想</button>
-        </view>
-        <view class="weui-flex__item">
-          <button class="weui-btn" type="primary" @tap="create">完成注册</button>
-        </view>
       </view>
-      <view class="weui-btn-area">
-        <view class="weui-flex__item">
-          <button class="weui-btn" type="primary" @tap="gopayfor">创建私密家族并完成注册</button>
+      <view class="zan-row">
+        <view class="zan-col-24">
+          <button class="zan-btn" type="primary" @tap="gopayfor">创建私密家族并完成注册</button>
         </view>
       </view>
     </view>
@@ -73,166 +64,189 @@
 </template>
 
 <script>
-import tip from 'tools/tip';
-import wepy from 'wepy';
-import { CreateCustomer } from 'api/api';
-const items = [
-  {
-    name: '随机加入家族',
-    value: '0',
-    checked: true
-  },
-  {
-    name: '加入私密家族',
-    value: '1',
-    checked: false
-  }
-];
-import { connect } from 'wepy-redux';
-import { getStore } from 'wepy-redux';
+  import tip from "tools/tip";
+  import wepy from "wepy";
+  import zanSelect from '@/components/zan-select'
+  import zanField from '@/components/zan-field'
+  import {
+    CreateCustomer
+  } from "api/api";
+  import {
+    connect
+  } from "wepy-redux";
+  import {
+    getStore
+  } from "wepy-redux";
   const store = getStore();
-@connect({
-  user(state) {
-    console.log(state);
-    return state.userState.user;
-  },
-  hasRegister(state) {
-    return state.userState.hasRegister;
-  }
-})
-export default class Input extends wepy.page {
-  data = {
-    tipsFlag: false,
-    secritJoin: false,
-    childskills: [],
-    a: null,
-    b: null,
-    skills: [
-      {
-        id: 1,
-        name: 'c#',
-        children: [
-          {
-            id: 3,
-            name: '.net'
-          },
-          {
-            id: 5,
-            name: '.net core'
-          },
-          {
-            id: 5,
-            name: 'wpf'
-          }
-        ]
-      },
-      {
-        id: 2,
-        name: 'java',
-        children: [
-          {
-            id: 4,
-            name: 'android'
-          }
-        ]
-      },
-      {
-        id: 2,
-        name: 'ios',
-        children: [
-          {
-            id: 4,
-            name: 'ios'
-          }
-        ]
-      },
-      {
-        id: 2,
-        name: 'a',
-        children: [
-          {
-            id: 4,
-            name: 'a'
-          }
-        ]
-      }
-    ],
-    radioItems: items,
-    isAgree: false
-  };
-
-  methods = {
-    radioChange(e) {
-      this.secritJoin = e.detail.value == 1;
-      this.radioItems.forEach(v => {
-        v.checked = v.value === e.detail.value;
-      });
+  @connect({
+    user(state) {
+      console.log(state);
+      return state.userState.user;
     },
-    // 去支付页面
-    gopayfor() {
-      this.$navigate('');
-    },
-    async create() {
-      if (!this.isAgree) {
-        tip.alert('请阅读相关协议并同意');
-        return;
-      }
-      if (!this.a || !this.b) {
-        tip.alert('请选择擅长技能');
-        return;
-      }
-      let user = this.user;
-      debugger;
-      if (this.hasRegister) {
-        tip.alert('当前用户已注册,即将跳去主页');
-        this.$switch('../dash/index');
-      }
-      if (!user.openId) {
-        tip.alert('用户认证失败,请重新登陆');
-        this.$switch('../dash/index');
-      }
-      const params = {
-        customer: {
-          name: user.nickName,
-          key: user.openId,
-          skill: this.a.name,
-          childSkill: this.b.name,
-          isActive: true
-        }
-      };
-      var res = await CreateCustomer(params);
-      if (res.success) {
-         store.dispatch({ type: 'REGISTER', model: true });
-        this.$root.$parent.getUserInfo();
-        this.$switch('../dash/index');
-      }
-    },
-    goback() {
-      this.$switch('../dash/index');
-    },
-    bindChange(e) {
-      var temp = e.detail.value;
-      this.childskills = this.skills[temp[0]].children;
-      this.a = this.skills[temp[0]];
-      this.b = this.childskills[temp[1]];
-      this.$apply();
-    },
-    bindAgreeChange(e) {
-      this.isAgree = !!e.detail.value.length;
-    },
-    showTopTips() {
-      this.tipsFlag = true;
-      setTimeout(() => {
-        this.tipsFlag = false;
-        this.$apply();
-      }, 3000);
+    hasRegister(state) {
+      return state.userState.hasRegister;
     }
-  };
+  })
+  export default class Input extends wepy.page {
+    components = {
+      zanSelect: zanSelect,
+      zanField:zanField
+    }
+    data = {
+       // 基础类型输入框配置
+    base_name: {
+      title: '私密家族ID',
+      placeholder: '请输入私密家族ID'
+    },
+      items: [{
+          name: "随机加入家族",
+          value: "0",
+          padding: 0
+        },
+        {
+          name: "加入私密家族",
+          value: "1",
+          padding: 0
+        }
+      ],
+      checked_base: 0,
+      tipsFlag: false,
+      value: "",
+      childskills: [],
+      a: null,
+      b: null,
+      skills: [{
+          id: 1,
+          name: "c#",
+          children: [{
+              id: 3,
+              name: ".net"
+            },
+            {
+              id: 5,
+              name: ".net core"
+            },
+            {
+              id: 5,
+              name: "wpf"
+            }
+          ]
+        },
+        {
+          id: 2,
+          name: "java",
+          children: [{
+            id: 4,
+            name: "android"
+          }]
+        },
+        {
+          id: 2,
+          name: "ios",
+          children: [{
+            id: 4,
+            name: "ios"
+          }]
+        },
+        {
+          id: 2,
+          name: "a",
+          children: [{
+            id: 4,
+            name: "a"
+          }]
+        }
+      ],
+      isAgree: false
+    };
 
-  onLoad() {
-    this.childskills = this.skills[0].children;
-    this.a = this.skills[0];
-    this.b = this.childskills[0];
+    methods = {
+      //同意协议
+      agreeChange(e) {
+        this.isAgree = !!e.detail.value.length;
+      },
+      // 去支付页面
+      gopayfor() {
+        this.$navigate("");
+      },
+      async create() {
+        if (!this.isAgree) {
+          tip.alert("请阅读相关协议并同意");
+          return;
+        }
+        if (!this.a || !this.b) {
+          tip.alert("请选择擅长技能");
+          return;
+        }
+        let user = this.user;
+        debugger;
+        if (this.hasRegister) {
+          tip.alert("当前用户已注册,即将跳去主页");
+          this.$switch("../dash/index");
+        }
+        if (!user.openId) {
+          tip.alert("用户认证失败,请重新登陆");
+          this.$switch("../dash/index");
+        }
+        const params = {
+          customer: {
+            name: user.nickName,
+            avatarUrl: user.avatarUrl,
+            key: user.openId,
+            skill: this.a.name,
+            childSkill: this.b.name,
+            isActive: true
+          }
+        };
+        var res = await CreateCustomer(params);
+        if (res.success) {
+          store.dispatch({
+            type: "REGISTER",
+            model: true
+          });
+          this.$root.$parent.getUserInfo();
+          this.$switch("../dash/index");
+        }
+      },
+      goback() {
+        this.$switch("../dash/index");
+      },
+      bindChange(e) {
+        var temp = e.detail.value;
+        this.childskills = this.skills[temp[0]].children;
+        this.a = this.skills[temp[0]];
+        this.b = this.childskills[temp[1]];
+        this.$apply();
+      },
+      showTopTips() {
+        this.tipsFlag = true;
+        setTimeout(() => {
+          this.tipsFlag = false;
+          this.$apply();
+        }, 3000);
+      }
+    };
+    events = {
+      zanSelectChange(value, event) {
+        let {
+          componentId
+        } = event.source
+        this[`checked_${componentId}`] = value
+        this.$apply()
+      },
+       zanFieldChange(e) {
+        const {
+          componentId,
+          detail
+        } = e;
+        this.value=detail.value;
+      }
+    }
+    onLoad() {
+      this.childskills = this.skills[0].children;
+      this.a = this.skills[0];
+      this.b = this.childskills[0];
+    }
   }
-}
+
 </script>

@@ -4,18 +4,17 @@
       <p slot="title">用户信息</p>
       <Row :gutter="8" slot="extra">
         <i-col span="6">
-          <Input placeholder="昵称" v-model="params.name">
-          </Input>
+          <Input placeholder="昵称" v-model="params.name" />
         </i-col>
         <i-col span="6">
-          <Input placeholder="家族" v-model="params.num">
-          </Input>
+          <Input placeholder="家族" v-model="params.family"/>
         </i-col>
         <i-col span="6">
-          <Select style="width:140px" v-model="params.cate" placeholder="家族级别">
-              <Option value="一级">一级</Option>
-              <Option value="二级">二级</Option>
-              <Option value="三级">三级</Option>
+          <Select style="width:140px" v-model="params.level" placeholder="家族级别">
+              <Option value="null">全部</Option>
+              <Option value="1">一级</Option>
+              <Option value="2">二级</Option>
+              <Option value="3">三级</Option>
             </Select>
         </i-col>
         <i-col offset="1" span="3">
@@ -25,7 +24,7 @@
           <i-button @click="create" type="primary">添加</i-button>
         </i-col> -->
       </Row>
-      <Table :columns="columns" border :data="devices"></Table>
+      <Table :columns="columns" border :data="customers"></Table>
       <Page :total="totalCount" class="margin-top-10" @on-change="pageChange" @on-page-size-change="pagesizeChange" :page-size="pageSize"
         :current="currentPage"></Page>
     </Card>
@@ -53,8 +52,8 @@ export default {
     return {
       params: {
         name: "",
-        num: "",
-        cate: ""
+        family: "",
+        level: null
       },
       columns: [
         {
@@ -64,23 +63,23 @@ export default {
         },
         {
           title: "头像",
-          key: "deviceName"
+          key: "avatarUrl"
         },
         {
           title: "昵称",
-          key: "deviceNum"
+          key: "name"
         },
           {
           title: "猿人币余额",
-          key: "controlNum"
+          key: "balance"
         },
         {
           title: "所属家族",
-          key: "deviceType"
+          key: "family"
         },
         {
           title: "族内级别",
-          key: "pointName"
+          key: "familyCode"
         },
         {
           title: "注册时间",
@@ -93,26 +92,25 @@ export default {
     };
   },
   computed: {
-    devices() {
-      return this.$store.state.device.devices;
+    customers() {
+      return this.$store.state.customer.customers;
     },
-    points() {
-      return this.$store.state.device.points;
-    },
+   
     totalCount() {
-      return this.$store.state.device.totalCount;
+      return this.$store.state.customer.totalCount;
     },
     currentPage() {
-      return this.$store.state.device.currentPage;
+      return this.$store.state.customer.currentPage;
     },
     pageSize() {
-      return this.$store.state.point.pageSize;
+      return this.$store.state.customer.pageSize;
     }
   },
   async created() {
     this.getpage();
     await this.$store.dispatch({
-      type: "device/getAllPoints"
+      type: "customer/getAll",
+      data:this.params
     });
   }
 };

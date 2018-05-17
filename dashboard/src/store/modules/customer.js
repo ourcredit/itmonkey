@@ -25,10 +25,10 @@ const customer = {
                 maxResultCount: state.pageSize,
                 skipCount: (state.currentPage - 1) * state.pageSize,
                 name: payload.data.name,
-                num: payload.data.num,
-                cate: payload.data.cate
+                family: payload.data.family,
+                level: payload.data.level
             }
-            let rep = await Util.ajax.get('/api/services/app/Device/GetPagedDevices', {
+            let rep = await Util.ajax.get('/api/services/app/Customer/GetPagedCustomers', {
                 params: page
             });
             state.customers = [];
