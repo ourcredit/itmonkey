@@ -24,7 +24,8 @@ namespace ItMonkey
             configuration.CreateMap<Customer, CustomerListDto>();
             configuration.CreateMap<CustomerEditDto, Customer>();
 
-            configuration.CreateMap<Job, JobListDto>();
+            configuration.CreateMap<Job, JobListDto>()
+                .ForMember(c=>c.CreatorName,o=>o.MapFrom(w=>w.Creator.Name));
             configuration.CreateMap<JobEditDto, Job>();
 
             configuration.CreateMap<CustomerExperience, CustomerExperienceListDto>();

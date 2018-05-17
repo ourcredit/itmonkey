@@ -6,11 +6,8 @@ import user from './modules/user';
 import session from './modules/session'
 import account from './modules/account'
 import role from './modules/role'
-import point from './modules/point'
-import device from './modules/device'
-import org from './modules/org'
-import channels from './modules/channels'
 import customer from './modules/customer'
+import job from './modules/job'
 
 Vue.use(Vuex);
 
@@ -30,10 +27,7 @@ const store = new Vuex.Store({
         session,
         account,
         role,
-        point,
-        device,
-        org,
-        channels,
+        job,
         customer
     }
 });

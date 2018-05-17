@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 using System.Text;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
@@ -27,7 +28,6 @@ namespace ItMonkey.Models
         /// 是否私密邀请
         /// </summary>
         public bool IsSecert { get; set; }
-
         /// <summary>
         /// 支付状态
         /// </summary>

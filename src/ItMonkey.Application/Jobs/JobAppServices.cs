@@ -38,7 +38,7 @@ namespace ItMonkey.Jobs
             _myJobRepository = myJobRepository;
             _bankRepository = bankRepository;
         }
-
+       
         /// <summary>
         /// 获取Job的分页列表信息
         /// </summary>
@@ -54,10 +54,12 @@ namespace ItMonkey.Jobs
                 .PageBy(input)
                 .ToListAsync();
             var result = new List<JobListDto>();
-            var cj = await _myJobRepository.GetAllListAsync(c => c.CustomerId == input.CustomerId);
+            var cj = await _myJobRepository.GetAll().WhereIf(input.CustomerId.HasValue, c => c.CustomerId == input.CustomerId.Value)
+                .ToListAsync();
             foreach (var job in jobs)
             {
                 var model = job.MapTo<JobListDto>();
+                model.JoinCount = cj.Count(w => w.JobId == job.Id && w.VilidateState.HasValue && w.VilidateState.Value);
                 model.JoinState = cj.Count(w => w.JobId == job.Id &&
                 (!w.VilidateState.HasValue || w.VilidateState.Value)) > 0;
                 result.Add(model);

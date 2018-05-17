@@ -63,5 +63,15 @@ namespace ItMonkey.Jobs.Dtos
         /// 当前用户参与状态
         /// </summary>
         public bool JoinState { get; set; }
+
+        public bool PayState { get; set; }
+        /// <summary>
+        /// 创建者
+        /// </summary>
+        public virtual string CreatorName { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CreationTime { get; set; }
     }
 }

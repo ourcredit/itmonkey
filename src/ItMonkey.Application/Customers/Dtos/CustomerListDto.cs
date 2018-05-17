@@ -19,6 +19,7 @@ namespace ItMonkey.Customers.Dtos
         /// 二级技能
         /// </summary>
         public string ChildSkill { get; set; }
+        public DateTime CreationTime { get; set; }
         /// <summary>
         /// 家族标识
         /// </summary>

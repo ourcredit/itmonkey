@@ -19,16 +19,16 @@
                     <Tabs value="detail">
                         <TabPane label="用户信息" name="detail">
                             <FormItem label="用户名" prop="userName">
-                                <Input v-model="editUser.userName" :maxlength="32" :minlength="2"></Input>
+                                <Input v-model="editUser.userName" :maxlength="32" :minlength="2"/>
                             </FormItem>
                             <FormItem label="姓名" prop="name">
-                                <Input v-model="editUser.name" :maxlength="32"></Input>
+                                <Input v-model="editUser.name" :maxlength="32"/>
                             </FormItem>
                             <FormItem v-if="!isedit" label="密码" prop="password">
-                                <Input v-model="editUser.password" type="password" :maxlength="32"></Input>
+                                <Input v-model="editUser.password" type="password" :maxlength="32"/>
                             </FormItem>
                             <FormItem v-if="!isedit" label="确认密码" prop="confirmPassword">
-                                <Input v-model="editUser.confirmPassword" type="password" :maxlength="32"></Input>
+                                <Input v-model="editUser.confirmPassword" type="password" :maxlength="32"/>
                             </FormItem>
                             <FormItem>
                                 <Checkbox v-model="editUser.isActive">是否启用</Checkbox>
