@@ -41,9 +41,7 @@
                                 </Checkbox>
                             </CheckboxGroup>
                         </TabPane>
-                            <TabPane label="用户机构" name="orgs">
-                              <Tree @on-select-change="change" :data="orgs"></Tree>
-                        </TabPane>
+                       
                     </Tabs>
                 </Form>
             </div>
@@ -239,10 +237,6 @@ export default {
     };
   },
   computed: {
-    orgs() {
-      let orgs = this.$store.state.org.orgs;
-      return this.$tree(orgs, null, "parentId");
-    },
     users() {
       return this.$store.state.user.users;
     },
