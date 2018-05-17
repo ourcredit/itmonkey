@@ -30,6 +30,13 @@ namespace ItMonkey.Authorization
             auditlogs.CreateChildPermission(PermissionNames.Pages_AuditLogs_Logs, L("日志信息"));
             auditlogs.CreateChildPermission(PermissionNames.Pages_AuditLogs_Warns, L("报警信息"));
 
+            var shop = pages.CreateChildPermission(PermissionNames.Pages_Shop, L("商城管理"));
+
+            var product = shop.CreateChildPermission(PermissionNames.Pages_Shop_Product, L("商品管理"));
+            product.CreateChildPermission(PermissionNames.Pages_Shop_Product_CreateProduct, L("创建商品"));
+            product.CreateChildPermission(PermissionNames.Pages_Shop_Product_EditProduct, L("编辑商品"));
+            product.CreateChildPermission(PermissionNames.Pages_Shop_Product_DeleteProduct, L("删除商品"));
+            product.CreateChildPermission(PermissionNames.Pages_Shop_Product_BatchDeleteProducts, L("批量删除"));
         }
 
         private static ILocalizableString L(string name)

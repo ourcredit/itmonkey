@@ -61,11 +61,7 @@ export default {
         },
         {
           title: "发布人昵称",
-          key: "creatorId"
-        },
-          {
-          title: "承接任务人昵称",
-          key: "controlNum"
+          key: "creatorName"
         },
         {
           title: "项目金额",
@@ -88,15 +84,12 @@ export default {
           key: "joinCount"
         },
           {
-          title: "状态",
-          key: "state"
+          title: "私密任务支付状态",
+          key: "payState"
         },
         {
           title: "创建时间",
-          key: "creationTime",
-          render: (h, params) => {
-            return this.formatter(params.row.creationTime);
-          }
+          key: "creationTime"
         }
       ]
     };

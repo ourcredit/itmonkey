@@ -48,7 +48,7 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
             t.treeCode = item.treeCode;
             t.treeLength = item.treeLength;
             t.expand = true;
-            if (item[pidField] == parentId) {
+            if (item[pidField] === parentId) {
                 t.children = converToTreedata(data, item.id, pidField)
                 // data.children = item.children
                 list.push(t)
@@ -83,7 +83,7 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
                     t.expand = false;
                 }
             }
-            if (item[pidField] == parentId) {
+            if (item[pidField] === parentId) {
                 t.children = converToPermissionTree(data, item.name, pidField, range)
                 list.push(t)
             }
@@ -92,7 +92,7 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
     }
     const depthNode = (arrays, node, result = []) => {
         result.push(node.name);
-        let parent = arrays.find(c => c.name == node.parentName);
+        let parent = arrays.find(c => c.name === node.parentName);
         if (parent) {
             result.push(parent.name);
             depthNode(arrays, parent, result);
@@ -127,7 +127,7 @@ util.ajax.get('/AbpUserConfiguration/GetAll').then(result => {
             this.$store.commit('setOpenedList');
             this.$store.commit('initCachepage');
 
-            //Filtering admin menu
+            // Filtering admin menu
             this.$store.commit('updateMenulist');
         },
         created() {

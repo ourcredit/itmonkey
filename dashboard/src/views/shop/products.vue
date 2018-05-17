@@ -4,12 +4,10 @@
       <p slot="title">商品维护</p>
       <Row :gutter="8" slot="extra">
         <i-col span="6">
-          <Input placeholder="商品名" v-model="params.name">
-          </Input>
+          <Input placeholder="商品名" v-model="params.name"/>
         </i-col>
         <i-col span="6">
-          <Input placeholder="时间范围" v-model="params.num">
-          </Input>
+          <Input placeholder="时间范围" v-model="params.num"/>
         </i-col>
         <i-col span="6">
           <Select style="width:140px" v-model="params.cate" placeholder="商品状态">

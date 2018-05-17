@@ -9,6 +9,7 @@ using ItMonkey.Customers.Dtos;
 using ItMonkey.Jobs.Dtos;
 using ItMonkey.Models;
 using ItMonkey.Models.MonkeyChain;
+using ItMonkey.Products.Dtos;
 using ItMonkey.Shufflings.Dtos;
 using ItMonkey.WithDrawas.Dtos;
 
@@ -39,6 +40,9 @@ namespace ItMonkey
 
             configuration.CreateMap<WithDrawa, WithDrawaListDto>();
             configuration.CreateMap<WithDrawaEditDto, WithDrawa>();
+
+            configuration.CreateMap<Product, ProductListDto>();
+            configuration.CreateMap<ProductEditDto, Product>();
         }
     }
 }

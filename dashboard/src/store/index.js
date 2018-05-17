@@ -8,6 +8,7 @@ import account from './modules/account'
 import role from './modules/role'
 import customer from './modules/customer'
 import job from './modules/job'
+import product from './modules/product'
 
 Vue.use(Vuex);
 
@@ -28,6 +29,7 @@ const store = new Vuex.Store({
         account,
         role,
         job,
+        product,
         customer
     }
 });
