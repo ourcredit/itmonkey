@@ -106,7 +106,7 @@
             title: "注册时间",
             key: "creationTime",
             render: (h, params) => {
-              return this.formatter(params.row.creationTime);
+              return h('div',this.formatter(params.row.creationTime) ) ;
             }
           }
         ]

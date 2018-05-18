@@ -89,7 +89,10 @@ export default {
         },
         {
           title: "创建时间",
-          key: "creationTime"
+          key: "creationTime",
+          render:(h,params)=>{
+             return h('div',this.formatter(params.row.creationTime) ) ;
+          }
         }
       ]
     };

@@ -82,7 +82,6 @@
         this.showEditModal = true;
       },
       uploadSuccess(res, file, fl) {
-        debugger;
         if (res.success) {
           this.product.productImage = this.AppConsts.appBaseUrl + res.result.data[0];
         }
@@ -158,7 +157,10 @@
           },
           {
             title: "创建时间",
-            key: "creationTime"
+            key: "creationTime",
+            render:(h,params)=>{
+                 return h('div',this.formatter(params.row.creationTime) ) ;
+            }
           },
           {
             title: "操作",
