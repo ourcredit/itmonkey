@@ -1,19 +1,16 @@
 <template>
   <div>
     <Card>
-      <p slot="title">交易详情</p>
+      <p slot="title">工作/任务信息</p>
       <Row :gutter="8" slot="extra">
         <i-col span="6">
-          <Input placeholder="卖出人" v-model="params.name">
-          </Input>
+          <Input placeholder="任务名称" v-model="params.name"/>
         </i-col>
         <i-col span="6">
-          <Input placeholder="买入人" v-model="params.num">
-          </Input>
+          <Input placeholder="发布人昵称" v-model="params.num"/>
         </i-col>
         <i-col span="6">
-          <Input placeholder="时间范围" v-model="params.num">
-          </Input>
+          <Input placeholder="承接人昵称" v-model="params.num"/>
         </i-col>
         <i-col offset="1" span="3">
           <i-button @click="getpage" type="primary">查询</i-button>
@@ -22,7 +19,7 @@
           <i-button @click="create" type="primary">添加</i-button>
         </i-col> -->
       </Row>
-      <Table :columns="columns" border :data="devices"></Table>
+      <Table :columns="columns" border :data="jobs"></Table>
       <Page :total="totalCount" class="margin-top-10" @on-change="pageChange" @on-page-size-change="pagesizeChange" :page-size="pageSize"
         :current="currentPage"></Page>
     </Card>
@@ -32,17 +29,16 @@
 export default {
   methods: {
     pageChange(page) {
-      this.$store.commit("customer/setCurrentPage", page);
+      this.$store.commit("job/setCurrentPage", page);
       this.getpage();
     },
     pagesizeChange(pagesize) {
-      this.$store.commit("customer/setPageSize", pagesize);
+      this.$store.commit("job/setPageSize", pagesize);
       this.getpage();
     },
     async getpage() {
       await this.$store.dispatch({
-        type: "customer/getAll",
-        data: this.params
+        type: "job/getAll"
       });
     }
   },
@@ -60,54 +56,63 @@ export default {
           align: "center"
         },
         {
-          title: "交易时间",
-          key: "deviceName"
+          title: "任务名称",
+          key: "name"
         },
         {
-          title: "猿人币数量",
-          key: "deviceNum"
+          title: "发布人昵称",
+          key: "creatorName"
         },
         {
-          title: "单价",
-          key: "controlNum"
+          title: "项目金额",
+          key: "price"
         },
         {
-          title: "总价",
-          key: "deviceType"
+          title: "一级奖金",
+          key: "firstGrade"
+        },
+          {
+          title: "二级奖金",
+          key: "secondGrade"
+        },
+          {
+          title: "三级奖金",
+          key: "thirdGrade"
+        },
+          {
+          title: "报名人数",
+          key: "joinCount"
+        },
+          {
+          title: "私密任务支付状态",
+          key: "payState"
         },
         {
-          title: "卖出人",
-          key: "pointName"
-        },
-        {
-          title: "买入人",
-          key: "pointName"
+          title: "创建时间",
+          key: "creationTime",
+          render:(h,params)=>{
+             return h('div',this.formatter(params.row.creationTime) ) ;
+          }
         }
       ]
     };
   },
   computed: {
-    devices() {
-      return this.$store.state.device.devices;
-    },
-    points() {
-      return this.$store.state.device.points;
+    jobs() {
+      return this.$store.state.job.jobs;
     },
     totalCount() {
-      return this.$store.state.device.totalCount;
+      return this.$store.state.job.totalCount;
     },
     currentPage() {
-      return this.$store.state.device.currentPage;
+      return this.$store.state.job.currentPage;
     },
     pageSize() {
-      return this.$store.state.point.pageSize;
+      return this.$store.state.job.pageSize;
     }
   },
   async created() {
     this.getpage();
-    await this.$store.dispatch({
-      type: "device/getAllPoints"
-    });
   }
 };
 </script>

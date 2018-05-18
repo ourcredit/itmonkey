@@ -1,113 +1,240 @@
 <template>
   <div>
     <Card>
-      <p slot="title">商品订单</p>
+      <p slot="title">商品维护</p>
       <Row :gutter="8" slot="extra">
         <i-col span="6">
-          <Input placeholder="订单号" v-model="params.name">
-          </Input>
+          <Input placeholder="商品名" v-model="params.name" />
         </i-col>
         <i-col span="6">
-          <Input placeholder="买货人" v-model="params.num">
-          </Input>
+          <Input placeholder="时间范围" v-model="params.num" />
         </i-col>
         <i-col span="6">
-          <Select style="width:140px" v-model="params.cate" placeholder="时间范围">
-            <Option value="一级">一级</Option>
-            <Option value="二级">二级</Option>
-            <Option value="三级">三级</Option>
+          <Select style="width:140px" v-model="params.cate" placeholder="商品状态">
+            <Option value="格子机">格子机</Option>
+            <Option value="无人销售机">无人销售机</Option>
+            <Option value="咖啡机">咖啡机</Option>
+            <Option value="饮料机">饮料机</Option>
           </Select>
         </i-col>
-        <i-col offset="1" span="3">
+        <i-col span="3">
           <i-button @click="getpage" type="primary">查询</i-button>
         </i-col>
-        <!-- <i-col span="3">
+        <i-col span="3">
           <i-button @click="create" type="primary">添加</i-button>
-        </i-col> -->
+        </i-col>
       </Row>
-      <Table :columns="columns" border :data="devices"></Table>
+      <Table :columns="columns" border :data="products"></Table>
       <Page :total="totalCount" class="margin-top-10" @on-change="pageChange" @on-page-size-change="pagesizeChange" :page-size="pageSize"
         :current="currentPage"></Page>
     </Card>
+    <Modal v-model="showEditModal" title="添加商品" @on-ok="save" okText="保存" cancelText="关闭">
+      <div>
+
+        <Form ref="roleForm" label-position="top" :rules="rule" :model="product">
+          <Row>
+            <Col :span="6">
+            <Upload :on-success="uploadSuccess" accept="image/*" multiple type="drag" action="https://monkey.leftins.com/api/TokenAuth/ImageUpload">
+              <div style="padding: 20px 0">
+                <Icon type="ios-cloud-upload" size="52" style="color: #3399ff"></Icon>
+                <p>上传图片</p>
+              </div>
+            </Upload>
+            </Col>
+            <Col :span="18">
+            <FormItem label="商品名称" prop="productName">
+              <Input v-model="product.productName" :maxlength="120" :minlength="1" />
+            </FormItem>
+            <Row>
+              <Col :span="12">
+              <FormItem label="商品数量" prop="productCount">
+                <Input-number v-model="product.productCount" :min="1"></Input-number>
+              </FormItem>
+              </Col>
+              <Col :span="12">
+              <FormItem label="商品价格" prop="price">
+                <Input-number v-model="product.price" :min="1"></Input-number>
+              </FormItem>
+              </Col>
+            </Row>
+            </Col>
+          </Row>
+          <FormItem label="结算类型" prop="monkeyCionDeal">
+            <Checkbox :model="product.monkeyCionDeal">是否猿人币结算</Checkbox>
+          </FormItem>
+          <FormItem label="商品描述" prop="productDescription">
+            <Input type="textarea" :row="4" v-model="product.productDescription" :maxlength="500" />
+          </FormItem>
+        </Form>
+      </div>
+      <div slot="footer">
+        <Button @click="showEditModal=false">关闭</Button>
+        <Button @click="save" type="primary">保存</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
-export default {
-  methods: {
-    pageChange(page) {
-      this.$store.commit("customer/setCurrentPage", page);
-      this.getpage();
-    },
-    pagesizeChange(pagesize) {
-      this.$store.commit("customer/setPageSize", pagesize);
-      this.getpage();
-    },
-    async getpage() {
-      await this.$store.dispatch({
-        type: "customer/getAll",
-        data: this.params
-      });
-    }
-  },
-  data() {
-    return {
-      params: {
-        name: "",
-        num: "",
-        cate: ""
+  export default {
+    methods: {
+      create() {
+        this.product = {};
+        this.showEditModal = true;
       },
-      columns: [
-        {
-          type: "selection",
-          width: 60,
-          align: "center"
-        },
-        {
-          title: "订单号",
-          key: "deviceName"
-        },
-        {
-          title: "单价",
-          key: "deviceNum"
-        },
-        {
-          title: "买货人",
-          key: "deviceType"
-        },
-       
-        {
-          title: "创建时间",
-          key: "pointName"
-        },
-        {
-          title: "操作",
-          key: "pointName"
+      uploadSuccess(res, file, fl) {
+        if (res.success) {
+          this.product.productImage = this.AppConsts.appBaseUrl + res.result.data[0];
         }
-      ]
-    };
-  },
-  computed: {
-    devices() {
-      return this.$store.state.device.devices;
+      },
+      async save() {
+        this.$refs.roleForm.validate(async val => {
+          if (val) {
+            await this.$store.dispatch({
+              type: "product/createOrUpdate",
+              data: {
+                product: this.product
+              }
+            });
+            this.showEditModal = false;
+            await this.getpage();
+          }
+        });
+      },
+      pageChange(page) {
+        this.$store.commit("product/setCurrentPage", page);
+        this.getpage();
+      },
+      pagesizeChange(pagesize) {
+        this.$store.commit("product/setPageSize", pagesize);
+        this.getpage();
+      },
+      async getpage() {
+        await this.$store.dispatch({
+          type: "product/getAll",
+          data: this.params
+        });
+      }
     },
-    points() {
-      return this.$store.state.device.points;
+    data() {
+      return {
+        params: {
+          name: "",
+          num: "",
+          cate: ""
+        },
+        product: {
+          "productName": "",
+          "productImage": "",
+          "price": 0,
+          "productDescription": "",
+          "monkeyCionDeal": false,
+          "productCount": 0
+        },
+        showEditModal: false,
+        rule: {
+          productName: [{
+            required: true,
+            message: "商品名",
+            trigger: "blur"
+          }]
+        },
+        columns: [{
+            type: "selection",
+            width: 60,
+            align: "center"
+          },
+          {
+            title: "商品名称",
+            key: "productName"
+          },
+          {
+            title: "单价",
+            key: "price"
+          },
+          {
+            title: "数量",
+            key: "productCount"
+          },
+          {
+            title: "创建时间",
+            key: "creationTime",
+            render:(h,params)=>{
+                 return h('div',this.formatter(params.row.creationTime) ) ;
+            }
+          },
+          {
+            title: "操作",
+            key: "action",
+            width: 150,
+            render: (h, params) => {
+              return h("div", [
+                h(
+                  "Button", {
+                    props: {
+                      type: "primary",
+                      size: "small"
+                    },
+                    style: {
+                      marginRight: "5px"
+                    },
+                    on: {
+                      click: () => {
+                        this.product = this.products[params.index];
+                        this.showEditModal = true;
+                      }
+                    }
+                  },
+                  "编辑"
+                ),
+                h(
+                  "Button", {
+                    props: {
+                      type: "error",
+                      size: "small"
+                    },
+                    on: {
+                      click: async () => {
+                        this.$Modal.confirm({
+                          title: "",
+                          content: "删除商品信息",
+                          okText: "是",
+                          cancelText: "否",
+                          onOk: async () => {
+                            await this.$store.dispatch({
+                              type: "product/delete",
+                              data: this.products[params.index]
+                            });
+                            await this.getpage();
+                          }
+                        });
+                      }
+                    }
+                  },
+                  "删除"
+                )
+              ]);
+            }
+          }
+        ]
+      };
     },
-    totalCount() {
-      return this.$store.state.device.totalCount;
+    computed: {
+      products() {
+        return this.$store.state.product.products;
+      },
+      totalCount() {
+        return this.$store.state.product.totalCount;
+      },
+      currentPage() {
+        return this.$store.state.product.currentPage;
+      },
+      pageSize() {
+        return this.$store.state.product.pageSize;
+      }
     },
-    currentPage() {
-      return this.$store.state.device.currentPage;
-    },
-    pageSize() {
-      return this.$store.state.point.pageSize;
+    async created() {
+      console.log(this.AppConsts.appBaseUrl);
+      this.getpage();
     }
-  },
-  async created() {
-    this.getpage();
-    await this.$store.dispatch({
-      type: "device/getAllPoints"
-    });
-  }
-};
+  };
 </script>
