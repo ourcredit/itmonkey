@@ -46,7 +46,7 @@ namespace ItMonkey.Jobs
         /// <returns></returns>
         public async Task<PagedResultDto<JobListDto>> GetPagedJobs(GetJobsInput input)
         {
-            var query = _jobRepository.GetAll();
+            var query = _jobRepository.GetAllIncluding(c=>c.Creator);
             query = query.WhereIf(!input.Filter.IsNullOrWhiteSpace(), c => c.Name.Contains(input.Filter));
             var jobCount = await query.CountAsync();
             var jobs = await query
